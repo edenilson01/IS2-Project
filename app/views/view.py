@@ -1,0 +1,1 @@
+#aqui van los archivos y carpetas necesarias para la vista
