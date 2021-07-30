@@ -1,4 +1,6 @@
-from connection_model import DbConnectionModel
+from sys import path as path
+path.append('./')
+from app.models.connection_model import DbConnectionModel
 
 class UserModel(DbConnectionModel):
     SELECT_USER_STMT = 'SELECT password FROM usuarios WHERE username = %s'

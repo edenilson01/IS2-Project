@@ -18,7 +18,7 @@ from django.shortcuts import redirect
 from django.urls import path
 from sys import path as sys_path
 sys_path.append('./')
-from app.controllers.controller import *
+from app.controllers.controller import ViewRequest
 #from views.view_request import *
 
 control = ViewRequest()

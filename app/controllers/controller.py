@@ -4,6 +4,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from sys import path as path
+path.append('./')
+from app.models.user_model import UserModel
+
 class ViewRequest:
     def __init__(self):
         pass
@@ -15,9 +19,19 @@ class ViewRequest:
         return render(request, 'construccion.html')
 
     def logeado(self, request):
-        correo = request.GET["usuario"]
+        modelo = UserModel()
+        usuario = request.GET["usuario"]
         psw = request.GET["contrasena"]
 
-        total = "CORREO: " + correo + ' CONSTRASEÑA: ' + psw
+        base_password = modelo.consult_password(usuario)
 
-        return HttpResponse(total)
+        respuesta = ''
+        if base_password is not None:
+            if base_password == psw:
+                respuesta = 'Bienvenido ' + usuario
+            else:
+                respuesta = 'Contraseña incorrecta'
+        else:
+            respuesta = 'No existe el usuario'
+
+        return HttpResponse(respuesta)
