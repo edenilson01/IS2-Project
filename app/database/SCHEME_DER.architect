@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <architect-project version="1.0" appversion="1.0.9">
- <project-name>schema</project-name>
+ <project-name>SCHEME_DER</project-name>
  <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
  <project-data-sources>
   <data-source id="DS0">
@@ -37,7 +37,7 @@
     <folder id="FOLTAB12" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB14" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX8" populated="true" UUID="06ced340-b805-4888-ac71-45cd48abf77c" clustered="false" name="PERSONAS_pk" physicalName="personas_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX8" populated="true" UUID="06ced340-b805-4888-ac71-45cd48abf77c" clustered="false" name="PERSONAS_pk" physicalName="PERSONAS_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC9" populated="true" UUID="94888892-a430-4182-84b3-a035256330cd" ascendingOrDescending="UNSPECIFIED" column-ref="COL2" name="id_persona" physicalName="id_persona" />
     </index>
    </folder>
@@ -63,7 +63,7 @@
     <folder id="FOLTAB102" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB104" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX15" populated="true" UUID="f4e335f2-56a9-4ce9-999d-4251cf447732" clustered="false" name="USUARIOS_pk" physicalName="usuarios_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX15" populated="true" UUID="f4e335f2-56a9-4ce9-999d-4251cf447732" clustered="false" name="USUARIOS_pk" physicalName="USUARIOS_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC16" populated="true" UUID="f4ac7346-f155-44e3-ac77-17e41ac3670c" ascendingOrDescending="UNSPECIFIED" column-ref="COL11" name="username" physicalName="username" />
     </index>
    </folder>
@@ -86,7 +86,7 @@
     <folder id="FOLTAB172" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB174" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX21" populated="true" UUID="9d82da2a-3b31-43ed-8d7d-1cc4fcef7f75" clustered="false" name="ROLES_pk" physicalName="roles_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX21" populated="true" UUID="9d82da2a-3b31-43ed-8d7d-1cc4fcef7f75" clustered="false" name="ROLES_pk" physicalName="ROLES_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC22" populated="true" UUID="184991da-55b1-4b7c-b85e-197182ff44c0" ascendingOrDescending="UNSPECIFIED" column-ref="COL18" name="id_rol" physicalName="id_rol" />
     </index>
    </folder>
@@ -109,7 +109,7 @@
     <folder id="FOLTAB232" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB234" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX27" populated="true" UUID="810cdbc0-d852-4f67-8369-789e0ec250cb" clustered="false" name="PERMISOS_pk" physicalName="permisos_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX27" populated="true" UUID="810cdbc0-d852-4f67-8369-789e0ec250cb" clustered="false" name="PERMISOS_pk" physicalName="PERMISOS_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC28" populated="true" UUID="83804783-b353-48f8-9a36-7c51c472a70a" ascendingOrDescending="UNSPECIFIED" column-ref="COL24" name="id_permiso" physicalName="id_permiso" />
     </index>
    </folder>
@@ -132,7 +132,7 @@
     <folder id="FOLTAB292" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB294" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX33" populated="true" UUID="c9edecaa-e821-4d51-96f7-d3219fe34b52" clustered="false" name="PROYECTOS_pk" physicalName="proyectos_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX33" populated="true" UUID="c9edecaa-e821-4d51-96f7-d3219fe34b52" clustered="false" name="PROYECTOS_pk" physicalName="PROYECTOS_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC34" populated="true" UUID="1dfd245a-8920-4547-9b81-c423b370e314" ascendingOrDescending="UNSPECIFIED" column-ref="COL30" name="id_proyecto" physicalName="id_proyecto" />
     </index>
    </folder>
@@ -155,7 +155,7 @@
     <folder id="FOLTAB352" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB354" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX39" populated="true" UUID="e9d35716-7f6c-43db-995a-93030e615713" clustered="false" name="USUARIO_PROYECTO_pk" physicalName="usuario_proyecto_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX39" populated="true" UUID="e9d35716-7f6c-43db-995a-93030e615713" clustered="false" name="USUARIO_PROYECTO_pk" physicalName="USUARIO_PROYECTO_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC40" populated="true" UUID="ad0c9a56-68e1-4deb-9cde-645692ae890e" ascendingOrDescending="UNSPECIFIED" column-ref="COL36" name="id_usuario_proyecto" physicalName="id_usuario_proyecto" />
     </index>
    </folder>
@@ -181,7 +181,7 @@
     <column id="COL47" populated="true" UUID="2fb23037-0fb1-4a90-86d3-3a0e256a4079" autoIncrement="true" autoIncrementSequenceName="SPRINTS_id_sprint_seq" defaultValue="" name="id_sprint" nullable="1" physicalName="id_sprint" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="2" userDefinedTypeUUID="115245ce-612c-4d6a-b559-6dd903dd959a" >
      <remarks></remarks>
     </column>
-    <column id="COL48" populated="true" UUID="71f14300-4cac-4c71-9f66-9af1fc114f45" autoIncrement="false" autoIncrementSequenceName="USUARIOS_username_seq" defaultValue="" name="username" nullable="1" physicalName="username" precision="15" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL48" populated="true" UUID="71f14300-4cac-4c71-9f66-9af1fc114f45" autoIncrement="false" autoIncrementSequenceName="USUARIOS_username_seq" defaultValue="" name="username" nullable="0" physicalName="username" precision="15" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     </folder>
@@ -190,7 +190,7 @@
     <folder id="FOLTAB412" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB414" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX49" populated="true" UUID="aff81d15-7f4b-4ee0-98b3-7b4259f1d932" clustered="false" name="US_pk" physicalName="us_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX49" populated="true" UUID="aff81d15-7f4b-4ee0-98b3-7b4259f1d932" clustered="false" name="US_pk" physicalName="USER_STORYS_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC50" populated="true" UUID="df10e4f7-2df8-460e-9309-33e31bea8bc8" ascendingOrDescending="UNSPECIFIED" column-ref="COL42" name="id_us" physicalName="id_us" />
     </index>
    </folder>
@@ -222,7 +222,7 @@
     <folder id="FOLTAB512" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB514" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX58" populated="true" UUID="a624a5a0-1504-442f-8648-63bfc213aa99" clustered="false" name="SPRINTS_pk" physicalName="sprints_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX58" populated="true" UUID="a624a5a0-1504-442f-8648-63bfc213aa99" clustered="false" name="SPRINTS_pk" physicalName="SPRINTS_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC59" populated="true" UUID="24897ac1-0f2f-47bc-b388-6e9a50dbda2e" ascendingOrDescending="UNSPECIFIED" column-ref="COL52" name="id_sprint" physicalName="id_sprint" />
     </index>
    </folder>
@@ -245,7 +245,7 @@
     <folder id="FOLTAB602" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB604" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX64" populated="true" UUID="3782b0ed-dfc9-4122-92e6-3055d5cf04fd" clustered="false" name="ROL_PERMISO_pk" physicalName="rol_permiso_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX64" populated="true" UUID="3782b0ed-dfc9-4122-92e6-3055d5cf04fd" clustered="false" name="ROL_PERMISO_pk" physicalName="ROL_PERMISO_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC65" populated="true" UUID="ad33fc4d-f1ee-487e-8278-50c9b35de7a1" ascendingOrDescending="UNSPECIFIED" column-ref="COL61" name="id_rol" physicalName="id_rol" />
      <index-column id="IDC66" populated="true" UUID="54d53dbb-7544-4700-b164-26bda07b626f" ascendingOrDescending="UNSPECIFIED" column-ref="COL62" name="id_permiso" physicalName="id_permiso" />
     </index>
@@ -266,7 +266,7 @@
     <folder id="FOLTAB672" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB674" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX70" populated="true" UUID="373e7944-311d-4859-8050-337f19147810" clustered="false" name="BACKLOG_pk" physicalName="backlog_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX70" populated="true" UUID="373e7944-311d-4859-8050-337f19147810" clustered="false" name="BACKLOG_pk" physicalName="BACKLOG_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC71" populated="true" UUID="fb9a52ab-2f9d-4c21-8c6e-28998c1794a9" ascendingOrDescending="UNSPECIFIED" column-ref="COL68" name="id_backlog" physicalName="id_backlog" />
     </index>
    </folder>
@@ -292,55 +292,55 @@
     <folder id="FOLTAB722" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
     </folder>
     <folder id="FOLTAB724" populated="true" name="Indices" physicalName="Indices" type="4">
-    <index id="IDX77" populated="true" UUID="741554bb-afd3-498a-8147-feec6a91d689" clustered="false" name="USUARIOS_ROLES_pk" physicalName="usuarios_roles_pk" primaryKeyIndex="true" unique="false" >
+    <index id="IDX77" populated="true" UUID="741554bb-afd3-498a-8147-feec6a91d689" clustered="false" name="USUARIOS_ROLES_pk" physicalName="USUARIOS_ROLES_pk" primaryKeyIndex="true" unique="false" >
      <index-column id="IDC78" populated="true" UUID="f312fde1-e4c6-4d53-ace9-dd4c39cdb20b" ascendingOrDescending="UNSPECIFIED" column-ref="COL73" name="id_rol" physicalName="id_rol" />
      <index-column id="IDC79" populated="true" UUID="67595137-defe-44b8-93af-aba4633b7074" ascendingOrDescending="UNSPECIFIED" column-ref="COL74" name="username" physicalName="username" />
     </index>
    </folder>
   </table>
   <relationships>
-   <relationship id="REL80" populated="true" UUID="5d314733-e2c0-4d8f-83ba-442540b006df" deferrability="7" deleteRule="3" fk-table-ref="TAB10" fkCardinality="6" identifying="false" name="PERSONAS_USUARIOS_fk" physicalName="personas_usuarios_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
+   <relationship id="REL80" populated="true" UUID="5d314733-e2c0-4d8f-83ba-442540b006df" deferrability="7" deleteRule="3" fk-table-ref="TAB10" fkCardinality="6" identifying="false" name="PERSONAS_USUARIOS_fk" physicalName="PERSONAS_USUARIOS_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP81" populated="true" UUID="a03db52a-883e-44b3-a71f-f46d78891787" fk-column-ref="COL13" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
    </relationship>
-   <relationship id="REL82" populated="true" UUID="4ee0381a-d1a5-4965-b959-bad071efda54" deferrability="7" deleteRule="3" fk-table-ref="TAB35" fkCardinality="7" identifying="false" name="USUARIOS_USUARIO_PROYECTO_fk" physicalName="usuarios_usuario_proyecto_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
+   <relationship id="REL82" populated="true" UUID="4ee0381a-d1a5-4965-b959-bad071efda54" deferrability="7" deleteRule="3" fk-table-ref="TAB35" fkCardinality="7" identifying="false" name="USUARIOS_USUARIO_PROYECTO_fk" physicalName="USUARIOS_USUARIO_PROYECTO_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP83" populated="true" UUID="07f1dbee-a851-4f53-bd7f-b9922ec39143" fk-column-ref="COL37" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL11" />
    </relationship>
-   <relationship id="REL84" populated="true" UUID="32cd88b2-88a9-4e43-8db1-d271a34dc406" deferrability="7" deleteRule="3" fk-table-ref="TAB41" fkCardinality="7" identifying="false" name="USUARIOS_US_fk" physicalName="usuarios_us_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
+   <relationship id="REL84" populated="true" UUID="32cd88b2-88a9-4e43-8db1-d271a34dc406" deferrability="7" deleteRule="3" fk-table-ref="TAB41" fkCardinality="7" identifying="false" name="USUARIOS_US_fk" physicalName="USUARIOS_US_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP85" populated="true" UUID="1ab07e69-720a-4b3e-8fd7-9329306fac22" fk-column-ref="COL48" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL11" />
    </relationship>
-   <relationship id="REL86" populated="true" UUID="2b1b550b-f5a9-45f1-9a34-d6ca444a5fe5" deferrability="7" deleteRule="3" fk-table-ref="TAB72" fkCardinality="7" identifying="true" name="USUARIOS_USUARIOS_ROLES_fk" physicalName="usuarios_usuarios_roles_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
+   <relationship id="REL86" populated="true" UUID="2b1b550b-f5a9-45f1-9a34-d6ca444a5fe5" deferrability="7" deleteRule="3" fk-table-ref="TAB72" fkCardinality="7" identifying="true" name="USUARIOS_USUARIOS_ROLES_fk" physicalName="USUARIOS_USUARIOS_ROLES_fk" pk-table-ref="TAB10" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP87" populated="true" UUID="e572d148-fa3b-4a28-a3ba-985b7919a1e2" fk-column-ref="COL74" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL11" />
    </relationship>
-   <relationship id="REL88" populated="true" UUID="157eff65-517a-44fc-aaed-11798b295fc5" deferrability="7" deleteRule="3" fk-table-ref="TAB60" fkCardinality="7" identifying="true" name="ROLES_ROL_PERMISO_fk" physicalName="roles_rol_permiso_fk" pk-table-ref="TAB17" pkCardinality="2" updateRule="3" >
+   <relationship id="REL88" populated="true" UUID="157eff65-517a-44fc-aaed-11798b295fc5" deferrability="7" deleteRule="3" fk-table-ref="TAB60" fkCardinality="7" identifying="true" name="ROLES_ROL_PERMISO_fk" physicalName="ROLES_ROL_PERMISO_fk" pk-table-ref="TAB17" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP89" populated="true" UUID="2eaa3c9f-fb52-48b1-8f95-8f323fc8c6bf" fk-column-ref="COL61" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL18" />
    </relationship>
-   <relationship id="REL90" populated="true" UUID="67035f14-6ff3-4a47-b20d-48ee9f6ae613" deferrability="7" deleteRule="3" fk-table-ref="TAB72" fkCardinality="7" identifying="true" name="ROLES_USUARIOS_ROLES_fk" physicalName="roles_usuarios_roles_fk" pk-table-ref="TAB17" pkCardinality="2" updateRule="3" >
+   <relationship id="REL90" populated="true" UUID="67035f14-6ff3-4a47-b20d-48ee9f6ae613" deferrability="7" deleteRule="3" fk-table-ref="TAB72" fkCardinality="7" identifying="true" name="ROLES_USUARIOS_ROLES_fk" physicalName="ROLES_USUARIOS_ROLES_fk" pk-table-ref="TAB17" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP91" populated="true" UUID="5534f2cd-2b28-4efc-8e9c-4290dd14386f" fk-column-ref="COL73" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL18" />
    </relationship>
-   <relationship id="REL92" populated="true" UUID="d7251c2a-f785-4a93-a3c5-774252add949" deferrability="7" deleteRule="3" fk-table-ref="TAB60" fkCardinality="7" identifying="true" name="PERMISOS_ROL_PERMISO_fk" physicalName="permisos_rol_permiso_fk" pk-table-ref="TAB23" pkCardinality="2" updateRule="3" >
+   <relationship id="REL92" populated="true" UUID="d7251c2a-f785-4a93-a3c5-774252add949" deferrability="7" deleteRule="3" fk-table-ref="TAB60" fkCardinality="7" identifying="true" name="PERMISOS_ROL_PERMISO_fk" physicalName="PERMISOS_ROL_PERMISO_fk" pk-table-ref="TAB23" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP93" populated="true" UUID="36a8a3ac-33ab-4faa-8a85-8abc1d9b1a99" fk-column-ref="COL62" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL24" />
    </relationship>
-   <relationship id="REL94" populated="true" UUID="a2b7aa96-e057-4dd9-bb38-0329a399f002" deferrability="7" deleteRule="3" fk-table-ref="TAB35" fkCardinality="7" identifying="false" name="PROYECTOS_USUARIO_PROYECTO_fk" physicalName="proyectos_usuario_proyecto_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
+   <relationship id="REL94" populated="true" UUID="a2b7aa96-e057-4dd9-bb38-0329a399f002" deferrability="7" deleteRule="3" fk-table-ref="TAB35" fkCardinality="7" identifying="false" name="PROYECTOS_USUARIO_PROYECTO_fk" physicalName="PROYECTOS_USUARIO_PROYECTO_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP95" populated="true" UUID="c235b56f-c874-49e8-94d9-f4596ec9f5b4" fk-column-ref="COL38" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL30" />
    </relationship>
-   <relationship id="REL96" populated="true" UUID="d2056cc8-e7fa-4a11-87a8-f416e0c1f2ad" deferrability="7" deleteRule="3" fk-table-ref="TAB51" fkCardinality="7" identifying="false" name="PROYECTOS_SPRINTS_fk" physicalName="proyectos_sprints_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
+   <relationship id="REL96" populated="true" UUID="d2056cc8-e7fa-4a11-87a8-f416e0c1f2ad" deferrability="7" deleteRule="3" fk-table-ref="TAB51" fkCardinality="7" identifying="false" name="PROYECTOS_SPRINTS_fk" physicalName="PROYECTOS_SPRINTS_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP97" populated="true" UUID="2ef65469-2fd9-45fc-a2b0-f9e0e4d1786c" fk-column-ref="COL57" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL30" />
    </relationship>
-   <relationship id="REL98" populated="true" UUID="2e175772-9084-45be-bdb0-adc188f045c3" deferrability="7" deleteRule="3" fk-table-ref="TAB67" fkCardinality="3" identifying="false" name="PROYECTOS_BACKLOG_fk" physicalName="proyectos_backlog_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
+   <relationship id="REL98" populated="true" UUID="2e175772-9084-45be-bdb0-adc188f045c3" deferrability="7" deleteRule="3" fk-table-ref="TAB67" fkCardinality="3" identifying="false" name="PROYECTOS_BACKLOG_fk" physicalName="PROYECTOS_BACKLOG_fk" pk-table-ref="TAB29" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP99" populated="true" UUID="9bef88ec-10b5-40c9-a67a-b6ce473684fb" fk-column-ref="COL69" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL30" />
    </relationship>
-   <relationship id="REL100" populated="true" UUID="9092c8e1-408c-45f0-8eaa-7fb4141e8cc3" deferrability="7" deleteRule="3" fk-table-ref="TAB41" fkCardinality="7" identifying="false" name="SPRINTS_US_fk" physicalName="sprints_us_fk" pk-table-ref="TAB51" pkCardinality="2" updateRule="3" >
+   <relationship id="REL100" populated="true" UUID="9092c8e1-408c-45f0-8eaa-7fb4141e8cc3" deferrability="7" deleteRule="3" fk-table-ref="TAB41" fkCardinality="7" identifying="false" name="SPRINTS_US_fk" physicalName="SPRINTS_US_fk" pk-table-ref="TAB51" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP101" populated="true" UUID="33e57fce-7fc7-40c4-8702-e375b9382a58" fk-column-ref="COL47" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL52" />
    </relationship>
-   <relationship id="REL102" populated="true" UUID="29e7206d-010d-48b2-8aa4-eb8d910f2feb" deferrability="7" deleteRule="3" fk-table-ref="TAB41" fkCardinality="7" identifying="false" name="BACKLOG_US_fk" physicalName="backlog_us_fk" pk-table-ref="TAB67" pkCardinality="2" updateRule="3" >
+   <relationship id="REL102" populated="true" UUID="29e7206d-010d-48b2-8aa4-eb8d910f2feb" deferrability="7" deleteRule="3" fk-table-ref="TAB41" fkCardinality="7" identifying="false" name="BACKLOG_US_fk" physicalName="BACKLOG_US_fk" pk-table-ref="TAB67" pkCardinality="2" updateRule="3" >
     <column-mapping id="CMP103" populated="true" UUID="d4c47e26-c9ad-4909-af07-a337ec11b148" fk-column-ref="COL46" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL68" />
    </relationship>
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="0.9999999999999996" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="0.9999999999999996" viewportX="0" viewportY="76" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="493" y="36" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB10" x="491" y="177" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB17" x="219" y="288" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
