@@ -28,7 +28,7 @@ CREATE TABLE public.SPRINTS (
                 nombre VARCHAR(30) NOT NULL,
                 inicio DATE,
                 fin DATE,
-                activo BOOLEAN DEFAULT FALSE NOT NULL,
+                activo BOOLEAN NOT NULL,
                 id_proyecto BIGINT NOT NULL,
                 CONSTRAINT sprints_pk PRIMARY KEY (id_sprint)
 );
@@ -82,6 +82,7 @@ CREATE TABLE public.USUARIOS (
                 password VARCHAR(15) NOT NULL,
                 id_persona NUMERIC NOT NULL,
                 correo VARCHAR(100) NOT NULL,
+                estado BOOLEAN NOT NULL,
                 CONSTRAINT usuarios_pk PRIMARY KEY (username)
 );
 
