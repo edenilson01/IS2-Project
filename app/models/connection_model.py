@@ -14,7 +14,7 @@ class DbConnectionModel:
     def execute_sql_stmt(self, statement, values, is_query=False):
         try:
             result = None
-            db_params = self.DB_CONNECTION_PARMS %(environ['USER_DB'], environ['USER_DB_PASSWORD'])
+            db_params = self.DB_CONNECTION_PARMS
             with closing(psycopg2.connect(db_params)) as connection:
                 with closing(connection.cursor()) as cursor:
                     result = cursor.execute(statement, values)
