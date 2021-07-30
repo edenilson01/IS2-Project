@@ -1,4 +1,5 @@
-﻿
+﻿CREATE DATABASE is2_project --nombre de la base de datos
+
 CREATE SEQUENCE public.proyectos_id_proyecto_seq;
 
 CREATE TABLE public.PROYECTOS (
