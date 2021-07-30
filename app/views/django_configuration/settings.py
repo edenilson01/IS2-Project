@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3@!%3&b2+y@zq5=^*#d#2%^dag*4^xbl)rt8kk1y56m0%&5ax1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+#DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -50,12 +50,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Inge2Grupo2.urls'
+ROOT_URLCONF = 'views.django_configuration.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['app/views/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,18 +68,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Inge2Grupo2.wsgi.application'
+WSGI_APPLICATION = 'views.django_configuration.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -121,11 +121,14 @@ STATIC_ROOT = os.path.join(BASE_DIR,"deploy_to_server")
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = ('static/',)
+#STATICFILES_DIRS = ('static/',)
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEBUG = True

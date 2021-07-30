@@ -16,11 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path
-from App.views import *
+from sys import path as sys_path
+sys_path.append('./')
+from app.controllers.controller import *
+#from views.view_request import *
+
+control = ViewRequest()
+
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', lambda request: redirect('login/', permanent=True)),
-    path('login/', iniciar_sesion),
-    path('working/', sitio_en_construccion),
-    path('inicio/', logeado)
+    path('login/', control.iniciar_sesion),
+    path('working/', control.sitio_en_construccion),
+    path('inicio/', control.logeado)
 ]
