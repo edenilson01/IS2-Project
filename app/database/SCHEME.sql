@@ -4,7 +4,7 @@ CREATE SEQUENCE public.proyectos_id_proyecto_seq;
 
 CREATE TABLE public.PROYECTOS (
                 id_proyecto BIGINT NOT NULL DEFAULT nextval('public.proyectos_id_proyecto_seq'),
-                nombre VARCHAR NOT NULL,
+                nombre VARCHAR(30) NOT NULL,
                 estado BOOLEAN NOT NULL,
                 CONSTRAINT proyectos_pk PRIMARY KEY (id_proyecto)
 );
@@ -12,19 +12,10 @@ CREATE TABLE public.PROYECTOS (
 
 ALTER SEQUENCE public.proyectos_id_proyecto_seq OWNED BY public.PROYECTOS.id_proyecto;
 
-CREATE SEQUENCE public.backlog_id_backlog_seq;
-
-CREATE TABLE public.BACKLOG (
-                id_backlog NUMERIC NOT NULL DEFAULT nextval('public.backlog_id_backlog_seq'),
-                id_proyecto BIGINT NOT NULL,
-                CONSTRAINT backlog_pk PRIMARY KEY (id_backlog)
-);
-
-
-ALTER SEQUENCE public.backlog_id_backlog_seq OWNED BY public.BACKLOG.id_backlog;
+CREATE SEQUENCE public.sprints_id_sprint_seq;
 
 CREATE TABLE public.SPRINTS (
-                id_sprint NUMERIC NOT NULL,
+                id_sprint BIGINT NOT NULL DEFAULT nextval('public.sprints_id_sprint_seq'),
                 nombre VARCHAR(30) NOT NULL,
                 inicio DATE,
                 fin DATE,
@@ -33,6 +24,8 @@ CREATE TABLE public.SPRINTS (
                 CONSTRAINT sprints_pk PRIMARY KEY (id_sprint)
 );
 
+
+ALTER SEQUENCE public.sprints_id_sprint_seq OWNED BY public.SPRINTS.id_sprint;
 
 CREATE SEQUENCE public.permisos_id_permiso_seq;
 
@@ -66,8 +59,10 @@ CREATE TABLE public.ROL_PERMISO (
 );
 
 
+CREATE SEQUENCE public.personas_id_persona_seq;
+
 CREATE TABLE public.PERSONAS (
-                id_persona NUMERIC NOT NULL,
+                id_persona BIGINT NOT NULL DEFAULT nextval('public.personas_id_persona_seq'),
                 primer_nombre VARCHAR(50) NOT NULL,
                 segundo_nombre VARCHAR(50),
                 primer_apellido VARCHAR(50) NOT NULL,
@@ -77,44 +72,33 @@ CREATE TABLE public.PERSONAS (
 );
 
 
+ALTER SEQUENCE public.personas_id_persona_seq OWNED BY public.PERSONAS.id_persona;
+
 CREATE TABLE public.USUARIOS (
                 username VARCHAR(15) NOT NULL,
                 password VARCHAR(15) NOT NULL,
-                id_persona NUMERIC NOT NULL,
+                id_persona BIGINT NOT NULL,
                 correo VARCHAR(100) NOT NULL,
                 estado BOOLEAN NOT NULL,
                 CONSTRAINT usuarios_pk PRIMARY KEY (username)
 );
 
 
-CREATE TABLE public.USUARIOS_ROLES (
-                id_rol BIGINT NOT NULL,
-                username VARCHAR(15) NOT NULL,
-                inicio DATE NOT NULL,
-                fin DATE,
-                CONSTRAINT usuarios_roles_pk PRIMARY KEY (id_rol, username)
-);
-
-
 CREATE SEQUENCE public.us_id_us_seq;
-
-CREATE SEQUENCE public.sprints_id_sprint_seq;
 
 CREATE TABLE public.US (
                 id_us BIGINT NOT NULL DEFAULT nextval('public.us_id_us_seq'),
                 nombre VARCHAR(30) NOT NULL,
                 descripcion VARCHAR,
-                estado VARCHAR NOT NULL,
-                id_backlog NUMERIC,
-                id_sprint NUMERIC DEFAULT nextval('public.sprints_id_sprint_seq'),
+                estado VARCHAR(10) NOT NULL,
                 username VARCHAR(15),
+                id_proyecto BIGINT NOT NULL,
+                id_sprint BIGINT,
                 CONSTRAINT us_pk PRIMARY KEY (id_us)
 );
 
 
 ALTER SEQUENCE public.us_id_us_seq OWNED BY public.US.id_us;
-
-ALTER SEQUENCE public.sprints_id_sprint_seq OWNED BY public.US.id_sprint;
 
 CREATE SEQUENCE public.usuario_proyecto_id_usuario_proyecto_seq;
 
@@ -127,6 +111,15 @@ CREATE TABLE public.USUARIO_PROYECTO (
 
 
 ALTER SEQUENCE public.usuario_proyecto_id_usuario_proyecto_seq OWNED BY public.USUARIO_PROYECTO.id_usuario_proyecto;
+
+CREATE TABLE public.USUARIOS_ROLES (
+                id_rol BIGINT NOT NULL,
+                username VARCHAR(15) NOT NULL,
+                inicio DATE NOT NULL,
+                fin DATE,
+                CONSTRAINT usuarios_roles_pk PRIMARY KEY (id_rol, username)
+);
+
 
 ALTER TABLE public.USUARIO_PROYECTO ADD CONSTRAINT proyectos_usuario_proyecto_fk
 FOREIGN KEY (id_proyecto)
@@ -142,16 +135,9 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE public.BACKLOG ADD CONSTRAINT proyectos_backlog_fk
+ALTER TABLE public.US ADD CONSTRAINT proyectos_us_fk
 FOREIGN KEY (id_proyecto)
 REFERENCES public.PROYECTOS (id_proyecto)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.US ADD CONSTRAINT backlog_us_fk
-FOREIGN KEY (id_backlog)
-REFERENCES public.BACKLOG (id_backlog)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
@@ -191,6 +177,13 @@ ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
+ALTER TABLE public.USUARIOS_ROLES ADD CONSTRAINT usuarios_usuarios_roles_fk
+FOREIGN KEY (username)
+REFERENCES public.USUARIOS (username)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
 ALTER TABLE public.USUARIO_PROYECTO ADD CONSTRAINT usuarios_usuario_proyecto_fk
 FOREIGN KEY (username)
 REFERENCES public.USUARIOS (username)
@@ -199,13 +192,6 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.US ADD CONSTRAINT usuarios_us_fk
-FOREIGN KEY (username)
-REFERENCES public.USUARIOS (username)
-ON DELETE NO ACTION
-ON UPDATE NO ACTION
-NOT DEFERRABLE;
-
-ALTER TABLE public.USUARIOS_ROLES ADD CONSTRAINT usuarios_usuarios_roles_fk
 FOREIGN KEY (username)
 REFERENCES public.USUARIOS (username)
 ON DELETE NO ACTION
