@@ -28,5 +28,6 @@ urlpatterns = [
     path('', lambda request: redirect('login/', permanent=True)),
     path('login/', control.iniciar_sesion),
     path('working/', control.sitio_en_construccion),
-    path('inicio/', control.logeado)
+    path('error/', control.logeado),
+    path('home/', control.home)
 ]

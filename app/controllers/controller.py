@@ -3,6 +3,7 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import Template, Context, loader
 
 from sys import path as path
 path.append('./')
@@ -25,13 +26,16 @@ class ViewRequest:
 
         base_password = modelo.consult_password(usuario)
 
-        respuesta = ''
+        respuesta = 0
         if base_password is not None:
             if base_password == psw:
-                respuesta = 'Bienvenido ' + usuario
-            else:
-                respuesta = 'Contraseña incorrecta'
-        else:
-            respuesta = 'No existe el usuario'
+                return render(request, 'redireccion.html')
 
-        return HttpResponse(respuesta)
+        view = loader.get_template('login.html')
+
+        html = view.render({'respuesta': respuesta})
+
+        return HttpResponse(html)
+    
+    def home(self, request):
+        return render(request, 'home.html')

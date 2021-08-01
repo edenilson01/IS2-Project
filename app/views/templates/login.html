@@ -28,7 +28,7 @@
                     margin-top: 180px;
                     box-shadow: 7px 13px 37px #000;
                     padding: 20px 30px;
-                    border-top: 4px solid #017bab;
+                    border-top: 10px solid purple;
                     color: white;
                 }
                 
@@ -57,8 +57,13 @@
                     background: #e1e1e1;
                     border: none;
                     color: black;
+                    border-radius: 10px;
                 }
-                
+
+                .buttons:hover{
+                    background-color: #a8a4a4;
+                }
+ 
                 .form-login p{
                     height: 40px;
                     text-align: center;
@@ -75,17 +80,69 @@
                     text-decoration:deepskyblue
                 }
             </style>
+            <!--CSS DEL POP UP-->
+            <style>
+                .fondo_transparente{
+                    top: 0;
+                    left: 0;
+                    background-color: rgba(0, 0, 0, 0.692);
+                    position: absolute;
+                    height: 100vh;
+                    width: 100%;
+                    display: none;
+                }
+                .modal{
+                    background: linear-gradient(0deg,gray 70%, #4e4d4d 30%);
+                    width: 500px;
+                    height: 200px;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    position: absolute;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    border-radius: 30px;
+                }
+                .modal_titulo{
+                    color: white;
+                    font-size: 25px;
+                }
+                .modal_mensaje{        
+                    padding: 10px 30px;
+                }
+                .modal_botones{      
+                    width: 100%;    
+                    background: transparent;
+                    border-top:whitesmoke 1px;
+                    padding-top: 5px;
+                    display: flex;
+                    justify-content: space-evenly;
+                }
+                .boton{
+                    background: white;
+                    padding: 8px 30px;
+                    color: black;
+                    text-decoration: none;
+                    border-radius: 10px;
+                }
+                .boton:hover{
+                    background: #4e4d4d;
+                    color: white;
+                }
+            </style>
         </head>
         <body>
             <section class="form-login">
               <h5>REJA Software</h5>
-              <form action="/inicio" method="GET">
+              <form action="/error" method="GET" autocomplete="off">
                     <input class="controls" type="text" name="usuario" value="" placeholder="Username" maxlength="20" required>
                     <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña" id="myInput" maxlength="15" required>
                     <input type="checkbox" onclick="myFunction()">
                 Mostrar contraseña
+                <br><br><br>
                 <input class="buttons" type="submit" name="" value="Ingresar">
-                <p><a href="/working">¿No tienes una cuenta? Regístrate aquí</a></p>
                </form> 
             </section>
 
@@ -98,6 +155,35 @@
                     x.type = "password";
                   }
                 }
+            </script>
+            <div class="fondo_transparente" id = "fondo">
+                <div class="modal">
+                    <div class="modal_titulo">
+                        Credenciales Inválidas<br>
+                    </div>
+
+                    <div class="modal_mensaje">
+                        <br>El nombre de usuario y/o la contraseña que ingresaste no coinciden con nuestros registros.
+                        <br><br>Por favor, revisa e inténtalo de nuevo.
+                    </div>
+
+                    <div class="modal_botones" >
+                        <a href="/login" class="boton">VOLVER A INTENTARLO</a>
+                    </div>
+                </div>
+            </div> 
+            
+            {% if respuesta  == 0%}
+                <script type="text/javascript">
+                    setTimeout("mifuncion()", 0);
                 </script>
-          </body>
-    </html>
+            {% endif %}
+
+            <script>
+                function mifuncion(){
+                    var estilo = document.getElementById("fondo");
+                    estilo.style.display="block";
+                }
+            </script>
+    </body>
+</html>
