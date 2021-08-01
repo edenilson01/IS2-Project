@@ -139,7 +139,7 @@
               <form action="/error" method="GET" autocomplete="off">
                     <input class="controls" type="text" name="usuario" value="" placeholder="Username" maxlength="20" required>
                     <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña" id="myInput" maxlength="15" required>
-                    <input type="checkbox" onclick="myFunction()">
+                    <input type="checkbox" onclick="mostrarContrasenha()">
                 Mostrar contraseña
                 <br><br><br>
                 <input class="buttons" type="submit" name="" value="Ingresar">
@@ -147,7 +147,7 @@
             </section>
 
             <script>
-                function myFunction() {
+                function mostrarContrasenha() {
                   var x = document.getElementById("myInput");
                   if (x.type === "password") {
                     x.type = "text";
@@ -156,15 +156,22 @@
                   }
                 }
             </script>
+
+            <!-- CUADRO DE ERROR CON MENSAJE-->
             <div class="fondo_transparente" id = "fondo">
                 <div class="modal">
                     <div class="modal_titulo">
-                        Credenciales Inválidas<br>
+                        {{ titulo }}<br>
                     </div>
 
                     <div class="modal_mensaje">
-                        <br>El nombre de usuario y/o la contraseña que ingresaste no coinciden con nuestros registros.
-                        <br><br>Por favor, revisa e inténtalo de nuevo.
+                        {% for error in errors %}
+                            {% if forloop.first %}
+                                <br>{{ error }}
+                            {% else %}
+                                <br><br>{{ error }}
+                            {% endif %}
+                        {% endfor %}
                     </div>
 
                     <div class="modal_botones" >
@@ -173,14 +180,14 @@
                 </div>
             </div> 
             
-            {% if respuesta  == 0%}
+            {% if errors|length > 0 %}
                 <script type="text/javascript">
-                    setTimeout("mifuncion()", 0);
+                    setTimeout("mostrarError()", 0);
                 </script>
             {% endif %}
 
             <script>
-                function mifuncion(){
+                function mostrarError(){
                     var estilo = document.getElementById("fondo");
                     estilo.style.display="block";
                 }
