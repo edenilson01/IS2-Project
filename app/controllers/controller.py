@@ -3,7 +3,8 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.template import Template, Context, loader
+from django.template import loader
+from django.contrib.auth.decorators import login_required
 
 from sys import path as path
 path.append('./')
@@ -11,7 +12,7 @@ from app.models.user_model import UserModel
 
 class ViewRequest:
     def __init__(self):
-        pass
+        self.usuario_logueado = None
 
     def iniciar_sesion(self, request):
         return render(request, 'login.html')
@@ -29,6 +30,7 @@ class ViewRequest:
         respuesta = 0
         if base_password is not None:
             if base_password == psw:
+                self.usuario_logueado = usuario
                 return render(request, 'redireccion.html')
 
         view = loader.get_template('login.html')
@@ -37,5 +39,8 @@ class ViewRequest:
 
         return HttpResponse(html)
     
+    #@login_required
     def home(self, request):
-        return render(request, 'home.html')
+        view = loader.get_template('home.html')
+        html = view.render({'user': self.usuario_logueado})
+        return HttpResponse(html)

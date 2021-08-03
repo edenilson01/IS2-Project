@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 from sys import path as sys_path
 sys_path.append('./')
 from app.controllers.controller import ViewRequest

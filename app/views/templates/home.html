@@ -1,7 +1,115 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background-color: white;">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <title>REJA. Bienvenid@!!!</title>
+        <style>
+            * {
+                margin: 100;
+                padding: 0;
+            }
+
+            .menuCSS3{
+                padding:10px 30px;
+                background-color: #4e4d4d;
+                font-family: Arial;
+            }
+
+            .menuCSS3 ul {
+                display: flex;
+                padding: 0;
+                margin: 0;
+                list-style: none;
+            }
+            .menuCSS3 a {
+                display: block;
+                text-decoration: none;
+                color: white;
+                border-radius: 0px;
+            }
+            .menuCSS3 a:hover {
+                background: #a8a4a4;
+            }
+            .menuCSS3 ul li ul {
+                display: none;
+                background: purple;
+                border-radius: 15px;
+            }
+            .menuCSS3 ul li a:hover + ul, .menuCSS3 ul li ul:hover {
+                display: block;
+            }
+            .menuCSS3 ul li a {
+                position: relative;
+                display: inline-block;
+                display: block;
+                padding: 5px 30px;
+                text-decoration: none;
+                border-radius: 15px;
+            }
+            .boton{
+                background-color: purple;
+                width: 150px;
+                height: 30px;
+                left: 1150px;
+                position: relative;
+                top: 50px;
+                color: white;
+            }
+
+            .boton:hover {
+                background: #a8a4a4;
+                color: white;
+            }
+        </style>
     </head>
-    HOLAAAAAAAA!!!!!!!!!!!!!!!!!!!!!!
+
+    <nav class = "menuCSS3">
+		<ul>
+			<li><a href="#">REJA Software</a></li>
+			<li><a href="#">Permisos</a>
+				<ul>
+					<li><a href="#">Crear Permisos</a></li>
+					<li><a href="#">Eliminar Permisos</a></li>
+				</ul>
+			</li>
+
+			<li><a href="#">Roles</a>
+				<ul>
+					<li><a href="#">Crear Roles</a></li>
+					<li><a href="#">Eliminar Roles</a></li>
+				</ul>
+            </li>
+
+			<li><a href="#">Crear Usuario</a></li>
+
+            <div style="position:absolute; right: 55px; text-align: end;">
+                <li><a href="#">{{user.upper}}</a>
+                    <ul>
+                        <li><a href="/login">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </div>
+		</ul>
+    </nav>
+
+    <form action="/working">
+        <input class= "boton" type="submit" name="" value="CREAR PROYECTO">
+    </form>
+
+    <div style="background-color: #a8a4a4;
+                width: 1000px;
+                height: 500px;
+                position: relative;
+                top: 50%;
+                text-align: center;
+                line-height: 500px;">
+        NO HAY PROYECTOS GUARDADOS
+    </div>
+
+    {% if user is not None %}
+
+    {% else %}
+        DEBE AUTENTICARSE
+    {% endif %}
 </html>
