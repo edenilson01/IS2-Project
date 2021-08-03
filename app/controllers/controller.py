@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from sys import path as path
 path.append('./')
-from app.models.user_model import UserModel
+from app.models.usuarios_model import UserModel
 
 class ViewRequest:
     def __init__(self):
