@@ -6,14 +6,14 @@
         <title>REJA. Bienvenid@!!!</title>
         <style>
             * {
-                margin: 100;
-                padding: 0;
+                margin: 0;
             }
 
             .menuCSS3{
                 padding:10px 30px;
                 background-color: #4e4d4d;
                 font-family: Arial;
+                margin: 0;
             }
 
             .menuCSS3 ul {
@@ -29,11 +29,11 @@
                 border-radius: 0px;
             }
             .menuCSS3 a:hover {
-                background: #a8a4a4;
+                background: purple;
             }
             .menuCSS3 ul li ul {
                 display: none;
-                background: purple;
+                background: #a8a4a4;
                 border-radius: 15px;
             }
             .menuCSS3 ul li a:hover + ul, .menuCSS3 ul li ul:hover {
@@ -51,7 +51,7 @@
                 background-color: purple;
                 width: 150px;
                 height: 30px;
-                left: 1150px;
+                left: 1170px;
                 position: relative;
                 top: 50px;
                 color: white;
@@ -66,24 +66,33 @@
 
     <nav class = "menuCSS3">
 		<ul>
-			<li><a href="#">REJA Software</a></li>
-			<li><a href="#">Permisos</a>
-				<ul>
-					<li><a href="#">Crear Permisos</a></li>
-					<li><a href="#">Eliminar Permisos</a></li>
-				</ul>
-			</li>
+            <div style="position:relative; z-index: 1;">
+                <li><a href="#">REJA Software</a></li>
+            </div>
 
-			<li><a href="#">Roles</a>
-				<ul>
-					<li><a href="#">Crear Roles</a></li>
-					<li><a href="#">Eliminar Roles</a></li>
-				</ul>
-            </li>
+            <div style="position:absolute; z-index: 1; left: 20%">
+                <li><a href="#">Permisos</a>
+                    <ul>
+                        <li><a href="#">Crear Permisos</a></li>
+                        <li><a href="#">Eliminar Permisos</a></li>
+                    </ul>
+                </li>
+            </div>
 
-			<li><a href="#">Crear Usuario</a></li>
+            <div style="position:absolute; z-index: 1; left: 32%">
+                <li><a href="#">Roles</a>
+                    <ul>
+                        <li><a href="#">Crear Roles</a></li>
+                        <li><a href="#">Eliminar Roles</a></li>
+                    </ul>
+                </li>
+            </div>
 
-            <div style="position:absolute; right: 55px; text-align: end;">
+			<div style="position:absolute; z-index: 1; left: 43%">
+                <li><a href="#">Crear Usuario</a></li>
+            </div>
+
+            <div style="position:absolute; right: 0%; text-align: end;">
                 <li><a href="#">{{user.upper}}</a>
                     <ul>
                         <li><a href="/login">Cerrar Sesión</a></li>
@@ -97,13 +106,15 @@
         <input class= "boton" type="submit" name="" value="CREAR PROYECTO">
     </form>
 
-    <div style="background-color: #a8a4a4;
+    <div style="background-color: #dbdbdb;
                 width: 1000px;
                 height: 500px;
                 position: relative;
                 top: 50%;
                 text-align: center;
-                line-height: 500px;">
+                line-height: 500px;
+                left: 10px;
+                z-index: 0;">
         NO HAY PROYECTOS GUARDADOS
     </div>
 
