@@ -6,6 +6,8 @@ CREATE TABLE public.PROYECTOS (
                 id_proyecto BIGINT NOT NULL DEFAULT nextval('public.proyectos_id_proyecto_seq'),
                 nombre VARCHAR(30) NOT NULL,
                 estado BOOLEAN NOT NULL,
+                fecha_inicio DATE NOT NULL,
+                fecha_fin DATE,
                 CONSTRAINT proyectos_pk PRIMARY KEY (id_proyecto)
 );
 
@@ -94,23 +96,21 @@ CREATE TABLE public.US (
                 username VARCHAR(15),
                 id_proyecto BIGINT NOT NULL,
                 id_sprint BIGINT,
+                backlog BOOLEAN NOT NULL,
                 CONSTRAINT us_pk PRIMARY KEY (id_us)
 );
 
 
 ALTER SEQUENCE public.us_id_us_seq OWNED BY public.US.id_us;
 
-CREATE SEQUENCE public.usuario_proyecto_id_usuario_proyecto_seq;
-
 CREATE TABLE public.USUARIO_PROYECTO (
-                id_usuario_proyecto BIGINT NOT NULL DEFAULT nextval('public.usuario_proyecto_id_usuario_proyecto_seq'),
                 username VARCHAR(15) NOT NULL,
                 id_proyecto BIGINT NOT NULL,
-                CONSTRAINT usuario_proyecto_pk PRIMARY KEY (id_usuario_proyecto)
+                fecha_incorporacion DATE NOT NULL,
+                fecha_salida DATE,
+                CONSTRAINT usuario_proyecto_pk PRIMARY KEY (username, id_proyecto)
 );
 
-
-ALTER SEQUENCE public.usuario_proyecto_id_usuario_proyecto_seq OWNED BY public.USUARIO_PROYECTO.id_usuario_proyecto;
 
 CREATE TABLE public.USUARIOS_ROLES (
                 id_rol BIGINT NOT NULL,
