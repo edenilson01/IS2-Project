@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" style="background-color: white;">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>{% block title%} {% endblock %}</title>
+        
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+
+        {% block head%} {% endblock %}
+    </head>
+
+    <nav class = "menuPrincipal">
+		<ul>
+            <img src="{% static 'logo.png' %}" width="32" height="32"/>
+            <div style="position:relative; z-index: 1">
+                <li><a href="#">REJA Software</a></li>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 20%">
+                <li><a href="#">Permisos</a>
+                    <ul>
+                        <li><a href="#">Crear Permisos</a></li>
+                        <li><a href="#">Eliminar Permisos</a></li>
+                    </ul>
+                </li>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 32%">
+                <li><a href="#">Roles</a>
+                    <ul>
+                        <li><a href="#">Crear Roles</a></li>
+                        <li><a href="#">Eliminar Roles</a></li>
+                    </ul>
+                </li>
+            </div>
+
+			<div style="position:absolute; z-index: 1; left: 43%">
+                <li><a href="#">Crear Usuario</a></li>
+            </div>
+
+            <div style="position:absolute; right: 0%; text-align: end;">
+                <li><a href="#">{{user.upper}}</a>
+                    <ul>
+                        <li><a href="/login">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </div>
+		</ul>
+    </nav>
+
+    <body>
+        {% block body%}
+        {% endblock %}
+    </body>
+
+    {% if user is not None %}
+
+    {% else %}
+        DEBE AUTENTICARSE
+    {% endif %}
+</html>

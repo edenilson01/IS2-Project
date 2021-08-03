@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path
 from django.contrib.auth.decorators import login_required
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from sys import path as sys_path
 sys_path.append('./')
 from app.controllers.controller import ViewRequest
-#from views.view_request import *
 
 control = ViewRequest()
 
@@ -32,3 +32,5 @@ urlpatterns = [
     path('error/', control.logeado),
     path('home/', control.home)
 ]
+
+urlpatterns += staticfiles_urlpatterns()
