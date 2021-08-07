@@ -1,0 +1,14 @@
+.boton{
+    background-color: purple;
+    width: 150px;
+    height: 30px;
+    left: 1170px;
+    position: relative;
+    top: 50px;
+    color: white;
+}
+
+.boton:hover {
+    background: #a8a4a4;
+    color: white;
+}
