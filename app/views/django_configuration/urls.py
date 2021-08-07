@@ -30,7 +30,8 @@ urlpatterns = [
     path('login/', control.iniciar_sesion),
     path('working/', control.sitio_en_construccion),
     path('error/', control.logeado),
-    path('home/', control.home)
+    path('home/', control.home),
+    path('proyectos/', control.proyectos),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

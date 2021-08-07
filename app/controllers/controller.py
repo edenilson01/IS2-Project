@@ -48,9 +48,13 @@ class ViewRequest:
         self.mensaje_error = []
         return HttpResponse(html_reponse)
         
- 
 
     def home(self, request):
         view = loader.get_template('home.html')
+        html = view.render({'user': self.usuario_logueado})
+        return HttpResponse(html)
+
+    def proyectos(self, request):
+        view = loader.get_template('proyectos.html')
         html = view.render({'user': self.usuario_logueado})
         return HttpResponse(html)
