@@ -1,25 +1,28 @@
-{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>REJA Software - Inicia sesión</title>
+            <link rel="stylesheet" href="{% static 'home.css' %}">
+            <!--CSS DEL POP UP (cuadro de mensaje)-->
+            <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
+        </head>
+        <body>
+            <section class="form-home">
+              <h5>BIENVENID@ {{user.upper}} </h5>
+              <form action>
+                <input class="buttons" type="button" name="" value="Seguridad"> 
+                <br><br><br>
+                <input class="buttons" type="button" name="" value="Proyecto">
+                <br><br><br>
+                <input class="buttons" type="button" name="" value="Desarrollo">
+               </form> 
+            </section>
 
-{% block title%} REJA. Bienvenid@!!! {% endblock %}
 
-{% block head%}
-    <link rel="stylesheet" href="{% static 'home.css' %}"> 
-{% endblock %}
+            
 
-{% block body%}
-    <form action="/working">
-        <input class= "boton" type="submit" name="" value="CREAR PROYECTO">
-    </form>
-    <div style="background-color: #dbdbdb;
-                width: 1000px;
-                height: 500px;
-                position: relative;
-                top: 50%;
-                text-align: center;
-                line-height: 500px;
-                left: 10px;
-                z-index: 0;">
-        NO HAY PROYECTOS GUARDADOS
-    </div>
-{% endblock %}
+    </body>
+</html>
