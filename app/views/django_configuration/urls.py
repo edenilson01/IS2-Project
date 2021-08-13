@@ -32,6 +32,10 @@ urlpatterns = [
     path('error/', control.logeado),
     path('home/', control.home),
     path('proyectos/', control.proyectos),
+    path('seguridad/', control.seguridad),
+    path('signup/', control.registrar),
+    path('user_settings', control.modificar_user),
+    path('delete_user', control.eliminar_user)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Modificar usuario</title>
+        <link rel="stylesheet" href="{% static 'registrar.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+    </head>
+    <section class="form-home">
+        <h5>Modificar usuario</h5>
+        <form action="#" methon="GET" autocomplete="off">
+            <input class="input_txt" type="text" value="" placeholder="Escriba aquí el username" maxlength="15" required>
+            <input class="buttons" type="submit" name="" value="BUSCAR" onclick="activar()">
+        </form>
+        <h4>1) Datos Personales</h4>
+        <form methon="GET" autocomplete="off">
+            <input class="input_txt" type="text" id="1st_name" placeholder="Primer nombre" maxlength="50" disabled required>
+            <input class="input_txt" type="text" id="2nd_name" placeholder="Segundo nombre" maxlength="50" disabled>
+            <input class="input_txt" type="text" id="1er_ape" placeholder="Primer apellido" maxlength="50" disabled required>
+            <input class="input_txt" type="text" id="2do_ape" placeholder="Segundo apellido" maxlength="50" disabled>
+            <label class="input_txt" style="color:black; height: 37.5px;">Fecha de nacimiento:</label>
+            <input class="input_txt" type="date" id="fec" disabled required>
+        </form>
+        <h4 style="margin-top: 30%;">2) Datos del Usuario</h4>
+        <form methon="GET" autocomplete="off">
+            <input class="input_txt" type="email" id="email" placeholder="Correo Electrónico" maxlength="100" disabled required>
+            <input class="input_txt" type="password" id="pass" placeholder="Nueva constraseña" maxlength="15" disabled required>
+            <input class="buttons" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+            <input class="buttons" type="submit" name="" value="MODIFICAR">
+        </form>
+        <script>
+            function activar() {
+              var x = document.getElementById("1st_name").disabled = false;
+              var x = document.getElementById("2nd_name").disabled = false;
+              var x = document.getElementById("1er_ape").disabled = false;
+              var x = document.getElementById("2do_ape").disabled = false;
+              var x = document.getElementById("fec").disabled = false;
+              var x = document.getElementById("email").disabled = false;
+              var x = document.getElementById("pass").disabled = false;
+            }
+        </script>
+    </section>
+</html>
