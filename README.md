@@ -1,6 +1,6 @@
 Proyecto de Ingieneria de Software 2
 
-    Sistema de Gestión de Proyectos Ágiles
+    Sistema de Gestión de Proyectos Ágiles - REJA Software
 
 
 Integrantes
