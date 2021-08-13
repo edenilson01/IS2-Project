@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Modificar Rol</title>
+            <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+            <script defer src="{% static 'modificar_rol.js' %}"></script>
+        </head>
+        <body>
+            <section class="form-modificar_rol">
+              <h5>Modificar rol</h5>
+              <form>
+                <select name="rol" onchange="habilitar()">
+                    <option class='op'>Rol 1</option>             
+                    <option class='op'>Rol 2</option>            
+                    <option class='op'>Rol 3</option>           
+                    <option class='op'>Rol 4</option>            
+                    <option class='op'>Rol 5</option>              
+                </select>
+                <br><br><br>
+                <input type="checkbox" class = "permisos" id="perm_seg" value="seguridad" checked=true disabled=true> Seguridad 
+                <br><br><br>
+                <input type="checkbox" class = "permisos" id="perm_des" value="desarrollo" disabled=true> Desarrollo
+                <br><br><br>
+                <input type="checkbox" class = "permisos" id="perm_proy" value="proyecto" disabled=true> Proyecto
+                <br><br><br>
+                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="Guardar">
+               </form> 
+            </section>
+
+    </body>
+</html>

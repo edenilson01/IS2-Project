@@ -22,6 +22,7 @@ from sys import path as sys_path
 sys_path.append('./')
 from app.controllers.controller import ViewRequest
 
+
 control = ViewRequest()
 
 urlpatterns = [
@@ -32,6 +33,13 @@ urlpatterns = [
     path('error/', control.logeado),
     path('home/', control.home),
     path('proyectos/', control.proyectos),
+    path('rol_nombre/', control.rol_nombre),
+    path('rol_permisos/', control.rol_permisos),
+    path('modificar_rol/', control.modificar_rol),
+    path('seguridad/', control.seguridad),
+    path('signup/', control.registrar),
+    path('user_settings', control.modificar_user),
+    path('delete_user', control.eliminar_user)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

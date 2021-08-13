@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Crear Rol</title>
+            <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+            <script defer src="{% static 'rol.js' %}"></script>
+        </head>
+        <body>
+            <section class="form-crear_rol">
+              <h5>Crear rol</h5>
+              <form action>
+                <div class ="form-box">
+                    <input type="text" id="nombre_rol" name="nombre">
+                </div>                
+                <br><br><br>
+                <div id ="permisos">
+                    <input type="checkbox" id="perm_seg" value="seguridad"> Seguridad
+                    <br><br><br>
+                    <input type="checkbox" id="perm_des" value="desarrollo"> Desarrollo
+                    <input type="checkbox" id="perm_proy" value="proyecto"> Proyecto
+                </div>
+
+                <input class="buttons" id = "boton_r" disabled=true type="submit" name="" value="Guardar">
+               </form> 
+            </section>
+
+    </body>
+</html>
