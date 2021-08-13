@@ -58,3 +58,12 @@ class ViewRequest:
         view = loader.get_template('proyectos.html')
         html = view.render({'user': self.usuario_logueado})
         return HttpResponse(html)
+
+    def rol_nombre(self, request):
+        return render(request, 'asignar_nombre_rol.html')
+
+    def rol_permisos(self, request):
+        return render(request, 'asignar_permisos.html')
+
+    def modificar_rol(self, request):
+        return render(request, 'modificar_rol.html')

@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Crear Rol</title>
+            <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+            <script defer src="{% static 'rol_permisos.js' %}"></script>
+        </head>
+        <body>
+            <section class="form-crear_rol">
+              <h5>Seleccione los permisos a asignar</h5>
+              <form>
+                <input type="checkbox" class = "permisos" id="perm_seg" value="seguridad"> Seguridad 
+                <br><br><br>
+                <input type="checkbox" class = "permisos" id="perm_des" value="desarrollo"> Desarrollo
+                <br><br><br>
+                <input type="checkbox" class = "permisos" id="perm_proy" value="proyecto"> Proyecto
+                <br><br><br>
+                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="Guardar">
+               </form> 
+            </section>
+
+    </body>
+</html>
