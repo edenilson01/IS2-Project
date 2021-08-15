@@ -82,3 +82,12 @@ class ViewRequest:
     
     def eliminar_user(self, request):
         return render(request, 'delete_user.html')
+
+    def crear_permisos(self, request):
+        return render(request, 'crear_permiso.html')
+
+    def modificar_permisos(self, request):
+        return render(request, 'modificar_permiso.html')
+
+    def eliminar_permisos(self, request):
+        return render(request, 'eliminar_permiso.html')

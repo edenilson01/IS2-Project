@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Registrar Permiso</title>
+            <link rel="stylesheet" href="{% static 'registrar.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        </head>
+        <section class="form-home" style="width: 400px; height: 290px; margin-top: 10%;">
+            <h5>Crea un permiso</h5>
+            <form action="#" methon="GET" autocomplete="off">
+                <input class="input_txt" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" required>
+                <input class="input_txt" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50">
+                <br><br><br><br>
+                <input class="buttons" type="button" style="float: left; margin-top: 20%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" type="submit" style="float: right; margin-top: 20%;" name="" value="REGISTRAR">
+            </form>
+        </section>
+    </html>
