@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Modificar Permiso</title>
+            <link rel="stylesheet" href="{% static 'registrar.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        </head>
+        <section class="form-home" style="height: 400px;">
+            <h5>Modificar usuario</h5>
+            <form action="#" methon="GET" autocomplete="off">
+                <select class="input_txt" style="height: 37.5px;">
+                    <option value="0">Elige una opción</option>
+                    <option value="1">Seguridad</option>
+                    <option value="2">Desarrollo</option>
+                    <option value="3">Proyecto</option>
+                </select>
+                <input class="buttons" type="submit" name="" value="BUSCAR" onclick="activar()">
+            </form>
+            <h4>Datos actuales</h4>
+            <form action="#" methon="GET" autocomplete="off">
+                <input class="input_txt" id="name" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" disabled required>
+                <input class="input_txt" id="desc" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
+                <br><br><br><br>
+                <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 18%;" name="" value="REGISTRAR" disabled>
+            </form>
+        </section>
+
+        <script>
+            function activar() {
+              var x = document.getElementById("name").disabled = false;
+              var x = document.getElementById("desc").disabled = false;
+              var x = document.getElementById("reg").disabled = false;
+            }
+        </script>
+    </html>

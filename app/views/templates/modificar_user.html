@@ -7,8 +7,17 @@
         <title>Modificar usuario</title>
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link rel="stylesheet" href="{% static 'check.css' %}">
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script defer src="{% static 'check.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#test").CreateMultiCheckBox({ width: '260px',
+                    defaultText : 'Selecciona el/los rol/es', height:'100px'});
+            });
+        </script>
     </head>
-    <section class="form-home">
+    <section class="form-home" style="height: 500px;">
         <h5>Modificar usuario</h5>
         <form action="#" methon="GET" autocomplete="off">
             <input class="input_txt" type="text" value="" placeholder="Escriba aquí el username" maxlength="15" required>
@@ -27,9 +36,17 @@
         <form methon="GET" autocomplete="off">
             <input class="input_txt" type="email" id="email" placeholder="Correo Electrónico" maxlength="100" disabled required>
             <input class="input_txt" type="password" id="pass" placeholder="Nueva constraseña" maxlength="15" disabled required>
-            <input class="buttons" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" type="submit" name="" value="MODIFICAR">
         </form>
+        <label class="input_txt" style="color:black; height: 37.5px;">Rol/es del usuario:</label>
+        <select id="test">
+            <option value="1">Seguridad</option> 
+            <option value="2">Proyecto</option> 
+            <option value="3">Desarrollo</option>
+        </select>
+
+        <input class="buttons" style="float: left; margin-top: 16.2px;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+        <input class="buttons" style="float: right;"type="submit" name="" value="MODIFICAR">
+
         <script>
             function activar() {
               var x = document.getElementById("1st_name").disabled = false;
