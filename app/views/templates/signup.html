@@ -7,8 +7,17 @@
         <title>Registrar usuario en REJA</title>
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link rel="stylesheet" href="{% static 'check.css' %}">
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script defer src="{% static 'check.js' %}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#test").CreateMultiCheckBox({ width: '260px',
+                    defaultText : 'Selecciona el/los rol/es', height:'100px'});
+            });
+        </script>
     </head>
-    <section class="form-home">
+    <section class="form-home" style="height: 500px;">
         <h5>Crea un usuario</h5>
         <h4>1) Datos Personales</h4>
         <form action="#" methon="GET" autocomplete="off">
@@ -23,10 +32,20 @@
         <form action="#" methon="GET" autocomplete="off">
             <input class="input_txt" type="text" value="" placeholder="Username" maxlength="15" required>
             <input class="input_txt" type="email" value="" placeholder="Correo Electrónico" maxlength="100" required>
-            <input class="input_txt" type="password" value="" placeholder="Constraseña" maxlength="15" required>
+
+            <label class="input_txt" style="color:black; height: 37.5px;">Rol/es del usuario:</label>
+
+            <select id="test">
+                <option value="1">Seguridad</option> 
+                <option value="2">Proyecto</option> 
+                <option value="3">Desarrollo</option>
+            </select>
+
+            <input class="input_txt" style="margin-top: 10.5px;" type="password" value="" placeholder="Constraseña" maxlength="15" required>
             <input class="input_txt" type="password" value="" placeholder="Repetir constraseña" maxlength="15" required>
-            <input class="buttons" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" type="submit" name="" value="REGISTRAR">
+
+            <input class="buttons" type="button" style="float: left;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+            <input class="buttons" type="submit" style="float: right;" name="" value="REGISTRAR">
         </form>
     </section>
 </html>

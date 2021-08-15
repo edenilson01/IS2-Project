@@ -1,0 +1,69 @@
+.MultiCheckBox {
+    border:1px solid #e2e2e2;
+    padding: 5px;
+    border-radius:4px;
+    cursor:pointer;
+    float: right;
+    margin-right: 1%;
+    margin-top: 1%;
+    height: 37px;
+    margin-bottom: 2%;
+}
+
+.MultiCheckBox .k-icon{ 
+    font-size: 15px;
+    float: right;
+    font-weight: bolder;
+    margin-top: -7px;
+    height: 10px;
+    width: 14px;
+    color:#787878;
+} 
+
+.MultiCheckBoxDetail {
+    display:none;
+    float: right;
+    position: absolute;
+    right: 150px;
+    border:1px solid #e2e2e2;
+    overflow-y:hidden;
+    background-color: #4e4d4d;
+}
+
+.MultiCheckBoxDetailBody {
+    overflow-y:scroll;
+}
+
+    .MultiCheckBoxDetail .cont  {
+        clear:both;
+        overflow: hidden;
+        padding: 2px;
+    }
+
+    .MultiCheckBoxDetail .cont:hover  {
+        background-color:gray;
+    }
+
+    .MultiCheckBoxDetailBody > div > div {
+        float:left;
+    }
+
+.MultiCheckBoxDetailHeader {
+    overflow:hidden;
+    position:relative;
+    height: 28px;
+    background-color:#3d3d3d;
+}
+
+    .MultiCheckBoxDetailHeader>input {
+        position: absolute;
+        top: 4px;
+        left: 3px;
+    }
+
+    .MultiCheckBoxDetailHeader>div {
+        position: absolute;
+        top: 5px;
+        left: 24px;
+        color:#fff;
+    }

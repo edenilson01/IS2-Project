@@ -7,20 +7,12 @@
         <title>Eliminar usuario</title>
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+
     </head>
     <section class="form-home" style="width: 600px; height: 330px;">
         <h5>Eliminar usuario</h5>
 
-        <select class="input_txt" style="height: 37.5px;">
-           <option selected value="0"> Elige una opción </option>
-               <optgroup label="Usuarios Activos"> 
-               <option value="1">Username A</option> 
-               <option value="2">Username B</option> 
-               <option value="3">Username C</option>
-               <option value="4">Username D</option>
-           </optgroup>
-        </select>
-
+        <input class="input_txt" type="text" value="" placeholder="Escriba aquí el username" maxlength="15" required>
         <input class="buttons" type="button" name="" value="SELECCIONAR" onclick="activar()">
 
         <h4 style="display: none;" id="label1">Datos del Usuario</h4>
@@ -43,7 +35,7 @@
               document.getElementById("f").style.display="block";
               document.getElementById("f").style.float="left";
               document.getElementById("f").style.marginTop="5%";
-            }
+            };
         </script>
     </section>
 </html>
