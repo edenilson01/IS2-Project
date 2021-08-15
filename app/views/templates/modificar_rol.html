@@ -6,27 +6,32 @@
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
             <title>Modificar Rol</title>
             <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'modificar_rol.js' %}"></script>
         </head>
         <body>
             <section class="form-modificar_rol">
-              <h5>Modificar rol</h5>
-              <form>
-                <select name="rol" onchange="habilitar()">
-                    <option class='op'>Rol 1</option>             
-                    <option class='op'>Rol 2</option>            
-                    <option class='op'>Rol 3</option>           
-                    <option class='op'>Rol 4</option>            
-                    <option class='op'>Rol 5</option>              
-                </select>
-                <br><br><br>
-                <input type="checkbox" class = "permisos" id="perm_seg" value="seguridad" checked=true disabled=true> Seguridad 
-                <br><br><br>
-                <input type="checkbox" class = "permisos" id="perm_des" value="desarrollo" disabled=true> Desarrollo
-                <br><br><br>
-                <input type="checkbox" class = "permisos" id="perm_proy" value="proyecto" disabled=true> Proyecto
-                <br><br><br>
-                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="Guardar">
+                <h5>Modificar rol</h5>
+                <form>
+                    <select name="rol" onchange="habilitar(this.options[this.selectedIndex].value)">
+                        <option selected value = 0 class='op' >Elige una opción</option> 
+                        <option value = 1 >Rol 1</option>             
+                        <option value = 2 >Rol 2</option>            
+                        <option value = 3 >Rol 3</option>           
+                        <option value = 4 >Rol 4</option>            
+                        <option value = 5 >Rol 5</option>              
+                    </select>
+                </form>
+                <form class='permisos'>
+                    <input type="checkbox"  id="perm_seg" value="seguridad" disabled=true> Seguridad 
+                    <br><br><br>
+                    <input type="checkbox"  id="perm_des" value="desarrollo" disabled=true> Desarrollo
+                    <br><br><br>
+                    <input type="checkbox"  id="perm_proy" value="proyecto" disabled=true> Proyecto              
+                    <br><br><br>
+                </form>
+                <input class="buttons" style="margin-top: 25%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="GUARDAR">
                </form> 
             </section>
 

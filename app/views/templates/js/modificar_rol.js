@@ -1,25 +1,29 @@
-const form = document.getElementById('form-crear_rol');
-const submitButton = document.getElementById('guardar');
 
-function habilitar() {
-    lista_perm  = document.querySelectorAll('.permisos');
+const submitButton = document.getElementById('guardar');
+const permisos = document.querySelector('.permisos').querySelectorAll('input[type=checkbox]');
+
+function habilitar(selected) {
+    estado_checkbox = false;
+    if (selected == 0) {
+        submitButton.toggleAttribute('disabled', true);
+        estado_checkbox = true;      
+    } else {
+        submitButton.toggleAttribute('disabled', false);
+    }
+    bloquear_checkbox(estado_checkbox);
+    submitButton.toggleAttribute('disabled', true);
+}
+
+function bloquear_checkbox(estado) {
     var i = 0;
-    var al_menos_uno = false;
-    //Recorrido de checkbox's
-    while (i < lista_perm.length) {
-        // Verifica si el elemento es un checkbox
-        if (lista_perm[i].tagName == 'INPUT' && lista_perm[i].type == 'checkbox') {
-            lista_perm[i].toggleAttribute('disabled', false);
-        }
-        i++
-        
+    while (i < permisos.length) {        
+        permisos[i].toggleAttribute('disabled', estado);
+        i++;
     }
 }
 
-document.querySelectorAll('.permisos').forEach((box) => {
-
+permisos.forEach((box) => {
     addEventListener('change', (event) => {
-        
         check_permiso = validar_checkbox();
         if (!check_permiso) {
             submitButton.toggleAttribute('disabled', true);
@@ -29,21 +33,21 @@ document.querySelectorAll('.permisos').forEach((box) => {
     });
 });
 
+
 function validar_checkbox() {
-    checkboxes  = document.querySelectorAll('.permisos');
     var i = 0;
-    var al_menos_uno = false;
-    //Recorrido de checkbox's
-    while (i < checkboxes.length) {
-        // Verifica si el elemento es un checkbox
-        if (checkboxes[i].tagName == 'INPUT' && checkboxes[i].type == 'checkbox') {
+    var al_menos_uno = false;   
+    if (!estado_checkbox) {
+        //Recorrido de checkbox's
+        while (i < permisos.length) {
             // Verifica si esta checked
-            if (checkboxes[i].checked) {
+            if (permisos[i].checked) {
                 al_menos_uno = true;             
                 return al_menos_uno;
             }
-        }
-        i++
-        
-    }
+            i++
+        }       
+    }else {
+        return al_menos_uno;
+    }  
 }

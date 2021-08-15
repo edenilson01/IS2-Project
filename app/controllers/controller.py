@@ -67,6 +67,9 @@ class ViewRequest:
 
     def modificar_rol(self, request):
         return render(request, 'modificar_rol.html')
+
+    def eliminar_rol(self, request):
+        return render(request, 'delete_rol.html')
         
     def seguridad(self, request):
         return render(request, 'seguridad.html')

@@ -39,7 +39,8 @@ urlpatterns = [
     path('seguridad/', control.seguridad),
     path('signup/', control.registrar),
     path('user_settings', control.modificar_user),
-    path('delete_user', control.eliminar_user)
+    path('delete_user', control.eliminar_user),
+    path('delete_rol', control.eliminar_rol)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
