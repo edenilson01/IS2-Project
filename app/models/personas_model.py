@@ -4,6 +4,7 @@ from app.models.connection_model import DbConnectionModel
 
 class PersonaModel(DbConnectionModel):
     INSERT_PER_STMT = 'INSERT INTO personas(primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, fec_nac) VALUES (%s, %s, %s, %s, %s)'
+    CONSULT_LAST_PER = 'SELECT MAX(id_persona) from personas'
     UPDATE_PR_NOMBRE_PER_STMT = 'UPDATE personas SET primer_nombre = %s WHERE id_persona = %s'
     UPDATE_SG_NOMBRE_PER_STMT = 'UPDATE personas SET segundo_nombre = %s WHERE id_persona = %s'
     UPDATE_PR_APELLIDO_PER_STMT = 'UPDATE personas SET primer_apellido= %s WHERE id_persona = %s'
@@ -14,6 +15,10 @@ class PersonaModel(DbConnectionModel):
     def insert_persona(self, pr_nombre, sg_nombre, pr_apellido, sg_apellido, fec_nac):
         try:
             super().execute_sql_stmt(self.INSERT_PER_STMT, (pr_nombre, sg_nombre, pr_apellido, sg_apellido, fec_nac))
+            id_persona = super().execute_sql_stmt(self.CONSULT_LAST_PER, '', True)
+            if len(id_persona) == 0:
+                return None
+            return id_persona[0][0]
         except Exception as e:
             raise e
 
@@ -52,6 +57,6 @@ class PersonaModel(DbConnectionModel):
             persona = super().execute_sql_stmt(self.CONSULT_PER_STMT, [id_persona], True)
             if len(persona) == 0:
                 return None
-            return persona[0][0] #VER
+            return persona[0]
         except Exception as e:
             raise e

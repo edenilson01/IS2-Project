@@ -30,19 +30,31 @@ urlpatterns = [
     path('', lambda request: redirect('login/', permanent=True)),
     path('login/', control.iniciar_sesion),
     path('working/', control.sitio_en_construccion),
-    path('error/', control.logeado),
+    path('login_form/', control.logeado),
+
     path('home/', control.home),
+
     path('proyectos/', control.proyectos),
+
     path('rol_nombre/', control.rol_nombre),
     path('rol_permisos/', control.rol_permisos),
     path('modificar_rol/', control.modificar_rol),
+
     path('seguridad/', control.seguridad),
-    path('signup/', control.registrar),
+
+    path('signup/', control.crear_usuario),
+    path('reg_user/', control.registrar_usuario),
+
     path('user_settings', control.modificar_user),
+    path('obtener_usuario/', control.obtener_usuario),
+
     path('delete_user', control.eliminar_user),
+    path('obtener_usuario_elim/', control.buscar_user_elm),
+
     path('crear_permiso', control.crear_permisos),
     path('modificar_permiso', control.modificar_permisos),
-    path('eliminar_permiso', control.eliminar_permisos)
+    path('eliminar_permiso', control.eliminar_permisos),
+    path('prueba/', control.prueba),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

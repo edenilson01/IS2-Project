@@ -4,7 +4,7 @@ from app.models.connection_model import DbConnectionModel
 
 class RolesModel(DbConnectionModel):
     INSERT_ROL_STMT = 'INSERT INTO roles(nombre, descripcion) VALUES (%s, %s)'
-    CONSULT_ROL_STMT = 'SELECT * FROM roles WHERE id_rol = %s'
+    CONSULT_ROL_STMT = 'SELECT * FROM roles'
     UPDATE_NOMBRE_STMT = 'UPDATE roles SET nombre = %s WHERE id_rol = %s'
     UPDATE_DESC_STMT = 'UPDATE roles SET descripcion = %s WHERE id_rol = %s'
     DELETE_ROL_STMT = 'DELETE FROM roles WHERE id_rol = %s'
@@ -15,12 +15,12 @@ class RolesModel(DbConnectionModel):
         except Exception as e:
             raise e
         
-    def consult_rol(self, id_rol):
+    def consult_roles(self):
         try:
-            rol = super().execute_sql_stmt(self.CONSULT_ROL_STMT, [id_rol], True)
-            if len(rol) == 0:
+            roles = super().execute_sql_stmt(self.CONSULT_ROL_STMT, '', True)
+            if len(roles) == 0:
                 return None
-            return rol[0][0]
+            return roles
         except Exception as e:
             raise e
     

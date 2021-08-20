@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <title>Registrar usuario en REJA</title>
+        <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
         <link rel="stylesheet" href="{% static 'check.css' %}">
@@ -12,40 +13,100 @@
         <script defer src="{% static 'check.js' %}"></script>
         <script>
             $(document).ready(function () {
-                $("#test").CreateMultiCheckBox({ width: '260px',
+                $("#roles").CreateMultiCheckBox({ width: '260px',
                     defaultText : 'Selecciona el/los rol/es', height:'100px'});
             });
         </script>
     </head>
     <section class="form-home" style="height: 500px;">
         <h5>Crea un usuario</h5>
-        <h4>1) Datos Personales</h4>
-        <form action="#" methon="GET" autocomplete="off">
-            <input class="input_txt" type="text" value="" placeholder="Primer nombre" maxlength="50" required>
-            <input class="input_txt" type="text" value="" placeholder="Segundo nombre" maxlength="50">
-            <input class="input_txt" type="text" value="" placeholder="Primer apellido" maxlength="50" required>
-            <input class="input_txt" type="text" value="" placeholder="Segundo apellido" maxlength="50">
+        <h4>1) Datos del Usuario</h4>
+        <form action="/reg_user" method="GET" autocomplete="off">
+            <input class="input_txt" type="text" name="p_nombre" value="" placeholder="Primer nombre" maxlength="50" required>
+            <input class="input_txt" type="text" name="s_nombre" value="" placeholder="Segundo nombre" maxlength="50">
+            <input class="input_txt" type="text" name="p_apellido" value="" placeholder="Primer apellido" maxlength="50" required>
+            <input class="input_txt" type="text" name="s_apellido" value="" placeholder="Segundo apellido" maxlength="50">
             <label class="input_txt" style="color:black; height: 37.5px;">Fecha de nacimiento:</label>
-            <input class="input_txt" type="date" value="" required>
-        </form>
-        <h4 style="margin-top: 30%;">2) Datos del Usuario</h4>
-        <form action="#" methon="GET" autocomplete="off">
-            <input class="input_txt" type="text" value="" placeholder="Username" maxlength="15" required>
-            <input class="input_txt" type="email" value="" placeholder="Correo Electrónico" maxlength="100" required>
+            <input class="input_txt" type="date" name="fec_nacimiento" value="" required>
+            <input class="input_txt" type="text" name="username" value="" placeholder="Username" maxlength="15" required>
+            <input class="input_txt" type="email" name="correo" value="" placeholder="Correo Electrónico" maxlength="100" required>
 
             <label class="input_txt" style="color:black; height: 37.5px;">Rol/es del usuario:</label>
 
-            <select id="test">
-                <option value="1">Seguridad</option> 
-                <option value="2">Proyecto</option> 
-                <option value="3">Desarrollo</option>
+            <select id="roles" name="roles_usuario">
+                {% for rol in lista_roles %}
+                    <option selected="false" value={{ rol.0 }}>{{ rol.1 }}</option> 
+                {% endfor %}
             </select>
 
-            <input class="input_txt" style="margin-top: 10.5px;" type="password" value="" placeholder="Constraseña" maxlength="15" required>
-            <input class="input_txt" type="password" value="" placeholder="Repetir constraseña" maxlength="15" required>
+            <input class="input_txt" style="margin-top: 10.5px;" name="password" type="password" value="" placeholder="Constraseña" maxlength="15" required>
+            <input class="input_txt" type="password" value="" name="password_rep" placeholder="Repetir constraseña" maxlength="15" required>
 
             <input class="buttons" type="button" style="float: left;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" type="submit" style="float: right;" name="" value="REGISTRAR">
+            <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="REGISTRAR">
         </form>
     </section>
+    <body>
+        <!-- CUADRO DE ERROR CON MENSAJE-->
+        <div class="fondo_transparente" id = "fondo">
+            <div class="modal">
+                <div class="modal_titulo">
+                    {{ titulo }}<br>
+                </div>
+
+                <div class="modal_mensaje">
+                    {% for error in errors %}
+                        {% if forloop.first %}
+                            <br>{{ error }}
+                        {% else %}
+                            <br><br>{{ error }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- TODO -->
+                <div class="modal_botones" >
+                    <a href="/signup" class="boton">VOLVER A INTENTARLO</a>
+                </div>
+            </div>
+        </div> 
+        
+        {% if errors|length > 0 %}
+            <script type="text/javascript">
+                setTimeout("mostrarError()", 0);
+            </script>
+        {% endif %}
+
+        <script>
+            function mostrarError(){
+                var estilo = document.getElementById("fondo");
+                estilo.style.display="block";
+            }
+        </script>
+        <!-- FIN CUADRIO DE ERROR -->
+        <script>
+            $('#bt_registrar').on('click', function() {
+                var tasks = show_selected();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/prueba/',
+                    data: {'roles[]': tasks},
+                });
+            });
+            
+            function show_selected() {
+                var roles = []
+                var selector = document.getElementById('roles');
+                for (var i = 0; i < selector.length; i++) {
+                    if (selector[i].selected) {
+                        roles.push(selector[i].value);
+                    }
+                }
+                console.log(selector)
+                console.log(roles)
+            }
+            
+            // document.getElementById('bt_registrar').addEventListener('click', show_selected);
+        </script>
+    </body>
 </html>

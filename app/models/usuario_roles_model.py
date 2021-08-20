@@ -9,6 +9,16 @@ class UsuarioRolModel(DbConnectionModel):
     DELETE_ROL_USUARIO_STMT = 'DELETE FROM usuarios_roles WHERE id_rol = %s and username = %s'
     CONSULT_INI_ROL_USUARIO_STMT = 'SELECT inicio FROM usuarios_roles WHERE id_rol = %s and username = %s'
     CONSULT_FIN_ROL_USUARIO_STMT = 'SELECT fin FROM usuarios_roles WHERE id_rol = %s and username = %s'
+    CONSULT_IDS_ROL_USUARIO_STMT = 'SELECT id_rol FROM usuarios_roles WHERE username = %s'
+
+    def consult_id_roles(self, username):
+        try:
+            ids = super().execute_sql_stmt(self.CONSULT_IDS_ROL_USUARIO_STMT, [username], True)
+            if len(ids) == 0:
+                return None
+            return ids[0] #VER
+        except Exception as e:
+            raise e
 
     def insert_rol_usuario(self, id_rol, username, inicio, fin):
         try:

@@ -1,23 +1,40 @@
 {% load static %}
 <!DOCTYPE html>
-    <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-            <title>REJA. Bienvenid@!!!</title>
-            <link rel="stylesheet" href="{% static 'home.css' %}">
-            <link rel="shortcut icon" href="{% static 'logo.png' %}">
-        </head>
-        <body>
-            <section class="form-home">
-              <h5>BIENVENID@ {{user.upper}} </h5>
-              <form action>
-                <input class="buttons" type="button" name="" value="Seguridad" onclick="window.location='/seguridad/'"> 
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>REJA. Bienvenid@!!!</title>
+        <link rel="stylesheet" href="{% static 'home.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+    </head>
+    <body>
+        <section class="form-home">
+            <h5>BIENVENID@ {{user.upper}} </h5>
+            <form action>
+                <input class="buttons" id="1" type="button" name="" value="Seguridad" disabled style="background:gray" onclick="window.location='/seguridad/'"> 
                 <br><br><br>
-                <input class="buttons" type="button" name="" value="Proyecto">
+                <input class="buttons" id="2" type="button" name="" disabled style="background:gray" value="Proyecto">
                 <br><br><br>
-                <input class="buttons" type="button" name="" value="Desarrollo">
-               </form> 
-            </section>
+                <input class="buttons" id="3" type="button" name="" disabled style="background:gray" value="Desarrollo">
+            </form> 
+        </section>
+        <script>
+            var permisos = {{permisos}};
+            permisos.forEach(function(permiso) {
+                if (permiso === 1) {
+                    document.getElementById("1").disabled=false;
+                    document.getElementById("1").style="background:white";
+                }
+                if (permiso === 2) {
+                    document.getElementById("2").disabled=false;
+                    document.getElementById("2").style="background:white";
+                }
+                if (permiso === 3) {
+                    document.getElementById("2").disabled=false;
+                    document.getElementById("3").style="background:white";
+                }
+            });
+        </script>
     </body>
 </html>
