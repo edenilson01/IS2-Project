@@ -6,17 +6,19 @@
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
             <title>Crear Rol</title>
             <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'rol_nombre.js' %}"></script>
         </head>
         <body>
             <section class="form-crear_rol">
-              <h5>Crear rol</h5>
-              <form action = "/rol_permisos" method="GET" autocomplete="off">
-                <div class ="form-box">
-                    <input type="text" id="nombre_rol" name="nombre" maxlength="30">
-                </div>                
-                <br><br><br>
-                <input class="buttons" id = "asig_perm" disabled=true type="submit" name="" value="Siguiente">
+                <h5>Crear rol</h5>
+                <form action = "/rol_permisos" method="GET" autocomplete="off">
+                    <div class ="form-box">
+                        <input type="text" id="nombre_rol" placeholder="Nombre" name="nombre" maxlength="30">
+                    </div>                
+                   
+                    <input class="buttons" style="margin-top: 50%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                    <input class="buttons" id = "asig_perm" disabled=true type="submit" name="" value="SIGUIENTE">
                </form> 
             </section>
 

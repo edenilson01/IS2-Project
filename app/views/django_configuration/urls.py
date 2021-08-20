@@ -51,6 +51,7 @@ urlpatterns = [
     path('delete_user', control.eliminar_user),
     path('obtener_usuario_elim/', control.buscar_user_elm),
 
+    path('delete_rol', control.eliminar_rol),
     path('crear_permiso', control.crear_permisos),
     path('modificar_permiso', control.modificar_permisos),
     path('eliminar_permiso', control.eliminar_permisos),

@@ -6,6 +6,7 @@
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
             <title>Crear Rol</title>
             <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'rol_permisos.js' %}"></script>
         </head>
         <body>
@@ -18,7 +19,8 @@
                 <br><br><br>
                 <input type="checkbox" class = "permisos" id="perm_proy" value="proyecto"> Proyecto
                 <br><br><br>
-                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="Guardar">
+                <input class="buttons" style="margin-top: 40%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="GUARDAR">
                </form> 
             </section>
 
