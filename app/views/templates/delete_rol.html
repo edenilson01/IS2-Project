@@ -15,11 +15,9 @@
               <form>
                 <select name="rol" onchange="habilitar(this.options[this.selectedIndex].value)">
                     <option selected value = 0 class='op' >Elige una opción</option> 
-                    <option value = 1 >Rol 1</option>             
-                    <option value = 2 >Rol 2</option>            
-                    <option value = 3 >Rol 3</option>           
-                    <option value = 4 >Rol 4</option>            
-                    <option value = 5 >Rol 5</option>              
+                    {% for rol in lista_roles %}
+                        <option value={{ rol.0 }}>{{ rol.1 }}</option> 
+                    {% endfor %}              
                 </select>
                 <br><br>
                 <input class="buttons" style="margin-top: 37%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">

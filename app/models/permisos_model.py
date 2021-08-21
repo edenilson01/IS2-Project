@@ -6,7 +6,7 @@ class PermisosModel(DbConnectionModel):
     INSERT_PERMISO_STMT = 'INSERT INTO permisos(nombre, descripcion) VALUES (%s, %s)'
     UPDATE_NOM_PERMISO_STMT = 'UPDATE permisos SET nombre = %s WHERE id_permiso = %s'
     UPDATE_DESC_PERMISO_STMT = 'UPDATE permisos SET descripcion = %s WHERE id_permiso = %s'
-    CONSULT_PERMISO_STMT = 'SELECT * FROM permisos WHERE id_permiso = %s'
+    CONSULT_PERMISO_STMT = 'SELECT * FROM permisos'
     DELETE_PERMISO_STMTS = 'DELETE FROM permisos WHERE id_permiso = %s'
 
     def insert_permiso(self, nombre, descripcion):
@@ -27,12 +27,12 @@ class PermisosModel(DbConnectionModel):
         except Exception as e:
             raise e
     
-    def consult_permiso(self, id_permiso):
+    def consult_permiso(self):
         try:
-            permiso = super().execute_sql_stmt(self.CONSULT_PERMISO_STMT, [id_permiso], True)
+            permiso = super().execute_sql_stmt(self.CONSULT_PERMISO_STMT, '', True)
             if len(permiso) == 0:
                 return None
-            return permiso [0][0]
+            return permiso
         except Exception as e:
             raise e
     

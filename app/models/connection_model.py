@@ -5,11 +5,8 @@ from os import environ
 import psycopg2
 
 class DbConnectionModel:
-<<<<<<< HEAD
-    DB_CONNECTION_PARMS = "dbname=is2_project user=postgres password=micedula host=localhost port=5432"
-=======
     DB_CONNECTION_PARMS = "dbname=is2_project user=postgres password=password host=localhost port=5432"
->>>>>>> e7229e4bcf401cab7b6368120db484ec20fc6747
+
 
     def __init__(self):
         self.connectiondb = None

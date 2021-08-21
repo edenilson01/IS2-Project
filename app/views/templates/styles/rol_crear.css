@@ -151,7 +151,7 @@ input[type="text"]{
     border: none;
     color: black;
     border-radius: 15px;
-    margin-left: 3%;
+    margin-left: 2.5%;
 }
 
 .buttons:hover{
@@ -167,7 +167,7 @@ input[type="submit"]:disabled {
     height: 30px;
     border-radius: 15px;
     margin-right: 2%;
-  }
+}
 
 input[type="button"]:disabled {
     margin-top: 14%;

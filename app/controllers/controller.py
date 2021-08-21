@@ -1,6 +1,7 @@
 #aqui van los controladores, encargados de la logica del negocio
 #se pueden agregar mas archivos
 
+from app.models.permisos_model import PermisosModel
 from django import http
 from app.models.personas_model import PersonaModel
 from django.shortcuts import redirect, render
@@ -122,7 +123,6 @@ class ViewRequest:
     def prueba(self, request):
         roles = request.GET.getlist('roles[]')
         usuario_rol = UsuarioRolModel()
-        print(roles)
         #for rol in roles:
         #    usuario_rol.insert_rol_usuario()
         return HttpResponse('Sucess')
@@ -137,10 +137,14 @@ class ViewRequest:
         return render(request, 'asignar_permisos.html')
 
     def modificar_rol(self, request):
-        return render(request, 'modificar_rol.html')
+        view = loader.get_template('modificar_rol.html')
+        html_reponse = view.render({'lista_roles': self.obtener_roles()})
+        return HttpResponse(html_reponse)
 
     def eliminar_rol(self, request):
-        return render(request, 'delete_rol.html')
+        view = loader.get_template('delete_rol.html')
+        html_reponse = view.render({'lista_roles': self.obtener_roles()})
+        return HttpResponse(html_reponse)
         
     def seguridad(self, request):
         return render(request, 'seguridad.html')
@@ -177,9 +181,8 @@ class ViewRequest:
         return render(request, 'delete_user.html')
 
     def buscar_user_elm(self, request):
-        print(request.GET.get('username'))
         usuario = UserModel().consult_persona(request.GET.get('username'))
-        print(usuario)
+
         if usuario is None:
             self.titulo_error = "ERROR"
             self.mensaje_error.append("No existe ese usuario")
@@ -203,13 +206,20 @@ class ViewRequest:
         return render(request, 'crear_permiso.html')
 
     def modificar_permisos(self, request):
-        return render(request, 'modificar_permiso.html')
+        view = loader.get_template('modificar_permiso.html')
+        html_reponse = view.render({'lista_permisos': self.obtener_permisos()})
+        return HttpResponse(html_reponse)
 
     def eliminar_permisos(self, request):
-        return render(request, 'eliminar_permiso.html')
+        view = loader.get_template('eliminar_permiso.html')
+        html_reponse = view.render({'lista_permisos': self.obtener_permisos()})
+        return HttpResponse(html_reponse)
         
 
 
     ##otras funciones
     def obtener_roles(self):
         return RolesModel().consult_roles()
+
+    def obtener_permisos(self):
+        return PermisosModel().consult_permiso()

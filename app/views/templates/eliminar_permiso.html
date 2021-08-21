@@ -11,11 +11,11 @@
         <section class="form-home" style="height: 400px;">
             <h5>Eliminar permiso</h5>
             <form action="#" methon="GET" autocomplete="off">
-                <select class="input_txt" style="height: 37.5px;" id="sel">
+                <select class="input_txt" style="height: 42px;" id="sel">
                     <option value="0">Elige una opción</option>
-                    <option value="1">Seguridad</option>
-                    <option value="2">Desarrollo</option>
-                    <option value="3">Proyecto</option>
+                    {% for permiso in lista_permisos %}
+                        <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
+                    {% endfor %}   
                 </select>
                 <input class="buttons" type="submit" name="" value="BUSCAR" onclick="activar()">
             </form>

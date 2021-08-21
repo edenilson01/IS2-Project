@@ -9,23 +9,24 @@
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
         </head>
         <section class="form-home" style="height: 400px;">
-            <h5>Modificar usuario</h5>
+            <h5>Modificar Permisos</h5>
             <form action="#" methon="GET" autocomplete="off">
-                <select class="input_txt" style="height: 37.5px;">
-                    <option value="0">Elige una opción</option>
-                    <option value="1">Seguridad</option>
-                    <option value="2">Desarrollo</option>
-                    <option value="3">Proyecto</option>
+                <select class="input_txt" style="height: 42px;">
+                    <option value="" selected>Elige una opción</option>
+                    {% for permiso in lista_permisos %}
+                        <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
+                    {% endfor %}
                 </select>
                 <input class="buttons" type="submit" name="" value="BUSCAR" onclick="activar()">
             </form>
+            <br>
             <h4>Datos actuales</h4>
             <form action="#" methon="GET" autocomplete="off">
                 <input class="input_txt" id="name" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" disabled required>
                 <input class="input_txt" id="desc" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
                 <br><br><br><br>
-                <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 18%;" name="" value="REGISTRAR" disabled>
+                <input class="buttons" type="button" style="float: left; margin-top: 14%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 14%;" name="" value="REGISTRAR" disabled>
             </form>
         </section>
 
