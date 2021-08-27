@@ -12,3 +12,17 @@
     background: #a8a4a4;
     color: white;
 }
+
+* {
+    margin: 100;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: gray;
+}
+
+.my_div{
+    background-color: red;
+}

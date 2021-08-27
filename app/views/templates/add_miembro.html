@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" style="background-color: gray;">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Crear Proyectos</title>
+        <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
+        <link rel="stylesheet" href="{% static 'registrar.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link rel="stylesheet" href="{% static 'check.css' %}">
+    </head>
+    </style>
+    <section class="form-home" style="height: 250px; width: 400px;">
+        <h5>Agregar miembro</h5>
+        <form method="GET" autocomplete="off">
+            <select class="input_txt" style="width: 100%;" required>
+               <option value="">Elije una opción</option> 
+               <option value="1">Richard Cabrera</option> 
+               <option value="2">Persona 2</option> 
+               <option value="3">Persona 3</option> 
+            </select>
+            <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/proyects';" name="" value="CANCELAR">
+            <input class="buttons" id="bt_registrar" type="submit" style="float: right; margin-top: 18%;" name="" value="GUARDAR">
+        </form>
+    </section>
+</html>

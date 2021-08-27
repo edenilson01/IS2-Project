@@ -120,12 +120,12 @@ class ViewRequest:
   
         return redirect('/signup/')
     
-    def prueba(self, request):
-        roles = request.GET.getlist('roles[]')
-        usuario_rol = UsuarioRolModel()
-        #for rol in roles:
-        #    usuario_rol.insert_rol_usuario()
-        return HttpResponse('Sucess')
+    #def prueba(self, request):
+    #    roles = request.GET.getlist('roles[]')
+    #    usuario_rol = UsuarioRolModel()
+    #    #for rol in roles:
+    #    #    usuario_rol.insert_rol_usuario()
+    #    return HttpResponse('Sucess')
 
 
     ###################################################
@@ -215,6 +215,25 @@ class ViewRequest:
         html_reponse = view.render({'lista_permisos': self.obtener_permisos()})
         return HttpResponse(html_reponse)
         
+
+    #PRUEBA
+    def proyecto(self, request):
+        return render(request, 'proyecto.html')
+    
+    def crear_proyecto(self, request):
+        return render(request, 'crear_proyecto.html')
+
+    def modificar_proyecto(self, request):
+        return render(request, 'modificar_proyecto.html')
+
+    def equipo(self, request):
+        return render(request, 'equipo.html')
+
+    def add_miembro(self, request):
+        return render(request, 'add_miembro.html')
+    
+    def delete_miembro(self, request):
+        return render(request, 'delete_miembro.html')
 
 
     ##otras funciones
