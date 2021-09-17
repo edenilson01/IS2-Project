@@ -7,46 +7,72 @@
             <title>Eliminar Permiso</title>
             <link rel="stylesheet" href="{% static 'registrar.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         </head>
-        <section class="form-home" style="height: 400px;">
-            <h5>Eliminar permiso</h5>
-            <form action="#" methon="GET" autocomplete="off">
-                <select class="input_txt" style="height: 42px;" id="sel">
-                    <option value="0">Elige una opción</option>
-                    {% for permiso in lista_permisos %}
-                        <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
-                    {% endfor %}   
-                </select>
-                <input class="buttons" type="submit" name="" value="BUSCAR" onclick="activar()">
-            </form>
-            <h4 style="display: none;" id="label1">Datos</h4>
-            <label class="input_txt" id="a" style="display: none; color:black; background-color: white; height: 37.5px;">Nombre</label>
-            <label class="input_txt" id="b" style="display: none; color:black; height: 37.5px;">seleccion de lista debe ir aqui :(</label>
-            <label class="input_txt" id="c" style="display: none; color:black; background-color: white; height: 37.5px;">Descripción</label>
-            <label class="input_txt" id="d" style="display: none; color:black; height: 37.5px;">Posibilidad de crear usuarios, roles</label>
-            <input class="buttons" id="e" style="display: none;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" id="f" style="display: none;" type="submit" name="" value="ELIMINAR">
-        </section>
-        <script type="text/javascript">
-            function mostrar(){
-                var select = document.getElementById("sel"), //El <select>
-                value = select.value, //El valor seleccionado
-                text = select.options[select.selectedIndex].innerText; //El texto de la opción seleccionada
-    }       return text;
-        </script>
-        <script>
-            function activar() {
-                document.getElementById("label1").style.display="block";
-                document.getElementById("a").style.display="block";
-                document.getElementById("b").style.display="block";
-                document.getElementById("c").style.display="block";
-                document.getElementById("d").style.display="block";
-                document.getElementById("e").style.display="block";
-                document.getElementById("e").style.float="left";
-                document.getElementById("e").style.marginTop="18%";
-                document.getElementById("f").style.display="block";
-                document.getElementById("f").style.float="left";
-                document.getElementById("f").style.marginTop="18%";
-                };
-        </script>
+        <body>        
+            <section class="form-home" style="height: 400px;">
+                <h5>Eliminar permiso</h5>
+                <form id="buscar_permiso" methon="GET" autocomplete="off">
+                    <select id="lista_permisos" class="input_txt" style="height: 42px;" id="sel">
+                        <option value="0">Elige una opción</option>
+                        {% for permiso in lista_permisos %}
+                            <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
+                        {% endfor %}   
+                    </select>
+                    <input class="buttons" type="submit" name="" value="BUSCAR">
+                </form>
+                <form action="/del_permiso" methon="GET" autocomplete="off">
+                    <h4 style="display: none;" id="label1">Datos</h4>
+                    <label class="input_txt" id="txt_nombre" style="display: none; color:black; background-color: white; height: 37.5px;">Nombre</label>
+                    <label class="input_txt" id="value_nombre" style="display: none; color:black; height: 37.5px;"></label>
+                    <label class="input_txt" id="txt_desc" style="display: none; color:black; background-color: white; height: 37.5px;">Descripción</label>
+                    <label class="input_txt" id="value_desc" style="display: none; color:black; height: 37.5px;"></label>
+                    <input class="buttons" id="e" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                    <input class="buttons" id="f" style="display: none;" type="submit" name="" value="ELIMINAR">
+                    <input class="input_txt" type="hidden" name="id_permiso" id="permiso">
+                </form>
+            </section>
+            <script>
+                $(document).on("change","select",function(){
+                    $("option[value=" + this.value + "]", this)
+                    .attr("selected", true).siblings()
+                    .removeAttr("selected")
+                });
+    
+                $(document).ready(function(){
+                    $("#buscar_permiso").submit(function(e){
+                        e.preventDefault();
+                        var permiso_value = document.getElementById("lista_permisos")
+                        $.ajax({
+                            type: 'GET',
+                            url: "/obt_permiso/",
+                            data: { "id_permiso": permiso_value.options[permiso_value.selectedIndex].value },
+                            success:function(data) {
+                                document.getElementById("label1").style.display="block";
+                                document.getElementById("txt_nombre").style.display="block";
+                                document.getElementById("value_nombre").style.display="block";
+                                document.getElementById("txt_desc").style.display="block";
+                                document.getElementById("value_desc").style.display="block";
+                                document.getElementById("e").style.display="block";
+                                document.getElementById("e").style.float="left";
+                                document.getElementById("e").style.marginTop="18%";
+                                document.getElementById("f").style.display="block";
+                                document.getElementById("f").style.float="left";
+                                document.getElementById("f").style.marginTop="18%";
+
+                                document.getElementById("value_nombre").disabled = false;
+                                document.getElementById("value_nombre").innerHTML = data.nombre;
+                                document.getElementById("value_nombre").disabled = true;
+                                document.getElementById("value_desc").disabled = false;
+                                document.getElementById("value_desc").innerHTML = data.descripcion;
+                                document.getElementById("value_desc").disabled = true;
+                                document.getElementById("permiso").value = data.id_permiso;
+                            },
+                            error: function() {
+                            }
+                        });
+                    });
+                });
+            </script>
+        </body>
     </html>

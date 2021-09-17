@@ -7,34 +7,60 @@
             <title>Modificar Permiso</title>
             <link rel="stylesheet" href="{% static 'registrar.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         </head>
-        <section class="form-home" style="height: 400px;">
-            <h5>Modificar Permisos</h5>
-            <form action="#" methon="GET" autocomplete="off">
-                <select class="input_txt" style="height: 42px;">
-                    <option value="" selected>Elige una opción</option>
-                    {% for permiso in lista_permisos %}
-                        <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
-                    {% endfor %}
-                </select>
-                <input class="buttons" type="submit" name="" value="BUSCAR" onclick="activar()">
-            </form>
-            <br>
-            <h4>Datos actuales</h4>
-            <form action="#" methon="GET" autocomplete="off">
-                <input class="input_txt" id="name" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" disabled required>
-                <input class="input_txt" id="desc" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
-                <br><br><br><br>
-                <input class="buttons" type="button" style="float: left; margin-top: 14%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 14%;" name="" value="REGISTRAR" disabled>
-            </form>
-        </section>
+        <body>
+            <section class="form-home" style="height: 400px;">
+                <h5>Modificar Permisos</h5>
+                <form id="buscar_permiso" methon="GET" autocomplete="off">
+                    <select id="lista_permisos" class="input_txt" style="height: 42px;">
+                        <option value="" selected="selected">Elige una opción</option>
+                        {% for permiso in lista_permisos %}
+                            <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
+                        {% endfor %}
+                    </select>
+                    <input class="buttons" type="submit" name="" value="BUSCAR">
+                </form>
+                <br>
+                <h4>Datos actuales</h4>
+                <form action="/mod_permiso" methon="GET" autocomplete="off">
+                    <input class="input_txt" id="name" name="nombre" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" disabled required>
+                    <input class="input_txt" id="desc" name="descripcion" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
+                    <br><br><br><br>
+                    <input class="buttons" type="button" style="float: left; margin-top: 14%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                    <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 14%;" name="" value="REGISTRAR" disabled>
+                    <input class="input_txt" type="hidden" name="id_permiso" id="permiso">
+                </form>
+            </section>
 
-        <script>
-            function activar() {
-              var x = document.getElementById("name").disabled = false;
-              var x = document.getElementById("desc").disabled = false;
-              var x = document.getElementById("reg").disabled = false;
-            }
-        </script>
+            <script>
+                $(document).on("change","select",function(){
+                    $("option[value=" + this.value + "]", this)
+                    .attr("selected", true).siblings()
+                    .removeAttr("selected")
+                });
+
+                $(document).ready(function(){
+                    $("#buscar_permiso").submit(function(e){
+                        e.preventDefault();
+                        var permiso_value = document.getElementById("lista_permisos")
+                        $.ajax({
+                            type: 'GET',
+                            url: "/obt_permiso/",
+                            data: { "id_permiso": permiso_value.options[permiso_value.selectedIndex].value },
+                            success:function(data) {
+                                document.getElementById("name").disabled = false;
+                                document.getElementById("name").value = data.nombre;
+                                document.getElementById("desc").disabled = false;
+                                document.getElementById("desc").value = data.descripcion;
+                                document.getElementById("reg").disabled = false;
+                                document.getElementById("permiso").value = data.id_permiso;
+                            },
+                            error: function() {
+                            }
+                        });
+                    });
+                });
+            </script>
+        </body>
     </html>

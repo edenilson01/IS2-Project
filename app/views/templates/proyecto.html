@@ -162,123 +162,126 @@
             </div>
 		</ul>
     </nav>
-    <script>
-        function equipo(){
-            window.location.href = "/equipo";
-            /*swal({
-                title: 'Submit your Github username',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: 'Look up',
-                showLoaderOnConfirm: true});
-        };*/
+    <body>
+        <div class="my_div">
+            <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Fecha de Inicio</th>
+                        <th>Fecha de Finalización</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proyecto in lista_proyectos %}
+                        <tr id = {{proyecto.0}} >
+                            <td>{{ proyecto.1 }}</td>
+                            <td>{{ proyecto.2 }}</td>
+                            <td>{{ proyecto.3 }}</td>
+                            <td>{{ proyecto.4 }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <script>
+            function equipo(){
+                window.location.href = "/equipo";
+                /*swal({
+                    title: 'Submit your Github username',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Look up',
+                    showLoaderOnConfirm: true});
+            };*/
 
-        /*function modif(){
-            window.location.href = "/modificar_proyecto";
-        };*/
-    }
-        $(document).ready(function() {
-            $('#tabla').DataTable({
-                responsive: true,
-                destroy: true,
-                language: {
-                url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"},
-                columns:[
-                    {a: "nombre"},
-                    {b: "estado"},
-                    {c: "inicio"},
-                    {e: "fin"},
-                    {f: null, 
-                    title: 'Controles',
-                    orderable: false,
-                    searchable: false,
-                    wrap: true, 
-                    render: function (data, type, row) {
-                        //return row[0];
-                        valor = row[0];
-
-                        equi = '<button class="b_mi" onclick="equipo()" type="button">Equipo</button>';
-                        mf = '<button class="b_mod" type="button">Modificar</button>';
-                        dele = '<button class="b_el" type="button">Eliminar</button>'; 
-
-                        return equi + mf + dele;
-                    }}
-                ]
-            });
-        } );
-
-        $(document).ready(function(){
-            $(".b_el").click(function(){
-                var valor="";
-                valor = $(this).parents("tr").find("td").eq(0).html();
-
-                swal("¿Desea realmente eliminar el proyecto " + "\"" + valor + "\"?", {
-                dangerMode: true,
-                buttons: true});
-            });
-        });
-
-        $(document).ready(function(){
-            $(".b_mod").click(function(){
-                var valor="";
-                valor = $(this).parents("tr").find("td").eq(0).html();
-
+            /*function modif(){
                 window.location.href = "/modificar_proyecto";
+            };*/
+            }
+            
+            // TODO problema con el datatable al insertar datos
+            $(document).ready(function() {
+                $('#tabla').DataTable({
+                    responsive: true,
+                    destroy: true,
+                    language: {
+                        url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+                    },
+                    columns:[
+                        {a: "nombre"},
+                        {b: "estado"},
+                        {c: "inicio"},
+                        {e: "fin"},
+                        {
+                            f: null, 
+                            title: 'Controles',
+                            orderable: false,
+                            searchable: false,
+                            wrap: true, 
+                            render: function (data, type, row) {
+                                equi = '<button class="b_mi" onclick="equipo()" type="button">Equipo</button>';
+                                mf = '<button class="b_mod" type="button">Modificar</button>';
+                                dele = '<button class="b_el" type="button">Eliminar</button>'; 
 
+                                return equi + mf + dele;
+                            }
+                        }
+                    ]
+                });
+            } );
+
+            $(document).ready(function(){
+                $(".b_el").click(function(){
+                    var valor = $(this).parents("tr").find("td").eq(0).html();
+                    var id_proyecto = $(this).parents("tr")[0].id
+                    console.log(id_proyecto)
+                    
+                    swal(
+                        "¿Desea realmente eliminar el proyecto " + "\"" + id_proyecto + "\"?", 
+                        {
+                            dangerMode: true,
+                            buttons: true
+                        },
+                    ).then(function() { 
+                        console.log(id_proyecto);
+                        $.ajax({
+                            type: 'GET',
+                            url: "/del_proyecto",
+                            data: { 'id_proyecto' : id_proyecto },
+                            success:function(data) {
+                                window.location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                window.location.reload();
+                            }
+                        });
+                    });
+                });
             });
-        });
-    </script>
-    <div class="my_div">
-        <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Estado</th>
-                    <th>Fecha de Inicio</th>
-                    <th>Fecha de Finalización</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Reja Software</td>
-                    <td>Activo</td>
-                    <td>12/06/2021</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Innova Software</td>
-                    <td>Activo</td>
-                    <td>14/02/2021</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Clarismo S.A.</td>
-                    <td>Activo</td>
-                    <td>03/09/2020</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Valo S.A.E.C.A.</td>
-                    <td>Inactivo</td>
-                    <td>05/03/2019</td>
-                    <td>01/01/2021</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>TUWE</td>
-                    <td>Inactivo</td>
-                    <td>30/01/2020</td>
-                    <td>04/02/2021</td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
+            $(document).ready(function(){
+                $(".b_mod").click(function(){
+                    var id = $(this).parents("tr")[0].id
+                    $.ajax({
+                        type: 'GET',
+                        url: "/guardar_proyecto_id",
+                        data: { 'id_proyecto' : id },
+                        success:function(data) {
+                            window.location.href = "/modificar_proyecto";
+                        },
+                        error: function(xhr, status, error) {
+                            window.location.reload();
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
 </html>

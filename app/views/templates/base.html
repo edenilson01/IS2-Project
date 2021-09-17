@@ -55,9 +55,7 @@
         {% endblock %}
     </body>
 
-    {% if user is not None %}
-
-    {% else %}
+    {% if user is None %}
         DEBE AUTENTICARSE
     {% endif %}
 </html>

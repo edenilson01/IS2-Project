@@ -21,15 +21,17 @@
             float: left;
         }
     </style>
-    <section class="form-home" style="height: 250px;">
-        <h5>Modificar proyecto</h5>
-        <h4>Datos del Proyecto</h4>
-        <form action="/reg_user" method="GET" autocomplete="off">
-            <input class="input_txt2" type="text" name="pro_nombre" value="" placeholder="Ingrese el nuevo nombre del proyecto" maxlength="50" required>
-            <label><input type="checkbox" value="">¿El proyecto ha finalizado?</label><br>
+    <body>        
+        <section class="form-home" style="height: 250px;">
+            <h5>Modificar proyecto</h5>
+            <h4>Datos del Proyecto</h4>
+            <form action="/mod_proyecto" method="GET" autocomplete="off">
+                <input class="input_txt2" type="text" name="proy_nombre" value="" placeholder="Ingrese el nuevo nombre del proyecto" maxlength="50" required>
+                <label><input type="checkbox" name="estado">¿El proyecto ha finalizado?</label><br>
 
-            <input class="buttons" type="button" style="float: left;" onclick="window.location='/proyects';" name="" value="CANCELAR">
-            <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="MODIFICAR">
-        </form>
-    </section>
+                <input class="buttons" type="button" style="float: left;" onclick="window.location='/proyects';" name="" value="CANCELAR">
+                <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="MODIFICAR">
+            </form>
+        </section>
+    </body>
 </html>

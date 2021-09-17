@@ -34,8 +34,6 @@ urlpatterns = [
 
     path('home/', control.home),
 
-    path('proyectos/', control.proyectos),
-
     path('rol_nombre/', control.rol_nombre),
     path('rol_permisos/', control.rol_permisos),
     path('modificar_rol/', control.modificar_rol),
@@ -44,21 +42,35 @@ urlpatterns = [
 
     path('signup/', control.crear_usuario),
     path('reg_user/', control.registrar_usuario),
+    path('mod_user/', control.modificar_usuario),
 
-    path('user_settings', control.modificar_user),
+    path('user_settings/', control.modificar_user),
     path('obtener_usuario/', control.obtener_usuario),
 
-    path('delete_user', control.eliminar_user),
+    path('delete_user/', control.eliminar_user),
+    path('del_user/', control.del_user),
     path('obtener_usuario_elim/', control.buscar_user_elm),
 
-    path('delete_rol', control.eliminar_rol),
-    path('crear_permiso', control.crear_permisos),
-    path('modificar_permiso', control.modificar_permisos),
-    path('eliminar_permiso', control.eliminar_permisos),
-    #path('prueba/', control.prueba),
     path('proyects/', control.proyecto),
+    path('guardar_proyecto_id/', control.guardar_proyecto_id),
+    path('modificar_proyecto/', control.modificar_proyecto),
+    path('mod_proyecto/', control.mod_proyecto),
+    path('reg_proyecto/', control.reg_proyecto),
+    path('del_proyecto/', control.del_proyecto),
+    
+    path('crear_permiso/', control.crear_permisos),
+    path('reg_permiso/', control.reg_permiso),
+    path('obt_permiso/', control.obt_permiso),
+    path('modificar_permiso/', control.modificar_permisos),
+    path('mod_permiso/', control.mod_permiso),
+    path('eliminar_permiso/', control.eliminar_permisos),
+    path('del_permiso/', control.del_permiso),
+    
+    path('delete_rol', control.eliminar_rol),
+    
+    #path('prueba/', control.prueba),
+    
     path('crear_proyecto', control.crear_proyecto),
-    path('modificar_proyecto', control.modificar_proyecto),
     path('equipo', control.equipo),
     path('add_miembro/', control.add_miembro),
     path('delete_miembro/', control.delete_miembro)

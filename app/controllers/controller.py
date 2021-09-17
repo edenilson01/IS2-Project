@@ -1,12 +1,15 @@
 #aqui van los controladores, encargados de la logica del negocio
 #se pueden agregar mas archivos
 
+from django.urls.base import resolve
+from app.models.proyectos_model import ProyectoModel
 from app.models.permisos_model import PermisosModel
 from django import http
 from app.models.personas_model import PersonaModel
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import json
 
@@ -22,6 +25,7 @@ class ViewRequest:
         self.usuario_logueado = None
         self.mensaje_error = []
         self.titulo_error = None
+        self.id_proyecto = None
 
     def enviar_sms_error(self, templade):        
         view = loader.get_template(templade)
@@ -45,13 +49,15 @@ class ViewRequest:
         base_password = modelo.consult_persona(usuario)
         if base_password is not None:
             if base_password[1] == psw:
-                ids = UsuarioRolModel().consult_id_roles(usuario)
+                self.usuario_logueado = usuario
+                ids = self.obtener_roles_usuario(usuario)
                 permisos = []
-                for id in ids:
-                    rol_permisos = RolPermisoModel().consult_permisos(id)
-                    if rol_permisos is not None:
-                        for per in rol_permisos:
-                            permisos.append(per[0])
+                if ids is not None:
+                    for id in ids:
+                        rol_permisos = RolPermisoModel().consult_permisos(id)
+                        if rol_permisos is not None:
+                            for per in rol_permisos:
+                                permisos.append(per[0])
 
                 view = loader.get_template('home.html')
                 html = view.render({'user': self.usuario_logueado, 'permisos': permisos})
@@ -105,20 +111,54 @@ class ViewRequest:
             return self.enviar_sms_error('signup.html')
 
 
-        # persona_model = PersonaModel()
-        # persona['id'] = persona_model.insert_persona(
-        #     persona['p_nombre'],
-        #     persona['s_nombre'],
-        #     persona['p_apellido'],
-        #     persona['s_apellido'],
-        #     persona['fec_nac']
-        # )
+        persona['id'] = PersonaModel().insert_persona(
+            persona['p_nombre'],
+            persona['s_nombre'],
+            persona['p_apellido'],
+            persona['s_apellido'],
+            persona['fec_nac']
+        )
         # usuario_model = UserModel()
-        # usuario_model.insert_user(usuario['username'], usuario['password'], persona['id'])
+        UserModel().insert_user(usuario['username'], usuario['password'], persona['id'], usuario['correo'])
 
-        #roles
+        #TODO falta roles
   
         return redirect('/signup/')
+    
+
+
+    def modificar_usuario(self, request):
+        #persona
+        persona = {}
+        persona['p_nombre'] = request.GET['p_nombre']
+        persona['s_nombre'] = request.GET['s_nombre']
+        persona['p_apellido'] = request.GET['p_apellido']
+        persona['s_apellido'] = request.GET['s_apellido']
+        persona['fec_nac'] = request.GET['fec_nacimiento']
+        print(persona)
+        #usuario
+        usuario = {}
+        usuario['username'] = request.GET['username2']
+        usuario['correo'] = request.GET['correo']
+        usuario['password'] = request.GET['password']
+        print(usuario)
+
+        modelo_usuario = UserModel()
+        persona['id'] = modelo_usuario.consult_id_persona(usuario['username'])
+        PersonaModel().update_persona(
+            persona['p_nombre'],
+            persona['s_nombre'],
+            persona['p_apellido'],
+            persona['s_apellido'],
+            persona['fec_nac'],
+            persona['id']
+        )
+        # usuario_model = UserModel()
+        modelo_usuario.update_user(usuario['password'], usuario['correo'], usuario['username'])
+
+        #TODO falta roles
+  
+        return redirect('/user_settings/')
     
     #def prueba(self, request):
     #    roles = request.GET.getlist('roles[]')
@@ -157,11 +197,10 @@ class ViewRequest:
         return HttpResponse(html_reponse)
     
     def obtener_usuario(self, request):
-        usuario = UserModel().consult_persona(request.GET.get('username'))
+        username = request.GET.get('username')
+        usuario = UserModel().consult_persona(username)
         if usuario is None:
-            self.titulo_error = "ERROR"
-            self.mensaje_error.append("No existe ese usuario")
-            return HttpResponse(self.enviar_sms_error('modificar_user.html'), status=400) ##VER
+            return HttpResponse(status=400) ##VER
         
         persona = PersonaModel().consult_per(usuario[2])
         datos_persona={}
@@ -169,19 +208,32 @@ class ViewRequest:
         datos_persona['s_nombre'] = persona[2]
         datos_persona['p_apellido'] = persona[3]
         datos_persona['s_apellido'] = persona[4]
-        datos_persona['nacimiento'] = persona[5].strftime('%d/%m/%Y')
+        datos_persona['nacimiento'] = persona[5].strftime("%Y-%m-%d")
         datos_persona['correo'] = usuario[3]
         datos_persona['pass'] = usuario[1]
+        datos_persona['permisos'] = self.obtener_roles_usuario(username)
+        datos_persona['username'] = username
 
         return HttpResponse(json.dumps(datos_persona), content_type='application/json')
+    
+    def obtener_roles_usuario(self, usuario_user):
+        return UsuarioRolModel().consult_id_roles(usuario_user)
+
             
 
     ######################### ELIMINAR USUARIO    
     def eliminar_user(self, request):
         return render(request, 'delete_user.html')
 
+    def del_user(self, request):
+        usuario = request.GET['username2']
+        print(usuario)
+        # UserModel().delete_user()
+        return render(request, 'delete_user.html')
+
     def buscar_user_elm(self, request):
-        usuario = UserModel().consult_persona(request.GET.get('username'))
+        username = request.GET.get('username')
+        usuario = UserModel().consult_persona(username)
 
         if usuario is None:
             self.titulo_error = "ERROR"
@@ -197,13 +249,20 @@ class ViewRequest:
 
         datos_persona['nombre'] = pers
         datos_persona['correo'] = usuario[3]
+        datos_persona['username'] = username
         return HttpResponse(json.dumps(datos_persona), content_type='application/json')
 
 
     
-
+    ################################PERMISOS
     def crear_permisos(self, request):
         return render(request, 'crear_permiso.html')
+
+    def reg_permiso(self, request):
+        nombre = request.GET['nombre_permiso']
+        descripcion = request.GET['desc_permiso']
+        PermisosModel().insert_permiso(nombre, descripcion)
+        return redirect('/crear_permiso/')
 
     def modificar_permisos(self, request):
         view = loader.get_template('modificar_permiso.html')
@@ -215,16 +274,65 @@ class ViewRequest:
         html_reponse = view.render({'lista_permisos': self.obtener_permisos()})
         return HttpResponse(html_reponse)
         
-
-    #PRUEBA
-    def proyecto(self, request):
-        return render(request, 'proyecto.html')
+    def obt_permiso(self, request):
+        id_permiso = request.GET['id_permiso']
+        campos_permiso = PermisosModel().consult_permiso_by_id(id_permiso)
+        permiso = { 
+            'nombre': campos_permiso[0], 
+            'descripcion': campos_permiso[1],
+            'id_permiso': id_permiso 
+        }
+        return HttpResponse(json.dumps(permiso), content_type='application/json')
     
-    def crear_proyecto(self, request):
-        return render(request, 'crear_proyecto.html')
+    def mod_permiso(self, request):
+        nuevo_nombre = request.GET['nombre']
+        descripcion = request.GET['descripcion']
+        id_permiso = request.GET['id_permiso']
+        PermisosModel().update_permiso(nuevo_nombre, descripcion, id_permiso)
+        return redirect('/modificar_permiso/')
+
+    def del_permiso(self, request):
+        PermisosModel().delete_permiso(request.GET['id_permiso'])
+        return redirect('/eliminar_permiso/')  
+
+    #############################PROYECTOS
+    def proyecto(self, request):
+        lista_proyectos = ProyectoModel().consult_proyectos()
+        if lista_proyectos is None:
+            print('No hay proyectos')
+        print(lista_proyectos)
+ 
+        view = loader.get_template('proyecto.html')
+        html_reponse = view.render({'lista_proyectos': lista_proyectos})
+        return HttpResponse(html_reponse)
+    
+    def guardar_proyecto_id(self, request):
+        self.id_proyecto = request.GET['id_proyecto']
+        return HttpResponse()
 
     def modificar_proyecto(self, request):
         return render(request, 'modificar_proyecto.html')
+
+    def mod_proyecto(self, request):
+        nuevo_nombre = request.GET['proy_nombre']
+        if request.GET.get('estado') is None:
+            estado = False
+        else:
+            estado = True
+        
+        ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
+        return render(request, 'modificar_proyecto.html')
+
+    def crear_proyecto(self, request):
+        return render(request, 'crear_proyecto.html')
+
+    def reg_proyecto(self, request):
+        ProyectoModel().insert_project(request.GET['pro_nombre'])
+        return render(request, 'crear_proyecto.html')
+    
+    def del_proyecto(self, request):
+        ProyectoModel().delete_project(request.GET['id_proyecto'])
+        return HttpResponse()
 
     def equipo(self, request):
         return render(request, 'equipo.html')
