@@ -346,6 +346,9 @@ class ViewRequest:
     
     def delete_miembro(self, request):
         return render(request, 'delete_miembro.html')
+    
+    def lista_miembro(self, request):
+        return render(request, 'lista_miembro.html')
 
 
     ##otras funciones

@@ -13,7 +13,7 @@
             <section class="form-home" style="height: 400px;">
                 <h5>Eliminar permiso</h5>
                 <form id="buscar_permiso" methon="GET" autocomplete="off">
-                    <select id="lista_permisos" class="input_txt" style="height: 42px;" id="sel">
+                    <select id="lista_permisos" class="input_txt" style="height: 40px;" id="sel">
                         <option value="0">Elige una opción</option>
                         {% for permiso in lista_permisos %}
                             <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
@@ -22,7 +22,7 @@
                     <input class="buttons" type="submit" name="" value="SELECCIONAR">
                 </form>
                 <form action="/del_permiso" methon="GET" autocomplete="off">
-                    <h4 style="display: none;" id="label1">Datos</h4>
+                    <h4 style="display: none; text-align: center;" id="label1">Datos permiso</h4>
                     <label class="input_txt" id="txt_nombre" style="display: none; color:black; background-color: white; height: 37.5px;">Nombre</label>
                     <label class="input_txt" id="value_nombre" style="display: none; color:black; height: 37.5px;"></label>
                     <label class="input_txt" id="txt_desc" style="display: none; color:black; background-color: white; height: 37.5px;">Descripción</label>
