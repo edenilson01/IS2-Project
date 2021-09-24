@@ -319,8 +319,12 @@ class ViewRequest:
             estado = False
         else:
             estado = True
-        
-        ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
+
+        if nuevo_nombre == '':
+            ProyectoModel().update_estado_fin(estado, self.id_proyecto)
+        else:
+            ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
+            
         return render(request, 'modificar_proyecto.html')
 
     def crear_proyecto(self, request):
