@@ -120,34 +120,6 @@
     <nav class = "menuPrincipal">
         <script>
             function crear_pro(){
-                /*swal({
-                    title: "Crear nuevo proyecto",
-                    content:{
-                        id: "dd",
-                        element: "input",
-                        attributes:{
-                            type: "text",
-                            placeholder: "Ingresa el nombre del proyecto"
-                        }
-                    },
-                    buttons: {
-                        cancel: "Cancelar",
-                        confirm: "Guardar"
-                    },
-                })
-                
-                .then(
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            swal("Guardado!", "", "success");
-                        }
-                    }
-                );
-                
-                /*.then((value) => {
-                    swal("Escribio: " + value);
-                })*/
-
                 window.location.href = "/crear_proyecto";
             };
         </script>
@@ -190,23 +162,8 @@
         <script>
             function equipo(){
                 window.location.href = "/equipo";
-                /*swal({
-                    title: 'Submit your Github username',
-                    input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    showCancelButton: true,
-                    confirmButtonText: 'Look up',
-                    showLoaderOnConfirm: true});
-            };*/
-
-            /*function modif(){
-                window.location.href = "/modificar_proyecto";
-            };*/
             }
-            
-            // TODO problema con el datatable al insertar datos
+
             $(document).ready(function() {
                 $('#tabla').DataTable({
                     responsive: true,
@@ -241,27 +198,26 @@
                 $(".b_el").click(function(){
                     var valor = $(this).parents("tr").find("td").eq(0).html();
                     var id_proyecto = $(this).parents("tr")[0].id
-                    console.log(id_proyecto)
-                    
                     swal(
-                        "¿Desea realmente eliminar el proyecto " + "\"" + id_proyecto + "\"?", 
+                        "¿Desea realmente eliminar el proyecto " + "\"" + valor + "\"?", 
                         {
                             dangerMode: true,
                             buttons: true
-                        },
-                    ).then(function() { 
-                        console.log(id_proyecto);
-                        $.ajax({
-                            type: 'GET',
-                            url: "/del_proyecto",
-                            data: { 'id_proyecto' : id_proyecto },
-                            success:function(data) {
-                                window.location.reload();
-                            },
-                            error: function(xhr, status, error) {
-                                window.location.reload();
-                            }
-                        });
+                        }
+                    ).then(okay => { 
+                        if (okay) {
+                            $.ajax({
+                                type: 'GET',
+                                url: "/del_proyecto",
+                                data: { 'id_proyecto' : id_proyecto },
+                                success:function(data) {
+                                    window.location.reload();
+                                },
+                                error: function(xhr, status, error) {
+                                    window.location.reload();
+                                }
+                            });
+                        }
                     });
                 });
             });

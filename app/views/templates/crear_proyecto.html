@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
         <link rel="stylesheet" href="{% static 'check.css' %}">
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
     <style>
         .input_txt2 {
@@ -21,14 +23,39 @@
             float: left;
         }
     </style>
-    <section class="form-home" style="height: 250px;">
-        <h5>Crea un proyecto</h5>
-        <h4>Datos del Proyecto</h4>
-        <form action="/reg_proyecto" method="GET" autocomplete="off">
-            <input class="input_txt2" type="text" name="pro_nombre" value="" placeholder="Ingrese el nombre del proyecto" maxlength="50" required>
- 
-            <input class="buttons" type="button" style="float: left; margin-top: 10%;" onclick="window.location='/proyects';" name="" value="CANCELAR">
-            <input class="buttons" id="bt_registrar" type="submit" style="float: right; margin-top: 10%;" name="" value="REGISTRAR">
-        </form>
-    </section>
+    <body>
+        <section class="form-home" style="height: 250px;">
+            <h5>Crea un proyecto</h5>
+            <h4>Datos del Proyecto</h4>
+            <form id=project_form action="/reg_proyecto" method="GET" autocomplete="off">
+                <input class="input_txt2" type="text" name="pro_nombre" value="" placeholder="Ingrese el nombre del proyecto" maxlength="50" required>
+    
+                <input class="buttons" type="button" style="float: left; margin-top: 10%;" onclick="window.location='/proyects';" name="" value="CANCELAR">
+                <input class="buttons" id="bt_registrar" type="submit" style="float: right; margin-top: 10%;" name="" value="REGISTRAR">
+            </form>
+        </section>
+        <script>
+            $("#project_form").submit(function(e, params){
+                console.log(e);
+                var localParams = params || {};
+                if (!localParams.send) {
+                    e.preventDefault();
+                }
+                e.preventDefault();
+                swal(
+                    "¿Desea guardar el proyecto?", 
+                    {
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        console.log('Ok');
+                        $(e.currentTarget).trigger(e.type, { 'send': true });
+                    }else{
+                        return false;
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>

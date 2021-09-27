@@ -7,9 +7,8 @@ from app.models.permisos_model import PermisosModel
 from django import http
 from app.models.personas_model import PersonaModel
 from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.template import loader
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 import json
 
