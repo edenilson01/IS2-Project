@@ -7,15 +7,37 @@
             <title>Registrar Permiso</title>
             <link rel="stylesheet" href="{% static 'registrar.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         </head>
-        <section class="form-home" style="width: 400px; height: 290px; margin-top: 10%;">
-            <h5>Crea un permiso</h5>
-            <form action="/reg_permiso/" methon="GET" autocomplete="off">
-                <input class="input_txt" style="width: 100%;" type="text" name="nombre_permiso" value="" placeholder="Nombre" maxlength="30" required>
-                <input class="input_txt" style="width: 100%;" type="text" name="desc_permiso" value="" placeholder="Agrega una descripción" maxlength="50">
-                <br><br><br><br>
-                <input class="buttons" type="button" style="float: left; margin-top: 20%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                <input class="buttons" type="submit" style="float: right; margin-top: 20%;" name="" value="REGISTRAR">
-            </form>
-        </section>
+        <body>
+            <section class="form-home" style="width: 400px; height: 290px; margin-top: 10%;">
+                <h5>Crea un permiso</h5>
+                <form action="/reg_permiso/" methon="GET" autocomplete="off">
+                    <input class="input_txt" style="width: 100%;" type="text" name="nombre_permiso" value="" placeholder="Nombre" maxlength="30" required>
+                    <input class="input_txt" style="width: 100%;" type="text" name="desc_permiso" value="" placeholder="Agrega una descripción" maxlength="50">
+                    <br><br><br><br>
+                    <input class="buttons" type="button" style="float: left; margin-top: 20%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                    <input class="buttons" id="bt_registrar" type="submit" style="float: right; margin-top: 20%;" name="" value="REGISTRAR">
+                </form>
+            </section>
+            <script>
+                $("#bt_registrar").on('click', function(e){
+                e.preventDefault();
+                var formulario = $(this).parents('form');
+                swal(
+                    "¿Desea guardar el permiso?", 
+                    {
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        formulario.submit();
+                    }else{
+                        return false;
+                    }
+                });
+            });
+            </script>
+        </body>
     </html>

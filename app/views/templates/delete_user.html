@@ -8,27 +8,45 @@
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     </head>
     <section class="form-home" style="width: 600px; height: 330px;">
         <h5>Eliminar usuario</h5>
         <form id="buscar_usuario" action="obtener_usuario_elim" method="GET" autocomplete="off">
             <input class="input_txt" name="username" type="text" value="" placeholder="Escriba aquí el username" maxlength="15" required>
-            <input class="buttons" type="submit" name="" value="SELECCIONAR">
+            <input class="buttons" type="submit" name="" value="BUSCAR">
         </form>
-        <form action="/del_user/" method="GET" autocomplete="off"></form>
+        <form action="/del_user" method="GET" autocomplete="off">
             <h4 style="display: none;" id="label1">Datos del Usuario</h4>
             <label class="input_txt" id="a" style="display: none; color:black; background-color: white; height: 37.5px;">Nombre completo:</label>
             <label class="input_txt" id="nombre" style="display: none; color:black; height: 37.5px;"></label>
             <label class="input_txt" id="c" style="display: none; color:black; background-color: white; height: 37.5px;">Correo electrónico:</label>
             <label class="input_txt" id="correo" style="display: none; color:black; height: 37.5px;"></label>
-            <input class="buttons" id="e" style="display: none;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+            <input class="buttons" id="e" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
             <input class="buttons" id="f" style="display: none;" type="submit" name="" value="ELIMINAR">
             <input class="input_txt" type="hidden" name="username2" id="user2">
         </form>
     </section>
     <body>
         <script>
+            $("#f").on('click', function(e){
+                e.preventDefault();
+                var formulario = $(this).parents('form');
+                swal(
+                    "¿Desea eliminar el usuario?", 
+                    {
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        formulario.submit();
+                    }else{
+                        return false;
+                    }
+                });
+            });
+
             $(document).ready(function(){
                 $("#buscar_usuario").submit(function(e){
                     e.preventDefault();

@@ -10,9 +10,11 @@
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
         <link rel="stylesheet" href="{% static 'check.css' %}">
     </head>
-    <section class="form-home" style="height: 350px; width: 400px;">
+    <section class="form-home" style="height: 400px; width: 400px; margin-top: 8%;">
         <h5>Administración de Equipo</h5>
         <form>
+            <input class="buttons" type="button" name="" value="Listar miembros" onclick="window.location='/lista_miembro/'"> 
+            <br><br><br>
             <input class="buttons" type="button" name="" value="Agregar miembro" onclick="window.location='/add_miembro/'"> 
             <br><br><br>
             <input class="buttons" type="button" name="" value="Eliminar miembro" onclick="window.location='/delete_miembro/'">

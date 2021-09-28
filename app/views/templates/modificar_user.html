@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="{% static 'check.css' %}">
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script defer src="{% static 'check.js' %}"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
             $(document).ready(function () {
                 $("#test").CreateMultiCheckBox({ width: '260px',
@@ -44,13 +45,30 @@
             </select>
 
             <input class="buttons" style="float: left; margin-top: 16.2px;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" style="float: right;" type="submit" name="" value="MODIFICAR">
+            <input class="buttons" id="bt_modificar" style="float: right;" type="submit" name="" value="MODIFICAR">
             <input class="input_txt" type="hidden" name="username2" id="user2">
         </form>
         
     </section>
     <body>
         <script>
+            $("#bt_modificar").on('click', function(e){
+                e.preventDefault();
+                var formulario = $(this).parents('form');
+                swal(
+                    "¿Desea guardar el usuario?", 
+                    {
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        formulario.submit();
+                    }else{
+                        return false;
+                    }
+                });
+            });
+
             $(document).ready(function(){
                 $("#buscar_usuario").submit(function(e){
                     e.preventDefault();

@@ -35,13 +35,9 @@
             </form>
         </section>
         <script>
-            $("#project_form").submit(function(e, params){
-                console.log(e);
-                var localParams = params || {};
-                if (!localParams.send) {
-                    e.preventDefault();
-                }
+            $("#bt_registrar").on('click', function(e){
                 e.preventDefault();
+                var formulario = $(this).parents('form');
                 swal(
                     "¿Desea guardar el proyecto?", 
                     {
@@ -49,8 +45,7 @@
                     }
                 ).then(okay => { 
                     if (okay) {
-                        console.log('Ok');
-                        $(e.currentTarget).trigger(e.type, { 'send': true });
+                        formulario.submit();
                     }else{
                         return false;
                     }

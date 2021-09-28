@@ -2,10 +2,7 @@
 #se pueden agregar mas archivos
 
 from django.urls.base import resolve
-from app.models.proyectos_model import ProyectoModel
-from app.models.permisos_model import PermisosModel
 from django import http
-from app.models.personas_model import PersonaModel
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.template import loader
@@ -14,6 +11,9 @@ import json
 
 from sys import path as path
 path.append('./')
+from app.models.personas_model import PersonaModel
+from app.models.proyectos_model import ProyectoModel
+from app.models.permisos_model import PermisosModel
 from app.models.usuarios_model import UserModel
 from app.models.roles_model import RolesModel
 from app.models.usuario_roles_model import UsuarioRolModel
@@ -226,9 +226,8 @@ class ViewRequest:
 
     def del_user(self, request):
         usuario = request.GET['username2']
-        print(usuario)
-        # UserModel().delete_user()
-        return render(request, 'delete_user.html')
+        UserModel().delete_user(usuario)
+        return redirect('/delete_user/')  
 
     def buscar_user_elm(self, request):
         username = request.GET.get('username')
@@ -299,7 +298,6 @@ class ViewRequest:
         lista_proyectos = ProyectoModel().consult_proyectos()
         if lista_proyectos is None:
             print('No hay proyectos')
-        print(lista_proyectos)
  
         view = loader.get_template('proyecto.html')
         html_reponse = view.render({'lista_proyectos': lista_proyectos})
@@ -318,8 +316,12 @@ class ViewRequest:
             estado = False
         else:
             estado = True
-        
-        ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
+
+        if nuevo_nombre == '':
+            ProyectoModel().update_estado_fin(estado, self.id_proyecto)
+        else:
+            ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
+            
         return render(request, 'modificar_proyecto.html')
 
     def crear_proyecto(self, request):
@@ -341,6 +343,9 @@ class ViewRequest:
     
     def delete_miembro(self, request):
         return render(request, 'delete_miembro.html')
+    
+    def lista_miembro(self, request):
+        return render(request, 'lista_miembro.html')
 
 
     ##otras funciones

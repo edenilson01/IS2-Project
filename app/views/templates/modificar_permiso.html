@@ -8,6 +8,8 @@
             <link rel="stylesheet" href="{% static 'registrar.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         </head>
         <body>
             <section class="form-home" style="height: 400px;">
@@ -19,7 +21,7 @@
                             <option value={{ permiso.0 }}>{{ permiso.1 }}</option> 
                         {% endfor %}
                     </select>
-                    <input class="buttons" type="submit" name="" value="BUSCAR">
+                    <input class="buttons" type="submit" name="" value="SELECCIONAR">
                 </form>
                 <br>
                 <h4>Datos actuales</h4>
@@ -28,12 +30,29 @@
                     <input class="input_txt" id="desc" name="descripcion" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
                     <br><br><br><br>
                     <input class="buttons" type="button" style="float: left; margin-top: 14%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                    <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 14%;" name="" value="REGISTRAR" disabled>
+                    <input class="buttons" id="reg" type="submit" style="float: right; margin-top: 14%;" name="" value="MODIFICAR" disabled>
                     <input class="input_txt" type="hidden" name="id_permiso" id="permiso">
                 </form>
             </section>
 
             <script>
+                $("#reg").on('click', function(e){
+                    e.preventDefault();
+                    var formulario = $(this).parents('form');
+                    swal(
+                        "¿Desea guardar el proyecto?", 
+                        {
+                            buttons: true
+                        }
+                    ).then(okay => { 
+                        if (okay) {
+                            formulario.submit();
+                        }else{
+                            return false;
+                        }
+                    });
+                });
+
                 $(document).on("change","select",function(){
                     $("option[value=" + this.value + "]", this)
                     .attr("selected", true).siblings()

@@ -16,9 +16,10 @@ class PersonaModel(DbConnectionModel):
     def insert_persona(self, pr_nombre, sg_nombre, pr_apellido, sg_apellido, fec_nac):
         try:
             super().execute_sql_stmt(self.INSERT_PER_STMT, (pr_nombre, sg_nombre, pr_apellido, sg_apellido, fec_nac))
-            id_persona = super().execute_sql_stmt(self.CONSULT_LAST_PER, '', True)
+            id_persona = super().execute_sql_stmt(self.CONSULT_LAST_PER, (pr_nombre, sg_nombre, pr_apellido, sg_apellido, fec_nac), True)
             if len(id_persona) == 0:
                 return None
+            print(id_persona)
             return id_persona[0][0]
         except Exception as e:
             raise e
