@@ -347,6 +347,10 @@ class ViewRequest:
     def lista_miembro(self, request):
         return render(request, 'lista_miembro.html')
 
+    #Desarrollo
+    def desarrollo(self, request):
+        return render(request, 'desarrollo.html')
+
 
     ##otras funciones
     def obtener_roles(self):

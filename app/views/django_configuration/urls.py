@@ -74,7 +74,8 @@ urlpatterns = [
     path('equipo', control.equipo),
     path('add_miembro/', control.add_miembro),
     path('delete_miembro/', control.delete_miembro),
-    path('lista_miembro/', control.lista_miembro)
+    path('lista_miembro/', control.lista_miembro),
+    path('desarrollo/', control.desarrollo)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

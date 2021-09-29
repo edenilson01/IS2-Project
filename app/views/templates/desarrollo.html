@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title>Proyectos</title>
+        <title>Desarrollo</title>
         
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
@@ -32,7 +32,7 @@
             .b_mi{
                 background-color: #3797da;
                 height: 35px;
-                width: 60px;
+                width: 80px;
                 border-radius: 3px;
                 color: white;
                 border: none;
@@ -40,33 +40,6 @@
             }
             .b_mi:hover{
                 background: #56a4db;
-            }
-
-            .b_mod{
-                background-color: rgb(11, 133, 11);
-                height: 35px;
-                width: 60px;
-                border-radius: 3px;
-                color: white;
-                border: none;
-                margin-right: 3%;
-            }
-
-            .b_mod:hover{
-                background: rgb(46, 150, 46);
-            }
-
-            .b_el{
-                background-color: #fd3c2b;
-                height: 35px;
-                width: 60px;
-                border-radius: 3px;
-                color: white;
-                border: none;
-            }
-
-            .b_el:hover{
-                background: #f16356;
             }
 
             /*MOSTRANDO*/
@@ -118,19 +91,10 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
     <nav class = "menuPrincipal">
-        <script>
-            function crear_pro(){
-                window.location.href = "/crear_proyecto";
-            };
-        </script>
 		<ul>
             <img src="{% static 'logo.png' %}" width="32" height="32"/>
             <div style="position:relative; z-index: 1">
                 <li><a href="#">REJA Software</a></li>
-            </div>
-
-            <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO PROYECTO</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
@@ -151,7 +115,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for proyecto in lista_proyectos %}
+                    <!--{% for proyecto in lista_proyectos %}
                         <tr id = {{proyecto.0}} >
                             <td>{{ proyecto.1 }}</td>
                             <td>{{ proyecto.2 }}</td>
@@ -159,13 +123,20 @@
                             <td>{{ proyecto.4 }}</td>
                             <td></td>
                         </tr>
-                    {% endfor %}
+                    {% endfor %}-->
+                    <tr>
+                        <td>Proyecto ABC</td>
+                        <td>Activo</td>
+                        <td>01/01/2000</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
         <script>
-            function equipo(){
-                window.location.href = "/equipo";
+            function b_log(){
+                window.location.href = "/noexiste";
             }
 
             $(document).ready(function() {
@@ -187,61 +158,14 @@
                             searchable: false,
                             wrap: true, 
                             render: function (data, type, row) {
-                                equi = '<button class="b_mi" onclick="equipo()" type="button">Equipo</button>';
-                                mf = '<button class="b_mod" type="button">Modificar</button>';
-                                dele = '<button class="b_el" type="button">Eliminar</button>'; 
+                                back = '<button class="b_mi" onclick="b_log()" type="button">BACKLOG</button>';
 
-                                return equi + mf + dele;
+                                return back;
                             }
                         }
                     ]
                 });
             } );
-
-            $(document).ready(function(){
-                $(".b_el").click(function(){
-                    var valor = $(this).parents("tr").find("td").eq(0).html();
-                    var id_proyecto = $(this).parents("tr")[0].id
-                    swal(
-                        "¿Desea realmente eliminar el proyecto " + "\"" + valor + "\"?", 
-                        {
-                            dangerMode: true,
-                            buttons: true
-                        }
-                    ).then(okay => { 
-                        if (okay) {
-                            $.ajax({
-                                type: 'GET',
-                                url: "/del_proyecto",
-                                data: { 'id_proyecto' : id_proyecto },
-                                success:function(data) {
-                                    window.location.reload();
-                                },
-                                error: function(xhr, status, error) {
-                                    window.location.reload();
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-
-            $(document).ready(function(){
-                $(".b_mod").click(function(){
-                    var id = $(this).parents("tr")[0].id
-                    $.ajax({
-                        type: 'GET',
-                        url: "/guardar_proyecto_id",
-                        data: { 'id_proyecto' : id },
-                        success:function(data) {
-                            window.location.href = "/modificar_proyecto";
-                        },
-                        error: function(xhr, status, error) {
-                            window.location.reload();
-                        }
-                    });
-                });
-            });
         </script>
     </body>
 </html>
