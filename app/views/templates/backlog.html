@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" style="background-color: gray;">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Backlog</title>
+        <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
+        <link rel="stylesheet" href="{% static 'home.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link rel="stylesheet" href="{% static 'check.css' %}">
+    </head>
+    <section class="form-home" style="height: 400px; width: 400px; margin-top: 8%;">
+        <h5>Administración de Backlog</h5>
+        <form>
+          <input class="buttons" type="button" name="" value="Listar Users Story" onclick="window.location='/lista_miembro/'"> 
+          <br><br><br>
+          <input class="buttons" type="button" name="" value="Agregar User Story" onclick="window.location='/add_miembro/'"> 
+          <br><br><br>
+          <input class="buttons" type="button" name="" value="Eliminar User Story" onclick="window.location='/delete_miembro/'">
+          <br><br><br>
+          <input class="buttons" type="button" name=""  value="Atrás" onclick="window.location='/proyects/'">
+        </form> 
+    </section>
+</html>

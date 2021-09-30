@@ -16,7 +16,7 @@
                 <br><br><br>
                 <input class="buttons" id="2" type="button" name="" disabled style="background:gray" value="Proyecto" onclick="window.location='/proyects/'">
                 <br><br><br>
-                <input class="buttons" id="3" type="button" name="" disabled style="background:gray" value="Desarrollo">
+                <input class="buttons" id="3" type="button" name="" disabled style="background:gray" value="Desarrollo" onclick="window.location='/desarrollo'">
             </form> 
         </section>
         <script>
@@ -31,7 +31,7 @@
                     document.getElementById("2").style="background:white";
                 }
                 if (permiso === 3) {
-                    document.getElementById("2").disabled=false;
+                    document.getElementById("3").disabled=false;
                     document.getElementById("3").style="background:white";
                 }
             });

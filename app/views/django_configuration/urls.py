@@ -80,7 +80,9 @@ urlpatterns = [
     path('crear_proyecto', control.crear_proyecto),
     path('equipo', control.equipo),
     
-    
+
+    path('desarrollo/', control.desarrollo),
+    path('backlog/', control.backlog)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

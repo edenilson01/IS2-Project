@@ -377,6 +377,13 @@ class ViewRequest:
         html_reponse = view.render({'lista_miembros': lista_miembros})
         return HttpResponse(html_reponse)
 
+    #Desarrollo
+    def desarrollo(self, request):
+        return render(request, 'desarrollo.html')
+
+    def backlog(self, request):
+        return render(request, 'backlog.html')
+
 
     ##otras funciones
     def obtener_roles(self):
