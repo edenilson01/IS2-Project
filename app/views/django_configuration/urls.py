@@ -66,15 +66,21 @@ urlpatterns = [
     path('eliminar_permiso/', control.eliminar_permisos),
     path('del_permiso/', control.del_permiso),
     
+    path('lista_miembro/', control.lista_miembro),
+    path('add_miembro/', control.add_miembro),
+    path('add_miembro_proyect/', control.add_miembro_proyect),
+    path('delete_miembro/', control.delete_miembro),
+    path('del_miembro/', control.del_miembro),
+
+
     path('delete_rol', control.eliminar_rol),
     
     #path('prueba/', control.prueba),
     
     path('crear_proyecto', control.crear_proyecto),
     path('equipo', control.equipo),
-    path('add_miembro/', control.add_miembro),
-    path('delete_miembro/', control.delete_miembro),
-    path('lista_miembro/', control.lista_miembro)
+    
+    
 ]
 
 urlpatterns += staticfiles_urlpatterns()

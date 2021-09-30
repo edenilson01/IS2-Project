@@ -121,35 +121,19 @@
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
+                        <th>Usuario</th>
+                        <th>Fecha Incorporación</th>
+                        <th>Fecha Salida</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id = aaa >
-                        <td>Richard</td>
-                        <td>Cabrera</td>
-                    </tr>
-                    <tr id = bbb >
-                        <td>Damian</td>
-                        <td>Chena</td>
-                    </tr>
-                    <tr id = ccc >
-                        <td>aaa</td>
-                        <td>bbb</td>
-                    </tr>
-                    <tr id = ddd >
-                        <td>ccc</td>
-                        <td>ddd</td>
-                    </tr>
-                    <tr id = eee >
-                        <td>eee</td>
-                        <td>fff</td>
-                    </tr>
-                    <tr id = ggg >
-                        <td>ggg</td>
-                        <td>hhh</td>
-                    </tr>
+                    {% for miembro in lista_miembros %}
+                        <tr>
+                            <td>{{ miembro.0 }}</td>
+                            <td>{{ miembro.1 }}</td>
+                            <td>{{ miembro.2 }}</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
             <input class="buttons" type="button" name="" style="margin-top: 3%;" value="Regresar página anterior" onclick="window.location='/equipo'">
@@ -167,8 +151,9 @@
             pageLength: 5,
             lengthChange: false,
             columns:[
-                {a: "a"},
-                {b: "b"}]
+                {a: "usuario"},
+                {b: "fecha_inc"},
+                {c: "fecha_fin"}]
             });
         });
     </script>

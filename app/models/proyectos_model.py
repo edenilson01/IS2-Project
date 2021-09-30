@@ -10,7 +10,7 @@ class ProyectoModel(DbConnectionModel):
     UPDATE_ESTADO_STMT = 'UPDATE proyectos SET estado = %s WHERE id_proyecto = %s'
     UPDATE_FECHA_INI_STMT = 'UPDATE proyectos SET fecha_inicio = %s WHERE id_proyecto = %s'
     UPDATE_FECHA_FIN_STMT = 'UPDATE proyectos SET fecha_fin = %s WHERE id_proyecto = %s'
-    CONSULT_ESTADO_STMT = 'SELECT id_proyecto, nombre, estado, fecha_inicio, fecha_fin FROM proyectos'
+    CONSULT_PROYECTOS_STMT = 'SELECT id_proyecto, nombre, estado, fecha_inicio, fecha_fin FROM proyectos'
     UPDATE_PROJEC_STMT = 'UPDATE proyectos SET nombre = %s, estado = %s, fecha_fin = %s WHERE id_proyecto = %s'
     UPDATE_ESTADO_FIN_STMT = 'UPDATE proyectos SET estado = %s, fecha_fin = %s WHERE id_proyecto = %s'
 
@@ -72,7 +72,7 @@ class ProyectoModel(DbConnectionModel):
 
     def consult_proyectos(self):
         try:
-            proyectos = super().execute_sql_stmt(self.CONSULT_ESTADO_STMT, '', True)
+            proyectos = super().execute_sql_stmt(self.CONSULT_PROYECTOS_STMT, '', True)
             if len(proyectos) == 0:
                 return None
             return proyectos

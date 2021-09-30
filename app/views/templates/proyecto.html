@@ -187,7 +187,7 @@
                             searchable: false,
                             wrap: true, 
                             render: function (data, type, row) {
-                                equi = '<button class="b_mi" onclick="equipo()" type="button">Equipo</button>';
+                                equi = '<button class="b_mi" type="button">Equipo</button>';
                                 mf = '<button class="b_mod" type="button">Modificar</button>';
                                 dele = '<button class="b_el" type="button">Eliminar</button>'; 
 
@@ -228,13 +228,28 @@
 
             $(document).ready(function(){
                 $(".b_mod").click(function(){
-                    var id = $(this).parents("tr")[0].id
+                    var id = $(this).parents("tr")[0].id;
                     $.ajax({
                         type: 'GET',
                         url: "/guardar_proyecto_id",
                         data: { 'id_proyecto' : id },
                         success:function(data) {
                             window.location.href = "/modificar_proyecto";
+                        },
+                        error: function(xhr, status, error) {
+                            window.location.reload();
+                        }
+                    });
+                });
+
+                $(".b_mi").click(function(){
+                    var id = $(this).parents("tr")[0].id;
+                    $.ajax({
+                        type: 'GET',
+                        url: "/guardar_proyecto_id",
+                        data: { 'id_proyecto' : id },
+                        success:function(data) {
+                            window.location.href = "/equipo";
                         },
                         error: function(xhr, status, error) {
                             window.location.reload();

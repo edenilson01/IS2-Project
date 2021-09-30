@@ -9,19 +9,50 @@
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
         <link rel="stylesheet" href="{% static 'check.css' %}">
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
-    </style>
-    <section class="form-home" style="height: 250px; width: 400px;">
-        <h5>Agregar miembro</h5>
-        <form method="GET" autocomplete="off">
-            <select class="input_txt" style="width: 100%;" required>
-               <option value="">Elije una opción</option> 
-               <option value="1">Richard Cabrera</option> 
-               <option value="2">Persona 2</option> 
-               <option value="3">Persona 3</option> 
-            </select>
-            <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/proyects';" name="" value="CANCELAR">
-            <input class="buttons" id="bt_registrar" type="submit" style="float: right; margin-top: 18%;" name="" value="GUARDAR">
-        </form>
-    </section>
+    <body>
+        <section class="form-home" style="height: 250px; width: 400px;">
+            <h5>Agregar miembro</h5>
+            <form action="/add_miembro_proyect" method="GET" autocomplete="off">
+                <select id="miembros" class="input_txt" style="width: 100%;" required>
+                    <option value="">Elije una opción</option>
+                    {% for miembro in lista_miembros %}
+                    <option value={{ miembro.0 }}>{{ miembro.0 }}</option> 
+                    {% endfor %}
+                </select>
+                <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/proyects';" name="" value="CANCELAR">
+                <input class="buttons" id="bt_guardar" type="submit" style="float: right; margin-top: 18%;" name="" value="GUARDAR">
+                <input class="input_txt" type="hidden" name="username" id="miembro">
+            </form>
+        </section>
+        <script>
+            $(document).on("change","select",function(){
+                $("option[value=" + this.value + "]", this)
+                .attr("selected", true).siblings()
+                .removeAttr("selected");
+                var miembros = document.getElementById("miembros")
+                var miembro = miembros.options[miembros.selectedIndex].value
+                document.getElementById("miembro").value = miembro;
+            });
+
+            $("#bt_guardar").on('click', function(e){
+                e.preventDefault();
+                var formulario = $(this).parents('form');
+                swal(
+                    "¿Desea agregar este usuario?", 
+                    {
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        formulario.submit();
+                    }else{
+                        return false;
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
