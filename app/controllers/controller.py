@@ -384,6 +384,12 @@ class ViewRequest:
     def backlog(self, request):
         return render(request, 'backlog.html')
 
+    def eliminar_us(self, request):
+        return render(request, 'eliminar_us.html')
+
+    def del_us(self, request):
+        return redirect('/eliminar_us/')  
+
 
     ##otras funciones
     def obtener_roles(self):
