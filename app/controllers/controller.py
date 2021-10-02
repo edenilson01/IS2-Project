@@ -1,6 +1,8 @@
 #aqui van los controladores, encargados de la logica del negocio
 #se pueden agregar mas archivos
 
+from datetime import datetime
+from app.models.usuario_proyecto_model import UsuarioProyectoModel
 from django.urls.base import resolve
 from django import http
 from django.shortcuts import redirect, render
@@ -338,18 +340,55 @@ class ViewRequest:
     def equipo(self, request):
         return render(request, 'equipo.html')
 
+
+    #####################################EQUIPOS
     def add_miembro(self, request):
-        return render(request, 'add_miembro.html')
-    
+        lista_miembros = UsuarioProyectoModel().consult_usuarios_disponibles()
+        if lista_miembros is None:
+            print('No hay miembros')
+ 
+        view = loader.get_template('add_miembro.html')
+        html_reponse = view.render({'lista_miembros': lista_miembros})
+        return HttpResponse(html_reponse)
+
+    def add_miembro_proyect(self, request):
+        UsuarioProyectoModel().insert_usuario_proyecto(request.GET['username'], self.id_proyecto)
+        return redirect('/add_miembro/') 
+
     def delete_miembro(self, request):
-        return render(request, 'delete_miembro.html')
+        lista_miembros = UsuarioProyectoModel().consult_usuarios_asignados(self.id_proyecto)
+        if lista_miembros is None:
+            print('No hay miembros')
+ 
+        view = loader.get_template('delete_miembro.html')
+        html_reponse = view.render({'lista_miembros': lista_miembros})
+        return HttpResponse(html_reponse)
+    
+    def del_miembro(self, request):
+        UsuarioProyectoModel().update_fecha_salida(request.GET['username'], self.id_proyecto)
+        return redirect('/delete_miembro/') 
     
     def lista_miembro(self, request):
-        return render(request, 'lista_miembro.html')
+        lista_miembros = UsuarioProyectoModel().consult_usuarios(self.id_proyecto)
+        if lista_miembros is None:
+            print('No hay miembros')
+ 
+        view = loader.get_template('lista_miembro.html')
+        html_reponse = view.render({'lista_miembros': lista_miembros})
+        return HttpResponse(html_reponse)
 
     #Desarrollo
     def desarrollo(self, request):
         return render(request, 'desarrollo.html')
+
+    def backlog(self, request):
+        return render(request, 'backlog.html')
+
+    def eliminar_us(self, request):
+        return render(request, 'eliminar_us.html')
+
+    def del_us(self, request):
+        return redirect('/eliminar_us/')  
 
 
     ##otras funciones

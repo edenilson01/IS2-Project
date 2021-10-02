@@ -136,7 +136,7 @@
         </div>
         <script>
             function b_log(){
-                window.location.href = "/noexiste";
+                window.location.href = "/backlog";
             }
 
             $(document).ready(function() {
@@ -159,7 +159,6 @@
                             wrap: true, 
                             render: function (data, type, row) {
                                 back = '<button class="b_mi" onclick="b_log()" type="button">BACKLOG</button>';
-
                                 return back;
                             }
                         }
