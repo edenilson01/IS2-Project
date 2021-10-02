@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Crear Rol</title>
+            <link rel="stylesheet" href="{% static 'modificar_us.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
+            <script defer src="{% static 'us_nombre.js' %}"></script>
+        </head>
+        <body>
+            <section class="form-crear_us">
+                <h5>Crear US</h5>
+                <form method="GET" autocomplete="off">
+                    <div class ="form-box">
+                        <input type="text" id="nombre_rol" placeholder="Nombre" name="nombre" maxlength="30">
+                    </div>                
+                   
+                    <input class="buttons" style="margin-top: 50%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                    <input class="buttons" id = "guardar" disabled type="button" name="" value="GUARDAR">
+               </form> 
+            </section>
+
+    </body>
+</html>

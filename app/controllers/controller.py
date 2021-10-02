@@ -358,3 +358,9 @@ class ViewRequest:
 
     def obtener_permisos(self):
         return PermisosModel().consult_permiso()
+
+    def mod_us(self, request):
+        return render(request, 'modificar_us.html')
+
+    def crear_us(self, request):
+        return render(request, 'crear_us.html')
