@@ -1,4 +1,4 @@
-from _typeshed import Self
+#from _typeshed import Self
 from sys import path as path
 path.append('./')
 from app.models.connection_model import DbConnectionModel
@@ -12,6 +12,8 @@ class USModel(DbConnectionModel):
     UPDATE_SPRINT_US_STMT = 'UPDATE us SET id_sprint = %s WHERE id_us = %s'
     UPDATE_BACKLOG_STMT = 'UPDATE us SET backlog = %s WHERE id_us = %s'
     CONSULT_ESTADO_STMT = 'SELECT backlog FROM us WHERE id_us = %s'
+    CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion FROM US WHERE id_proyecto = %s'
+    DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
 
     def insert_us(self, nombre, descripcion, estado, username, id_proyecto, id_sprint, backlog):
         try:
@@ -61,5 +63,20 @@ class USModel(DbConnectionModel):
             if len(state) == 0:
                 return None
             return state[0][0]
+        except Exception as e:
+            raise e
+
+    def consult_us(self, id):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_STMT, [id], True)
+            if len(us) == 0:
+                return None
+            return us
+        except Exception as e:
+            raise e
+
+    def delete_us(self, id_us):
+        try:
+            super().execute_sql_stmt(self.DELETE_US_STMT, [id_us])
         except Exception as e:
             raise e

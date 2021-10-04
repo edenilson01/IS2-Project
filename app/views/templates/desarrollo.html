@@ -115,7 +115,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--{% for proyecto in lista_proyectos %}
+                    {% for proyecto in lista_proyectos %}
                         <tr id = {{proyecto.0}} >
                             <td>{{ proyecto.1 }}</td>
                             <td>{{ proyecto.2 }}</td>
@@ -123,22 +123,11 @@
                             <td>{{ proyecto.4 }}</td>
                             <td></td>
                         </tr>
-                    {% endfor %}-->
-                    <tr>
-                        <td>Proyecto ABC</td>
-                        <td>Activo</td>
-                        <td>01/01/2000</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
         <script>
-            function b_log(){
-                window.location.href = "/backlog";
-            }
-
             $(document).ready(function() {
                 $('#tabla').DataTable({
                     responsive: true,
@@ -158,11 +147,26 @@
                             searchable: false,
                             wrap: true, 
                             render: function (data, type, row) {
-                                back = '<button class="b_mi" onclick="b_log()" type="button">BACKLOG</button>';
+                                back = '<button class="b_mi" type="button">BACKLOG</button>';
                                 return back;
                             }
                         }
                     ]
+                });
+
+                $(".b_mi").click(function(){
+                    var id = $(this).parents("tr")[0].id;
+                    $.ajax({
+                        type: 'GET',
+                        url: "/guardar_proyecto_id",
+                        data: { 'id_proyecto' : id },
+                        success:function(data) {
+                            window.location.href = "/backlog";
+                        },
+                        error: function(xhr, status, error) {
+                            window.location.reload();
+                        }
+                    });
                 });
             } );
         </script>
