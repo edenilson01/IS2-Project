@@ -84,7 +84,7 @@ urlpatterns = [
     path('lista_miembro/', control.lista_miembro),
     path('desarrollo/', control.desarrollo),
     path('mod_us/', control.mod_us),
-    path('crear_us/', control.crear_us)
+    path('crear_us/', control.crear_us),
     
 
     path('desarrollo/', control.desarrollo),
