@@ -20,6 +20,7 @@ from app.models.usuarios_model import UserModel
 from app.models.roles_model import RolesModel
 from app.models.usuario_roles_model import UsuarioRolModel
 from app.models.rol_permiso_model import RolPermisoModel
+from app.models.us_model import USModel
 
 class ViewRequest:
     def __init__(self):
@@ -379,10 +380,24 @@ class ViewRequest:
 
     #Desarrollo
     def desarrollo(self, request):
-        return render(request, 'desarrollo.html')
+        lista_proyectos = ProyectoModel().consult_proyectos()
+        if lista_proyectos is None:
+            print('No hay proyectos')
+ 
+        view = loader.get_template('desarrollo.html')
+        html_reponse = view.render({'lista_proyectos': lista_proyectos})
+        return HttpResponse(html_reponse)
 
     def backlog(self, request):
-        return render(request, 'backlog.html')
+        lista_us = USModel().consult_us(self.id_proyecto)
+        view = loader.get_template('backlog.html')
+        html_reponse = view.render({'lista_us': lista_us})
+
+        return HttpResponse(html_reponse)
+
+    def del_us_h(self, request):
+        USModel().delete_us(request.GET['id_us'])
+        return HttpResponse()
 
     def eliminar_us(self, request):
         return render(request, 'eliminar_us.html')

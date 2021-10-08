@@ -89,7 +89,9 @@ urlpatterns = [
 
     path('desarrollo/', control.desarrollo),
     path('backlog/', control.backlog),
-    path('eliminar_us/',control.eliminar_us)
+    path('eliminar_us/',control.eliminar_us),
+
+    path('del_us_h', control.del_us_h)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
