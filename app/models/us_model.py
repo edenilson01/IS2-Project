@@ -11,18 +11,37 @@ class USModel(DbConnectionModel):
     UPDATE_USERNAME_US_STMT = 'UPDATE us SET username = %s WHERE id_us = %s'
     UPDATE_SPRINT_US_STMT = 'UPDATE us SET id_sprint = %s WHERE id_us = %s'
     UPDATE_BACKLOG_STMT = 'UPDATE us SET backlog = %s WHERE id_us = %s'
+    UPDATE_US_STMT = 'UPDATE us SET nombre = %s, descripcion = %s, username =%s WHERE id_us = %s'    
     CONSULT_ESTADO_STMT = 'SELECT backlog FROM us WHERE id_us = %s'
-    CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion FROM US WHERE id_proyecto = %s'
+    CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'    
+    CONSULT_USERNAME_STMT = 'SELECT username from us'    
+    CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion, username FROM US WHERE id_proyecto = %s'
     DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
+
+    def consult_us_by_id(self, id_us):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_ID_STMT, [id_us], True)
+            if len(us) == 0:
+                return None
+            return us[0]
+        except Exception as e:
+            raise e    
+      
 
     def insert_us(self, nombre, descripcion, estado, username, id_proyecto, id_sprint, backlog):
         try:
             super().execute_sql_stmt(self.INSERT_US_STMT, (nombre, descripcion, estado, username, id_proyecto, id_sprint, backlog))
         except Exception as e:
             raise e
+
+    def update_us(self, nombre, decripcion, username, id_us):
+        try:
+            super().execute_sql_stmt(self.UPDATE_US_STMT, (nombre, decripcion, username, id_us))
+        except Exception as e:
+            raise e            
     
     def update_nombre(self, nombre, id_us):
-        try: 
+        try:
             super().execute_sql_stmt(self.UPDATE_NOM_US_STMT, (nombre, id_us))
         except Exception as e:
             raise e
@@ -39,11 +58,6 @@ class USModel(DbConnectionModel):
         except Exception as e:
             raise e
     
-    def update_username(self, username, id_us):
-        try:
-            super().execute_sql_stmt(self.UPDATE_USERNAME_US_STMT, (username, id_us))
-        except Exception as e:
-            raise e
     
     def update_sprint_us(self, sprint, id_us):
         try:
@@ -72,6 +86,16 @@ class USModel(DbConnectionModel):
             if len(us) == 0:
                 return None
             return us
+        except Exception as e:
+            raise e
+    
+
+    def consult_username(self):
+        try:
+            username = super().execute_sql_stmt(self.CONSULT_USERNAME_STMT, '', True)
+            if len(username) == 0:
+                return None
+            return username
         except Exception as e:
             raise e
 

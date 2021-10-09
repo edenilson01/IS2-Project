@@ -6,39 +6,51 @@
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <title>Modificar US</title>
         <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
-        <link rel="stylesheet" href="{% static 'modificar_us.css' %}">
+        <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
         <link rel="stylesheet" href="{% static 'check.css' %}">
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
-
+    <style>
+        .input_txt2 {
+            width: 100%;
+            border: 1px solid black;
+            margin: 5px;
+            padding: 11px;
+            background: #a8a4a4;
+            font-size: 13px;
+            float: left;
+        }
+    </style>
     <body>        
-        <section class="form-home">
+        <section class="form-home" style="height: 400px;">
             <h5>Modificar US</h5>
-            <form method="GET" autocomplete="off">
-                <input class="input_txt2" type="text" name="us_nombre" value="" placeholder="Nombre" maxlength="30" required>
-                <input class="input_txt2" type="text" name="us_desc" value="" placeholder="Descripción" maxlength="50">
-                <label>_____________________________________________________________</label>
-                <br><br>
-                <label>Responsable:</label>
-                <br>
-                <select id="lista_users" class="input_txt" style="height: 42px;">
-                    <option value="" selected="selected">Olivia</option>
-                </select>
-                <br><br><br>
-                <label>Estado:</label>
-                <br>
-                <select id="lista_estados" class="input_txt" style="height: 42px;">
-                    <option value="" selected="selected">To Do</option>
-                    <option value="">Doing</option>
-                    <option value="">Done</option>
-                </select>
-                <br><br><br><br><br>
-                <input class="buttons" type="button" style="float: left;" onclick="window.location='/proyects';" name="" value="CANCELAR">
-                <input class="buttons" id="bt_registrar" disabled=true type="button" style="float: right;" name="" value="MODIFICAR">
+            <br><br>
+            <form action="/mod_us" method="GET" autocomplete="off">           
+                <input class="input_txt2" type="text" name="nombre" value="" placeholder="Ingrese el nuevo nombre del US" maxlength="30">
+                <input class="input_txt2" type="text" name="descripcion" value="" placeholder="Ingrese la descripcion del US" maxlength="60">
+                <input class="buttons" type="button" style="float: left;" onclick="window.location='/backlog';" name="" value="CANCELAR">
+                <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="MODIFICAR">
             </form>
         </section>
-        
+        <script>
+            $("#bt_registrar").on('click', function(e){
+                e.preventDefault();
+                var formulario = $(this).parents('form');
+                swal(
+                    "¿Desea modificar el US?", 
+                    {
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        formulario.submit();
+                    }else{
+                        return false;
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

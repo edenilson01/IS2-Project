@@ -7,7 +7,6 @@ import psycopg2
 class DbConnectionModel:
     DB_CONNECTION_PARMS = "dbname=is2_project user=postgres password=password host=localhost port=5432"
 
-
     def __init__(self):
         self.connectiondb = None
         self.cursor = None

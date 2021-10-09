@@ -404,7 +404,37 @@ class ViewRequest:
 
     def del_us(self, request):
         return redirect('/eliminar_us/')  
+  
 
+    def guardar_us_id(self, request):
+        self.id_us = request.GET['id_us']
+        return HttpResponse()
+
+    def modificar_us(self, request):
+        view = loader.get_template('modificar_us.html')
+        html_reponse = view.render({'lista_us': self.obtener_username()})
+        return HttpResponse(html_reponse) 
+    
+    def mod_us(self, request):
+        nuevo_nombre = request.GET['nombre']
+        descripcion = request.GET['descripcion']
+        if nuevo_nombre:
+            USModel().update_nombre(nuevo_nombre, self.id_us)
+        
+        if descripcion:
+            USModel().update_descripcion(descripcion, self.id_us) 
+                
+        return redirect('/modificar_us/')
+
+    def obt_us(self, request):
+        id_us= request.GET['id_us']
+        campos_us = USModel().consult_us_by_id(id_us)
+        us= { 
+
+            'username': campos_us[2],
+
+        }
+        return HttpResponse(json.dumps(us), content_type='application/json')        
 
     ##otras funciones
     def obtener_roles(self):
@@ -413,8 +443,11 @@ class ViewRequest:
     def obtener_permisos(self):
         return PermisosModel().consult_permiso()
 
-    def mod_us(self, request):
-        return render(request, 'modificar_us.html')
+    def obtener_us(self):
+        return USModel().consult_us()
+
+    def obtener_username(self):
+        return USModel().consult_username()
 
     def crear_us(self, request):
         return render(request, 'crear_us.html')
