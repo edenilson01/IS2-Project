@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title>Desarrollo</title>
+        <title>Sprint</title>
         
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
@@ -14,8 +14,6 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
         <style>
             .my_div{
                 background-color: gray;
@@ -24,90 +22,114 @@
                 left: 10%;
                 position: relative;
             }
-
+    
             .swal-overlay {
                 background-color: rgba(124, 121, 121, 0.657);
             }
-
-            .b_mi{
-                background-color: #3797da;
+    
+            .b_mod{
+                background-color: rgb(11, 133, 11);
                 height: 35px;
-                width: 80px;
+                width: 60px;
                 border-radius: 3px;
                 color: white;
                 border: none;
                 margin-right: 3%;
             }
-            .b_mi:hover{
-                background: #56a4db;
+    
+            .b_mod:hover{
+                background: rgb(46, 150, 46);
             }
 
-            .b_sp{
-                background-color: #2adb2a;
+            .b_ini{
+                background-color: rgb(11, 119, 133);
                 height: 35px;
-                width: 80px;
+                width: 60px;
                 border-radius: 3px;
                 color: white;
                 border: none;
                 margin-right: 3%;
             }
-            .b_sp:hover{
-                background: #68e472;
+    
+            .b_ini:hover{
+                background: rgb(55, 130, 153);
+            }            
+    
+            .b_el{
+                background-color: #fd3c2b;
+                height: 35px;
+                width: 60px;
+                border-radius: 3px;
+                color: white;
+                border: none;
             }
-
+    
+            .b_el:hover{
+                background: #f16356;
+            }
+    
             /*MOSTRANDO*/
             .dataTables_info { 
                 margin-top: 10px;
                 font-family: Arial, Helvetica, sans-serif;
             }
-
+    
             /*MOSTRAR*/
             .dataTables_filter{
                 margin-top: 0px;
                 font-family: Arial, Helvetica, sans-serif;
             }
-
+    
             /*BUSCAR*/
             .dataTables_filter input{
                 margin-bottom: 10px;
                 font-family: Arial, Helvetica, sans-serif;
             }
-
+    
             /*ANTERIOR SIGUIENTE*/
             .dataTables_paginate{
                 margin-top: 10px;
                 font-family: Arial, Helvetica, sans-serif;
                 
             }
-
+    
             /*TEXTO DE ADENTRO*/
             .dataTables_wrapper{
                 margin-top: 10px;
                 font-family: Arial, Helvetica, sans-serif;
                 color: black;
             }
-
+    
             .dataTables_length {
                 color: red;
             }
-
+    
             .swal-title {
                 font-family: Arial, Helvetica, sans-serif;
             }
-
+    
             .swal-text {
                 font-family: Arial, Helvetica, sans-serif;
             }
-        </style>       
+        </style>
     </head>
     <!--DATATABLE JAVASCRIPT-->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
     <nav class = "menuPrincipal">
+        <script>
+            function crear_pro(){
+                window.location.href = "/crear_sprint";
+            };
+        </script>
 		<ul>
             <img src="{% static 'logo.png' %}" width="32" height="32"/>
             <div style="position:relative; z-index: 1">
                 <li><a href="#">REJA Software</a></li>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 20%">
+                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO SPRINT</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
@@ -121,83 +143,57 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Estado</th>
-                        <th>Fecha de Inicio</th>
-                        <th>Fecha de Finalización</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de finalización</th>
+                        <th>Activo</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for proyecto in lista_proyectos %}
-                        <tr id = {{proyecto.0}} >
-                            <td>{{ proyecto.1 }}</td>
-                            <td>{{ proyecto.2 }}</td>
-                            <td>{{ proyecto.3 }}</td>
-                            <td>{{ proyecto.4 }}</td>
+                    {% for i in lista_sprint %}
+                        <tr id = {{i.0}} >
+                            <td>{{ i.1 }}</td>
+                            <td>{{ i.2 }}</td>
+                            <td>{{ i.3 }}</td>
+                            <td>{{ i.4 }}</td>
                             <td></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <script>
-            $(document).ready(function() {
-                $('#tabla').DataTable({
-                    responsive: true,
-                    destroy: true,
-                    language: {
-                        url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
-                    },
-                    columns:[
-                        {a: "nombre"},
-                        {b: "estado"},
-                        {c: "inicio"},
-                        {e: "fin"},
-                        {
-                            f: null, 
-                            title: 'Controles',
-                            orderable: false,
-                            searchable: false,
-                            wrap: true, 
-                            render: function (data, type, row) {
-                                back = '<button class="b_mi" type="button">BACKLOG</button>';
-                                sp = '<button class="b_sp" type="button">SPRINT</button>';
-                                return back + sp;
-                            }
-                        }
-                    ]
-                });
-
-                $(".b_mi").click(function(){
-                    var id = $(this).parents("tr")[0].id;
-                    $.ajax({
-                        type: 'GET',
-                        url: "/guardar_proyecto_id",
-                        data: { 'id_proyecto' : id },
-                        success:function(data) {
-                            window.location.href = "/backlog";
-                        },
-                        error: function(xhr, status, error) {
-                            window.location.reload();
-                        }
-                    });
-                });
-
-                $(".b_sp").click(function(){
-                    var id = $(this).parents("tr")[0].id;
-                    $.ajax({
-                        type: 'GET',
-                        url: "/guardar_proyecto_id",
-                        data: { 'id_proyecto' : id },
-                        success:function(data) {
-                            window.location.href = "/sprint";
-                        },
-                        error: function(xhr, status, error) {
-                            window.location.reload();
-                        }
-                    });
-                });
-            } );
-        </script>
     </body>
+
+    <script>
+        $(document).ready(function() {
+            $('#tabla').DataTable({
+                responsive: true,
+                destroy: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+                },
+                columns:[
+                    {a: "nombre"},
+                    {b: "inicio"},
+                    {c: "fin"},
+                    {d: "activo"},
+                    {
+                        f: null, 
+                        title: 'Controles',
+                        orderable: false,
+                        searchable: false,
+                        wrap: true, 
+                        render: function (data, type, row) {
+                            mf = '<button class="b_mod" type="button">Modificar</button>';
+                            iniciar = '<button class="b_ini" type="button">Iniciar</button>';
+                            fin = '<button class="b_el" type="button">Finalizar</button>'; 
+
+                            return mf + iniciar + fin;
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+
 </html>
