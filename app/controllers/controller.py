@@ -21,6 +21,7 @@ from app.models.roles_model import RolesModel
 from app.models.usuario_roles_model import UsuarioRolModel
 from app.models.rol_permiso_model import RolPermisoModel
 from app.models.us_model import USModel
+from app.models.sprints_model import SprintModel
 
 class ViewRequest:
     def __init__(self):
@@ -332,7 +333,8 @@ class ViewRequest:
 
     def reg_proyecto(self, request):
         ProyectoModel().insert_project(request.GET['pro_nombre'])
-        return render(request, 'crear_proyecto.html')
+        #return render(request, 'crear_proyecto.html')
+        return redirect('/proyects') 
     
     def del_proyecto(self, request):
         ProyectoModel().delete_project(request.GET['id_proyecto'])
@@ -434,7 +436,22 @@ class ViewRequest:
             'username': campos_us[2],
 
         }
-        return HttpResponse(json.dumps(us), content_type='application/json')        
+        return HttpResponse(json.dumps(us), content_type='application/json')     
+
+    #SPRINT
+    def sprint(self, request):
+        lista = SprintModel().consult(self.id_proyecto)
+        view = loader.get_template('sprint.html')
+        html_reponse = view.render({'lista_sprint': lista})
+
+        return HttpResponse(html_reponse)
+
+    def crear_sprint(self, request):
+        return render(request, 'crear_sprint.html')
+
+    def reg_sprint(self, request):
+        SprintModel().insert_sprint_short(request.GET['spr_nombre'], self.id_proyecto)
+        return redirect('/sprint')
 
     ##otras funciones
     def obtener_roles(self):
