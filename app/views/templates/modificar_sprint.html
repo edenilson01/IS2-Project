@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" style="background-color: gray;">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Modificar Sprint</title>
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <link rel="stylesheet" href="{% static 'proyectos.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <!--DATATABLE-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+        <style>
+            .my_div{
+                background-color: gray;
+                width: 80%;
+                height: 100%;
+                left: 10%;
+                position: relative;
+            }
+    
+            .swal-overlay {
+                background-color: rgba(124, 121, 121, 0.657);
+            }
+    
+            .b_mod{
+                background-color: rgb(11, 133, 11);
+                height: 35px;
+                width: 60px;
+                border-radius: 3px;
+                color: white;
+                border: none;
+                margin-right: 3%;
+            }
+    
+            .b_mod:hover{
+                background: rgb(46, 150, 46);
+            }
+    
+            .b_el{
+                background-color: #fd3c2b;
+                height: 35px;
+                width: 60px;
+                border-radius: 3px;
+                color: white;
+                border: none;
+            }
+    
+            .b_el:hover{
+                background: #f16356;
+            }
+    
+            /*MOSTRANDO*/
+            .dataTables_info { 
+                margin-top: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            /*MOSTRAR*/
+            .dataTables_filter{
+                margin-top: 0px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            /*BUSCAR*/
+            .dataTables_filter input{
+                margin-bottom: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            /*ANTERIOR SIGUIENTE*/
+            .dataTables_paginate{
+                margin-top: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                
+            }
+    
+            /*TEXTO DE ADENTRO*/
+            .dataTables_wrapper{
+                margin-top: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                color: black;
+            }
+    
+            .dataTables_length {
+                color: red;
+            }
+    
+            .swal-title {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            .swal-text {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <!--DATATABLE JAVASCRIPT-->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <nav class = "menuPrincipal">
+        <script>
+            function crear_pro(){
+                window.location.href = "/asignar_us";
+            };
+        </script>
+		<ul>
+            <img src="{% static 'logo.png' %}" width="32" height="32"/>
+            <div style="position:relative; z-index: 1">
+                <li><a href="#">REJA Software</a></li>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 20%">
+                <li><a href="#" onclick="crear_pro();return false;">ASIGNAR US</a></li>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 90%">
+                <li><a href="javascript: history.go(-1)">ATRAS</a></li>
+            </div>
+		</ul>
+    </nav>
+    <body>
+        <div class="my_div">
+            <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Username</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for us in lista_us %}
+                        <tr id = {{us.0}} >
+                            <td>{{ us.1 }}</td>
+                            <td>{{ us.2 }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+
+    <script>
+        $(document).ready(function() {
+            $('#tabla').DataTable({
+                responsive: true,
+                destroy: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+                },
+                columns:[
+                    {a: "nombre"},
+                    {b: "descripcion"},
+                    {c: "estado"},
+                    {d: "username"},
+                    {
+                        f: null, 
+                        title: 'Controles',
+                        orderable: false,
+                        searchable: false,
+                        wrap: true, 
+                        render: function (data, type, row) {
+                            mf = '<button class="b_asig" type="button">Asignar</button>';
+                            dele = '<button class="b_el" type="button">Eliminar</button>'; 
+
+                            return mf + dele;
+                        }
+                    }
+                ]
+            });
+        } );
+
+        $(document).ready(function(){
+            $(".b_asig").click(function(){
+                var id = $(this).parents("tr")[0].id;
+                $.ajax({
+                    type: 'GET',
+                    url: "/guardar_us_id",
+                    data: { 'id_us' : id },
+                    success:function(data) {
+                        window.location.href = "/asignar_us";
+                    },
+                    error: function(xhr, status, error) {
+                        window.location.reload();
+                    }
+               });
+            });
+        });
+
+
+        $(document).ready(function(){
+            $(".b_el").click(function(){
+                var valor = $(this).parents("tr").find("td").eq(0).html();
+                var id_us = $(this).parents("tr")[0].id
+                swal(
+                    "¿Desea realmente eliminar el US " + "\"" + valor + "\"?", 
+                    {
+                        dangerMode: true,
+                        buttons: true
+                    }
+                    ).then(okay => { 
+                        if (okay) {
+                            $.ajax({
+                                type: 'GET',
+                                url: "/del_us_h",
+                                data: {'id_us' : id_us},
+                                success:function(data) {
+                                    window.location.reload();
+                                },
+                                error: function(xhr, status, error) {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+    </script>
+</html>

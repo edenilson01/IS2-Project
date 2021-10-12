@@ -176,7 +176,7 @@ class ViewRequest:
         return render(request, 'asignar_nombre_rol.html')
 
     def rol_permisos(self, request):
-        return render(request, 'asignar_permisos.html')
+        return render(request, 'asignar_permisos.html') 
 
     def modificar_rol(self, request):
         view = loader.get_template('modificar_rol.html')
@@ -451,3 +451,30 @@ class ViewRequest:
 
     def crear_us(self, request):
         return render(request, 'crear_us.html')
+
+    def modificar_sprint(self, request):
+        lista_us = USModel().consult_us(self.id_proyecto)
+        view = loader.get_template('modificar_sprint.html')
+        html_reponse = view.render({'lista_us': lista_us})
+
+        return HttpResponse(html_reponse)
+
+    def asignar_us(self, request):
+        lista_us = UsuarioProyectoModel().consult_usuarios_disponibles()
+        if lista_miembros is None:
+            print('No hay miembros')
+ 
+        view = loader.get_template('asignar_us.html')
+        html_reponse = view.render({'lista_miembros': lista_us})
+        return HttpResponse(html_reponse)
+    
+    def add_us(self, request):
+        nombre = request.GET['nombre']
+        descripcion = request.GET['descripcion']
+        id_proyecto = self.id_proyecto
+
+        if not descripcion:
+            descripcion = None
+
+        USModel().insert_us(nombre, descripcion, "to do", None, id_proyecto, None, True)
+        return redirect('/crear_us/')

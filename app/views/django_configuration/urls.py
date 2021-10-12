@@ -84,7 +84,7 @@ urlpatterns = [
     path('lista_miembro/', control.lista_miembro),
     path('desarrollo/', control.desarrollo),
     path('crear_us/', control.crear_us),
-    
+    path('add_us/', control.add_us),
 
     path('desarrollo/', control.desarrollo),
     path('backlog/', control.backlog),
@@ -95,8 +95,11 @@ urlpatterns = [
     path('modificar_us/', control.modificar_us),
     path('mod_us/', control.mod_us),
     path('obt_us/', control.obt_us),    
-    path('guardar_us_id/', control.guardar_us_id)
+    path('guardar_us_id/', control.guardar_us_id),
 
+    path('modificar_sprint/', control.modificar_sprint),
+    path('asignar_us/', control.asignar_us),
+    path('guardar_nombre_rol/', control.guardar_nombre_rol),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
