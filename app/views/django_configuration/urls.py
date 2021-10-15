@@ -93,6 +93,7 @@ urlpatterns = [
     path('sprint/', control.sprint),
     path('crear_sprint/', control.crear_sprint),
     path('reg_sprint/', control.reg_sprint),
+    path('fin_sprint/', control.fin_sprint),
     
 
     path('del_us_h', control.del_us_h),

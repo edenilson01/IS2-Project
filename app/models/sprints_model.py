@@ -1,5 +1,6 @@
 from contextlib import ExitStack
 from sys import path as path
+from datetime import datetime
 path.append('./')
 from app.models.connection_model import DbConnectionModel
 
@@ -7,10 +8,20 @@ class SprintModel(DbConnectionModel):
     INSERT_SPRINT_STMT = 'INSERT INTO sprints(nombre, inicio, fin, activo, id_proyecto) VALUES (%s, %s, %s, %s, %s)'
     INSERT_STMT = "INSERT INTO sprints(nombre, id_proyecto, activo) VALUES (%s, %s, 'false')"
     UPDATE_FECHA_INI_STMT = 'UPDATE sprints SET inicio = %s WHERE id_sprint = %s'
-    UPDATE_FECHA_FIN_STMT = 'UPDATE sprints SET fin = %s WHERE id_sprints = %s'
-    UPDATE_ESTADO_STMT = 'UPDATE sprints SET activo = %s WHERE id_sprints = %s'
-    UPDATE_NOMBRE_STMT = 'UPDATE sprints SET nombre = %s WHERE id_sprints = %s'
+    UPDATE_FECHA_FIN_STMT = 'UPDATE sprints SET fin = %s WHERE id_sprint = %s'
+    UPDATE_ESTADO_STMT = 'UPDATE sprints SET activo = %s WHERE id_sprint = %s'
+    UPDATE_NOMBRE_STMT = 'UPDATE sprints SET nombre = %s WHERE id_sprint = %s'
     CONSULT_US_STMT = 'SELECT id_sprint, nombre, inicio, fin, activo FROM sprints WHERE id_proyecto = %s'
+    CONSULT_ESTADO_SPRINTS_STMT = 'SELECT id_sprint FROM sprints WHERE id_proyecto = %s AND fin IS NOT NULL AND activo IS FALSE'
+
+    def consult_estados(self, id_proyecto):
+        try:
+            estados = super().execute_sql_stmt(self.CONSULT_ESTADO_SPRINTS_STMT, [id_proyecto], True)
+            if len(estados) == 0:
+                return None
+            return estados
+        except Exception as e:
+            raise e
 
     def consult(self, id):
         try:
@@ -39,9 +50,9 @@ class SprintModel(DbConnectionModel):
         except Exception as e:
             raise e
     
-    def update_fecha_fin(self, fecha_fin, id_sprint):
+    def update_fecha_fin(self, id_sprint):
         try:
-            super().execute_sql_stmt(self.UPDATE_FECHA_FIN_STMT, (fecha_fin, id_sprint))
+            super().execute_sql_stmt(self.UPDATE_FECHA_FIN_STMT, (datetime.now(), id_sprint))
         except Exception as e:
             raise e
     

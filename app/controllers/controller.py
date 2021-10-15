@@ -1,7 +1,6 @@
 #aqui van los controladores, encargados de la logica del negocio
 #se pueden agregar mas archivos
 
-from datetime import datetime
 from app.models.usuario_proyecto_model import UsuarioProyectoModel
 from django.urls.base import resolve
 from django import http
@@ -316,17 +315,24 @@ class ViewRequest:
 
     def mod_proyecto(self, request):
         nuevo_nombre = request.GET['proy_nombre']
-        if request.GET.get('estado') is None:
-            estado = False
-        else:
-            estado = True
-
+        estado = request.GET.get('estado')
+        if estado == 'true':
+            estados_sprints = SprintModel().consult_estados(self.id_proyecto)
+            print(estados_sprints)
+            if estados_sprints is None:
+                response = HttpResponse(
+                    json.dumps({ 'mensaje': 'Existen Sprints para el proyecto sin finalizar'}), 
+                    content_type='application/json'
+                )
+                response.status_code = 400
+                return response
+        
         if nuevo_nombre == '':
             ProyectoModel().update_estado_fin(estado, self.id_proyecto)
         else:
             ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
-            
-        return render(request, 'modificar_proyecto.html')
+
+        return HttpResponse()
 
     def crear_proyecto(self, request):
         return render(request, 'crear_proyecto.html')
@@ -431,10 +437,8 @@ class ViewRequest:
     def obt_us(self, request):
         id_us= request.GET['id_us']
         campos_us = USModel().consult_us_by_id(id_us)
-        us= { 
-
+        us = { 
             'username': campos_us[2],
-
         }
         return HttpResponse(json.dumps(us), content_type='application/json')     
 
@@ -443,7 +447,6 @@ class ViewRequest:
         lista = SprintModel().consult(self.id_proyecto)
         view = loader.get_template('sprint.html')
         html_reponse = view.render({'lista_sprint': lista})
-
         return HttpResponse(html_reponse)
 
     def crear_sprint(self, request):
@@ -452,6 +455,25 @@ class ViewRequest:
     def reg_sprint(self, request):
         SprintModel().insert_sprint_short(request.GET['spr_nombre'], self.id_proyecto)
         return redirect('/sprint')
+    
+    def fin_sprint(self, request):
+        id_sprint = request.GET['id_sprint']
+        print(request.GET['id_sprint'])
+        print(self.id_proyecto)
+        us_estados_sprint = USModel().consult_us_by_id_sprint(id_sprint)
+        print(us_estados_sprint)
+        if us_estados_sprint is not None:
+            response = HttpResponse(
+                json.dumps({ 'mensaje': 'Existen US sin finalizar correspondientes a ese Sprint'}), 
+                content_type='application/json'
+            )
+            response.status_code = 400
+            return response
+        
+        SprintModel().update_estado(False, id_sprint)
+        SprintModel().update_fecha_fin(id_sprint)
+        return HttpResponse()
+        
 
     ##otras funciones
     def obtener_roles(self):
