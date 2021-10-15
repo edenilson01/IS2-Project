@@ -209,11 +209,11 @@
                     }
                 ).then(okay => { 
                     if (okay) {
-                        if (estado_sprint == 'False'){
+                        if (estado_sprint == 'None'){
                             swal(
                                 'No se puede finalizar un Sprint que no fue iniciado'
                             );
-                        } else if(fecha_fin_sprint != 'None') {
+                        } else if(estado_sprint == 'False') {
                             swal(
                                 'No se puede finalizar un Sprint que ya fue finalizado previamente'
                             );
@@ -235,7 +235,66 @@
                     };
                 });
             });
+            
+            $(".b_ini").click(function(){
+                var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
+                var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
+                            
+                if(estado_sprint == 'True'){
+                    swal(
+                        '!! "' + nombre_sprint + '"  ACTUALMENTE ACTIVO  !!'
+                    );
+                }else if (estado_sprint == 'None'){
+
+                    False = false;
+                    True = true;
+                    None  = ' ';
+                    activo = 0;
+                    {% for i in lista_sprint %}
+                        if({{i.4}} == true){ 
+                            activo = 1;
+                            swal(
+                                ' NO PUEDE INICIAR HASTA FINALIZAR EL SPRINT \n \n "{{i.1}}" '  
+                           ); 
+                        };
+                    {% endfor %}
+                    if(activo == 0){
+                        swal(
+                            "¿Desea iniciar el sprint " + "\"" + nombre_sprint + "\"?", 
+                            {
+                                dangerMode: true,
+                                buttons: true
+                            }
+                        ).then(okay => { 
+                            if (okay) {
+                                id = $(this).parents("tr")[0].id;
+
+                                $.ajax({
+                                    type: 'GET',
+                                    url: "/guardar_proyecto_id",
+                                    data: { 'id_proyecto' : id},
+                                    success:function(data) {
+                                        window.location.href = "/iniciar_sprint";
+                                    },
+                                    error: function(xhr, status, error) {
+                                        window.location.reload();
+                                    }
+                                });                            
+                            };  
+                        });                    
+                    };
+
+                }else{
+                    swal(
+                        ' El SPRINT "' + nombre_sprint + '" YA FUE COMPLETADO'
+                    );
+  
+                };    
+            });
+
         });
+        
+
     </script>
 
 </html>

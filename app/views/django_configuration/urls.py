@@ -94,7 +94,8 @@ urlpatterns = [
     path('crear_sprint/', control.crear_sprint),
     path('reg_sprint/', control.reg_sprint),
     path('fin_sprint/', control.fin_sprint),
-    
+    path('iniciar_sprint/', control.iniciar_sprint),
+    path('ini_sprint/', control.ini_sprint),
 
     path('del_us_h', control.del_us_h),
     path('modificar_us/', control.modificar_us),

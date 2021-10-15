@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import json
-
+import time
 from sys import path as path
 path.append('./')
 from app.models.personas_model import PersonaModel
@@ -473,6 +473,37 @@ class ViewRequest:
         SprintModel().update_estado(False, id_sprint)
         SprintModel().update_fecha_fin(id_sprint)
         return HttpResponse()
+    
+    def iniciar_sprint(self, request):
+        sprint = SprintModel().consult_sprint(self.id_proyecto)
+        view = loader.get_template('iniciar_sprint.html')
+        html = view.render({'nombre': sprint})
+        return HttpResponse(html)
+
+
+    def ini_sprint(self, request):
+        
+        id_sprint = request.GET['id_sprint']
+        print(request.GET['id_sprint'])
+        print(self.id_proyecto)
+        nombre_sprint = request.GET['nombre']
+        fecha_inicio = request.GET['fecha_inicio']
+        fecha_fin = request.GET['fecha_fin']
+
+
+        us_backlog_sprint = USModel().consult_backlog_by_id_sprint(id_sprint)
+        print(us_backlog_sprint)
+        if us_backlog_sprint is not None:
+            response = HttpResponse(
+                json.dumps({ 'mensaje': 'No se encuentra ningun US en el sprint'}), 
+                content_type='application/json'
+            )
+            response.status_code = 400
+            return response
+        
+        SprintModel().update_sprint( True ,nombre_sprint,fecha_inicio, fecha_fin, id_sprint)
+        return HttpResponse()
+
         
 
     ##otras funciones
