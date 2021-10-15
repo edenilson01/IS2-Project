@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" style="background-color: gray;">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Agregar US</title>
+        <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
+        <link rel="stylesheet" href="{% static 'registrar.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link rel="stylesheet" href="{% static 'check.css' %}">
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    </head>
+    <body>
+        <section class="form-home" style="height: 250px; width: 400px;">
+            <h5>Agregar US</h5>
+            <form method="GET" autocomplete="off">
+                <select id="us" class="input_txt" style="width: 100%;" required>
+                    <option value="">Elije una opción</option>
+                    {% for us in lista_us %}
+                        <option value={{ us.0 }}>{{ us.1 }}</option> 
+                    {% endfor %}
+                </select>
+                <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/modificar_sprint';" name="" value="CANCELAR">
+                <input class="buttons" id="bt_guardar" type="button" style="float: right; margin-top: 18%;" name="" value="GUARDAR">
+
+            </form>
+        </section>
+        
+    </body>
+</html>
