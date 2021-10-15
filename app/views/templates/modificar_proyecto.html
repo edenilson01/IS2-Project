@@ -30,7 +30,7 @@
             <h4>Datos del Proyecto</h4>
             <form action="/mod_proyecto" method="GET" autocomplete="off">
                 <input class="input_txt2" type="text" name="proy_nombre" value="" placeholder="Ingrese el nuevo nombre del proyecto" maxlength="30">
-                <label><input class="check" type="checkbox" name="estado">¿El proyecto ha finalizado?</label><br>
+                <label><input id="check1" class="check" type="checkbox" name="estado">¿El proyecto ha finalizado?</label><br>
 
                 <input class="buttons" type="button" style="float: left;" onclick="window.location='/proyects';" name="" value="CANCELAR">
                 <input class="buttons" id="bt_registrar" disabled=true type="submit" style="float: right;" name="" value="MODIFICAR">
@@ -40,15 +40,35 @@
             $("#bt_registrar").on('click', function(e){
                 e.preventDefault();
                 var formulario = $(this).parents('form');
+                var nuevo_nombre_proyecto = document.getElementsByName("proy_nombre")[0].value;
+                var proyecto_finalizado = $("#check1").is(":checked");
+                console.log(nuevo_nombre_proyecto);
+                console.log(proyecto_finalizado);
+                
                 swal(
                     "¿Desea guardar el proyecto?", 
                     {
                         buttons: true
                     }
-                ).then(okay => { 
+                ).then(okay => {
                     if (okay) {
-                        formulario.submit();
-                    }else{
+                        $.ajax({
+                            type: 'GET',
+                            url: "/mod_proyecto",
+                            data: { 
+                                'proy_nombre' : nuevo_nombre_proyecto,
+                                'estado': proyecto_finalizado
+                            },
+                            success:function(data) {
+                                window.location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                swal(
+                                    xhr.responseJSON['mensaje']
+                                );
+                            }
+                        });
+                    } else {
                         return false;
                     }
                 });

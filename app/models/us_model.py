@@ -18,9 +18,21 @@ class USModel(DbConnectionModel):
     CONSULT_US_BY_ID_2_STMT = 'SELECT nombre, descripcion, estado, user_name, id_proyecto FROM us WHERE id_us = %s'    
     CONSULT_USERNAME_STMT = 'SELECT username from us'  
     CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
+    CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'
+    CONSULT_US_BY_ID_SPRINT_STMT = 'SELECT estado FROM us WHERE id_sprint = %s AND estado <> \'DONE\''
+    CONSULT_USERNAME_STMT = 'SELECT username from us'    
     CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion, username FROM US WHERE id_proyecto = %s'
     DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
 
+    def consult_us_by_id_sprint(self, id_sprint):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_ID_SPRINT_STMT, [id_sprint], True)
+            if len(us) == 0:
+                return None
+            return us
+        except Exception as e:
+            raise e    
+    
     def consult_us_by_id(self, id_us):
         try:
             us = super().execute_sql_stmt(self.CONSULT_US_BY_ID_STMT, [id_us], True)

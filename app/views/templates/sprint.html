@@ -55,7 +55,7 @@
                 background: rgb(55, 130, 153);
             }            
     
-            .b_el{
+            .b_fin{
                 background-color: #fd3c2b;
                 height: 35px;
                 width: 60px;
@@ -186,7 +186,7 @@
                         render: function (data, type, row) {
                             mf = '<button class="b_mod" type="button">Modificar</button>';
                             iniciar = '<button class="b_ini" type="button">Iniciar</button>';
-                            fin = '<button class="b_el" type="button">Finalizar</button>'; 
+                            fin = '<button class="b_fin" type="button">Finalizar</button>'; 
 
                             return mf + iniciar + fin;
                         }
@@ -210,8 +210,48 @@
                     }
                });
             });
-        });
+        
 
+            $(".b_fin").click(function(){
+                var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
+                var fecha_fin_sprint = $(this).parents("tr").find("td").eq(2).html();
+                var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
+                var id_sprint = $(this).parents("tr")[0].id
+                swal(
+                    "¿Desea finalizar el sprint " + "\"" + nombre_sprint + "\"?", 
+                    {
+                        dangerMode: true,
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        if (estado_sprint == 'False'){
+                            swal(
+                                'No se puede finalizar un Sprint que no fue iniciado'
+                            );
+                        } else if(fecha_fin_sprint != 'None') {
+                            swal(
+                                'No se puede finalizar un Sprint que ya fue finalizado previamente'
+                            );
+                        } else {
+                            $.ajax({
+                                type: 'GET',
+                                url: "/fin_sprint",
+                                data: { 'id_sprint' : id_sprint },
+                                success:function(data) {
+                                    window.location.reload();
+                                },
+                                error: function(xhr, status, error) {
+                                    swal(
+                                        xhr.responseJSON['mensaje']
+                                    );
+                                }
+                            });
+                        };
+                    };
+                });
+            });
+        });
     </script>
 
 </html>
