@@ -101,7 +101,7 @@ urlpatterns = [
     path('modificar_us/', control.modificar_us),
     path('mod_us/', control.mod_us),
     path('obt_us/', control.obt_us),    
-    path('guardar_us_id/', control.guardar_us_id)
+    path('guardar_us_id/', control.guardar_us_id),
 
 ]
 
