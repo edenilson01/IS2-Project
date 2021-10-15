@@ -14,6 +14,11 @@ class USModel(DbConnectionModel):
     UPDATE_US_STMT = 'UPDATE us SET nombre = %s, descripcion = %s, username =%s WHERE id_us = %s'    
     CONSULT_ESTADO_STMT = 'SELECT backlog FROM us WHERE id_us = %s'
     CONSULT_ESTADO_BACKLOG_STMT = 'SELECT BACKLOG FROM US WHERE BACKLOG = FALSE AND ID_SPRINT = %s AND ID_PROYECTO=%s;'
+    CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'  
+    CONSULT_US_BY_SPRINT_STMT = 'SELECT id_us, nombre, descripcion FROM us WHERE id_sprint = %s' 
+    CONSULT_US_BY_ID_2_STMT = 'SELECT nombre, descripcion, estado, user_name, id_proyecto FROM us WHERE id_us = %s'    
+    CONSULT_USERNAME_STMT = 'SELECT username from us'  
+    CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
     CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'
     CONSULT_US_BY_ID_SPRINT_STMT = 'SELECT estado FROM us WHERE id_sprint = %s AND estado <> \'DONE\''
     CONSULT_USERNAME_STMT = 'SELECT username from us'    
@@ -49,6 +54,23 @@ class USModel(DbConnectionModel):
         except Exception as e:
             raise e    
       
+    def consult_us_by_proyect_backlog(self, id_project):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_PROYECT_BACKLOG_STMT, [id_project], True)
+            if len(us) == 0:
+                return None
+            return us
+        except Exception as e:
+            raise e
+
+    def consult_us_by_sprint(self, id_sprint):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_SPRINT_STMT, [id_sprint], True)
+            if len(us) == 0:
+                return None
+            return us
+        except Exception as e:
+            raise e
 
     def insert_us(self, nombre, descripcion, estado, username, id_proyecto, id_sprint, backlog):
         try:
@@ -105,6 +127,15 @@ class USModel(DbConnectionModel):
     def consult_us(self, id):
         try:
             us = super().execute_sql_stmt(self.CONSULT_US_STMT, [id], True)
+            if len(us) == 0:
+                return None
+            return us
+        except Exception as e:
+            raise e
+    
+    def consult_us_by_id_2(self, id):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_ID_2_STMT, [id], True)
             if len(us) == 0:
                 return None
             return us

@@ -176,7 +176,7 @@ class ViewRequest:
         return render(request, 'asignar_nombre_rol.html')
 
     def rol_permisos(self, request):
-        return render(request, 'asignar_permisos.html')
+        return render(request, 'asignar_permisos.html') 
 
     def modificar_rol(self, request):
         view = loader.get_template('modificar_rol.html')
@@ -397,7 +397,7 @@ class ViewRequest:
         return HttpResponse(html_reponse)
 
     def backlog(self, request):
-        lista_us = USModel().consult_us(self.id_proyecto)
+        lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
         view = loader.get_template('backlog.html')
         html_reponse = view.render({'lista_us': lista_us})
 
@@ -506,6 +506,10 @@ class ViewRequest:
 
         
 
+    def guardar_sprint_id(self, request):
+        self.id_sprint = request.GET['id_sprint']
+        return HttpResponse()
+
     ##otras funciones
     def obtener_roles(self):
         return RolesModel().consult_roles()
@@ -521,3 +525,40 @@ class ViewRequest:
 
     def crear_us(self, request):
         return render(request, 'crear_us.html')
+
+    def modificar_sprint(self, request):
+        lista_us = USModel().consult_us_by_sprint(self.id_sprint)
+        view = loader.get_template('modificar_sprint.html')
+        html_reponse = view.render({'id_sprint': self.id_sprint,'lista_us': lista_us})
+        return HttpResponse(html_reponse)
+
+    def agregar_us(self, request):
+        lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
+    
+        if lista_us is None:
+            print('No hay us')
+ 
+        view = loader.get_template('agregar_us.html')
+        html_reponse = view.render({'lista_us': lista_us})
+        return HttpResponse(html_reponse)
+
+    def asignar_user(self, request):
+        lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
+    
+        if lista_us is None:
+            print('No hay us')
+ 
+        view = loader.get_template('asignar_user.html')
+        html_reponse = view.render({'lista_us': lista_us})
+        return HttpResponse(html_reponse)
+
+    def add_us(self, request):
+        nombre = request.GET['nombre']
+        descripcion = request.GET['descripcion']
+        id_proyecto = self.id_proyecto
+
+        if not descripcion:
+            descripcion = None
+
+        USModel().insert_us(nombre, descripcion, "to do", None, id_proyecto, None, True)
+        return redirect('/crear_us/')

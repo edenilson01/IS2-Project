@@ -8,21 +8,36 @@
             <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'rol_permisos.js' %}"></script>
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         </head>
         <body>
             <section class="form-crear_rol">
               <h5>Seleccione los permisos a asignar</h5>
-              <form>
-                <input type="checkbox" class = "permisos" id="perm_seg" value="seguridad"> Seguridad 
-                <br><br><br>
-                <input type="checkbox" class = "permisos" id="perm_des" value="desarrollo"> Desarrollo
-                <br><br><br>
-                <input type="checkbox" class = "permisos" id="perm_proy" value="proyecto"> Proyecto
-                <br><br><br>
+              <form action="/reg_rol">
+                {% for permiso in lista_permisos %}
+                    <input type="checkbox" class = "permisos" value={{ permiso.0 }}> {{ permiso.2 }}
+                    <br><br><br>
+                {% endfor %}
+                <input class="input_txt" type="hidden" name="nombre_rol" id="nombre_rol" value = {{nombre_rol}>
                 <input class="buttons" style="margin-top: 28%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="GUARDAR">
+                <input class="buttons" id = "guardar" disabled=true type="submit" name="" value="GUARDAR">
                </form> 
             </section>
+
+            <script>
+                $(document).ready(function()
+                {
+                    var formulario = $(this).parents('form');
+                    var permisos_seleccionados = [];
+                    $("#guardar").click(function () {	 
+                        
+                        $("input:checkbox:checked").each(function() {
+                            permisos_seleccionados.push($(this).val());
+                        });
+                        formulario.submit();
+                    });
+                });
+            </script>
 
     </body>
 </html>

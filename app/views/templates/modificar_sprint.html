@@ -4,8 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title>Sprint</title>
-        
+        <title>Modificar Sprint</title>
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
@@ -14,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
         <style>
             .my_div{
                 background-color: gray;
@@ -27,7 +27,7 @@
                 background-color: rgba(124, 121, 121, 0.657);
             }
     
-            .b_mod{
+            .b_asig{
                 background-color: rgb(11, 133, 11);
                 height: 35px;
                 width: 60px;
@@ -37,25 +37,11 @@
                 margin-right: 3%;
             }
     
-            .b_mod:hover{
+            .b_asig:hover{
                 background: rgb(46, 150, 46);
             }
-
-            .b_ini{
-                background-color: rgb(11, 119, 133);
-                height: 35px;
-                width: 60px;
-                border-radius: 3px;
-                color: white;
-                border: none;
-                margin-right: 3%;
-            }
     
-            .b_ini:hover{
-                background: rgb(55, 130, 153);
-            }            
-    
-            .b_fin{
+            .b_el{
                 background-color: #fd3c2b;
                 height: 35px;
                 width: 60px;
@@ -118,8 +104,8 @@
     <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
     <nav class = "menuPrincipal">
         <script>
-            function crear_pro(){
-                window.location.href = "/crear_sprint";
+            function agg_us(){
+                window.location.href = "/agregar_us";
             };
         </script>
 		<ul>
@@ -129,7 +115,7 @@
             </div>
 
             <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO SPRINT</a></li>
+                <li><a href="#" onclick="agg_us();return false;">AGREGAR US</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
@@ -138,24 +124,25 @@
 		</ul>
     </nav>
     <body>
+        
         <div class="my_div">
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Fecha de inicio</th>
-                        <th>Fecha de finalización</th>
-                        <th>Activo</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Username</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i in lista_sprint %}
-                        <tr id = {{i.0}} >
-                            <td>{{ i.1 }}</td>
-                            <td>{{ i.2 }}</td>
-                            <td>{{ i.3 }}</td>
-                            <td>{{ i.4 }}</td>
+                    {% for us in lista_us %}
+                        <tr id = {{us.0}} >
+                            <td>{{ us.1 }}</td>
+                            <td>{{ us.2 }}</td>
+                            <td>{{ us.3 }}</td>
+                            <td>{{ us.4 }}</td>
                             <td></td>
                         </tr>
                     {% endfor %}
@@ -174,9 +161,9 @@
                 },
                 columns:[
                     {a: "nombre"},
-                    {b: "inicio"},
-                    {c: "fin"},
-                    {d: "activo"},
+                    {b: "descripcion"},
+                    {c: "estado"},
+                    {d: "username"},
                     {
                         f: null, 
                         title: 'Controles',
@@ -184,133 +171,61 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
-                            mf = '<button class="b_mod" type="button">Modificar</button>';
-                            iniciar = '<button class="b_ini" type="button">Iniciar</button>';
-                            fin = '<button class="b_fin" type="button">Finalizar</button>'; 
+                            mf = '<button class="b_asig" type="button">Asignar</button>';
+                            dele = '<button class="b_el" type="button">Eliminar</button>'; 
 
-                            return mf + iniciar + fin;
+                            return mf + dele;
                         }
                     }
                 ]
             });
-        });
+        } );
 
         $(document).ready(function(){
-            $(".b_mod").click(function(){
-                var id_sprint = $(this).parents("tr")[0].id;
+            $(".b_asig").click(function(){
+                var id = $(this).parents("tr")[0].id;
                 $.ajax({
                     type: 'GET',
-                    url: "/guardar_sprint_id",
-                    data: { 'id_sprint' : id_sprint },
+                    url: "/guardar_us_id",
+                    data: { 'id_us' : id },
                     success:function(data) {
-                        window.location.href = "/modificar_sprint";
+                        window.location.href = "/asignar_user";
                     },
                     error: function(xhr, status, error) {
                         window.location.reload();
                     }
                });
             });
-        
+        });
 
-            $(".b_fin").click(function(){
-                var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
-                var fecha_fin_sprint = $(this).parents("tr").find("td").eq(2).html();
-                var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
-                var id_sprint = $(this).parents("tr")[0].id
+
+        $(document).ready(function(){
+            $(".b_el").click(function(){
+                var valor = $(this).parents("tr").find("td").eq(0).html();
+                var id_us = $(this).parents("tr")[0].id
+                
                 swal(
-                    "¿Desea finalizar el sprint " + "\"" + nombre_sprint + "\"?", 
+                    "¿Desea realmente eliminar el US " + "\"" + valor + "\"?", 
                     {
                         dangerMode: true,
                         buttons: true
                     }
-                ).then(okay => { 
-                    if (okay) {
-                        if (estado_sprint == 'None'){
-                            swal(
-                                'No se puede finalizar un Sprint que no fue iniciado'
-                            );
-                        } else if(estado_sprint == 'False') {
-                            swal(
-                                'No se puede finalizar un Sprint que ya fue finalizado previamente'
-                            );
-                        } else {
+                    ).then(okay => { 
+                        if (okay) {
                             $.ajax({
                                 type: 'GET',
-                                url: "/fin_sprint",
-                                data: { 'id_sprint' : id_sprint },
+                                url: "/del_us_h",
+                                data: {'id_us' : id_us},
                                 success:function(data) {
                                     window.location.reload();
                                 },
                                 error: function(xhr, status, error) {
-                                    swal(
-                                        xhr.responseJSON['mensaje']
-                                    );
+                                    window.location.reload();
                                 }
                             });
-                        };
-                    };
+                        }
+                    });
                 });
             });
-            
-            $(".b_ini").click(function(){
-                var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
-                var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
-                            
-                if(estado_sprint == 'True'){
-                    swal(
-                        '!! "' + nombre_sprint + '"  ACTUALMENTE ACTIVO  !!'
-                    );
-                }else if (estado_sprint == 'None'){
-
-                    False = false;
-                    True = true;
-                    None  = ' ';
-                    activo = 0;
-                    {% for i in lista_sprint %}
-                        if({{i.4}} == true){ 
-                            activo = 1;
-                            swal(
-                                ' NO PUEDE INICIAR HASTA FINALIZAR EL SPRINT \n \n "{{i.1}}" '  
-                           ); 
-                        };
-                    {% endfor %}
-                    if(activo == 0){
-                        swal(
-                            "¿Desea iniciar el sprint " + "\"" + nombre_sprint + "\"?", 
-                            {
-                                dangerMode: true,
-                                buttons: true
-                            }
-                        ).then(okay => { 
-                            if (okay) {
-                                id = $(this).parents("tr")[0].id;
-
-                                $.ajax({
-                                    type: 'GET',
-                                    url: "/guardar_proyecto_id",
-                                    data: { 'id_proyecto' : id},
-                                    success:function(data) {
-                                        window.location.href = "/iniciar_sprint";
-                                    },
-                                    error: function(xhr, status, error) {
-                                        window.location.reload();
-                                    }
-                                });                            
-                            };  
-                        });                    
-                    };
-
-                }else{
-                    swal(
-                        ' El SPRINT "' + nombre_sprint + '" YA FUE COMPLETADO'
-                    );
-  
-                };    
-            });
-
-        });
-        
-
     </script>
-
 </html>

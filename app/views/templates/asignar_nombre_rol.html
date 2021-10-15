@@ -8,19 +8,39 @@
             <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'rol_nombre.js' %}"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         </head>
         <body>
             <section class="form-crear_rol">
                 <h5>Crear rol</h5>
-                <form action = "/rol_permisos" method="GET" autocomplete="off">
+                <form method="GET" autocomplete="off">
                     <div class ="form-box">
-                        <input type="text" id="nombre_rol" placeholder="Nombre" name="nombre" maxlength="30">
+                        <input class="text" type="text" id="nombre_rol" placeholder="Nombre" name="nombre" maxlength="30">
                     </div>                
                    
                     <input class="buttons" style="margin-top: 50%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                    <input class="buttons" id = "asig_perm" disabled type="submit" name="" value="SIGUIENTE">
+                    <input class="buttons" id = "asig_perm" disabled type="button" name="siguiente" value="SIGUIENTE">
                </form> 
             </section>
 
     </body>
+
+    <script>
+        $(document).ready(function(){
+            $("#asig_perm" ).click(function(){
+                var nombre = $(document.getElementById("nombre_rol")).val();
+                $.ajax({
+                    type: 'GET',
+                    url: "/guardar_nombre_rol",
+                    data: { 'nombre' : nombre},
+                    success:function(data) {
+                        window.location.href = "/rol_permisos";
+                    },
+                    error: function(xhr, status, error) {
+                        window.location.reload();
+                    }
+               });
+            });
+        });
+    </script>
 </html>
