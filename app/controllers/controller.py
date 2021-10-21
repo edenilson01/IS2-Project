@@ -28,6 +28,7 @@ class ViewRequest:
         self.mensaje_error = []
         self.titulo_error = None
         self.id_proyecto = None
+        self.permisos = None
 
     def enviar_sms_error(self, templade):        
         view = loader.get_template(templade)
@@ -47,7 +48,6 @@ class ViewRequest:
         modelo = UserModel()
         usuario = request.GET["usuario"]
         psw = request.GET["contrasena"]
-
         base_password = modelo.consult_persona(usuario)
         if base_password is not None:
             if base_password[1] == psw:
@@ -61,9 +61,11 @@ class ViewRequest:
                             for per in rol_permisos:
                                 permisos.append(per[0])
 
-                view = loader.get_template('home.html')
-                html = view.render({'user': self.usuario_logueado, 'permisos': permisos})
-                return HttpResponse(html)
+                self.permisos = permisos
+                #view = loader.get_template('home.html')
+                #html = view.render({'user': self.usuario_logueado, 'permisos': self.permisos})                
+                #return HttpResponse(html)
+                return redirect('/home/')
 
         #sino redirecciona, entonces es un error de credenciales
         self.titulo_error = 'Credenciales Inválidas'
@@ -74,7 +76,7 @@ class ViewRequest:
 
     def home(self, request):
         view = loader.get_template('home.html')
-        html = view.render({'user': self.usuario_logueado})
+        html = view.render({'user': self.usuario_logueado, 'permisos': self.permisos})
         return HttpResponse(html)
 
     def proyectos(self, request):
@@ -386,7 +388,7 @@ class ViewRequest:
         html_reponse = view.render({'lista_miembros': lista_miembros})
         return HttpResponse(html_reponse)
 
-    #Desarrollo
+    #####################################Desarrollo
     def desarrollo(self, request):
         lista_proyectos = ProyectoModel().consult_proyectos()
         if lista_proyectos is None:
@@ -442,7 +444,7 @@ class ViewRequest:
         }
         return HttpResponse(json.dumps(us), content_type='application/json')     
 
-    #SPRINT
+    #####################################SPRINT
     def sprint(self, request):
         lista = SprintModel().consult(self.id_proyecto)
         view = loader.get_template('sprint.html')
@@ -490,7 +492,6 @@ class ViewRequest:
         fecha_inicio = request.GET['fecha_inicio']
         fecha_fin = request.GET['fecha_fin']
 
-
         us_backlog_sprint = USModel().consult_backlog_by_id_sprint(id_sprint)
         print(us_backlog_sprint)
         if us_backlog_sprint is not None:
@@ -510,7 +511,7 @@ class ViewRequest:
         self.id_sprint = request.GET['id_sprint']
         return HttpResponse()
 
-    ##otras funciones
+    #####################################otras funciones
     def obtener_roles(self):
         return RolesModel().consult_roles()
 
@@ -527,30 +528,27 @@ class ViewRequest:
         return render(request, 'crear_us.html')
 
     def modificar_sprint(self, request):
-        lista_us = USModel().consult_us_by_sprint(self.id_sprint)
+        lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
         view = loader.get_template('modificar_sprint.html')
-        html_reponse = view.render({'id_sprint': self.id_sprint,'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us})
+
         return HttpResponse(html_reponse)
 
     def agregar_us(self, request):
         lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
-    
-        if lista_us is None:
-            print('No hay us')
- 
         view = loader.get_template('agregar_us.html')
         html_reponse = view.render({'lista_us': lista_us})
-        return HttpResponse(html_reponse)
+        return HttpResponse(html_reponse)        
+       
 
     def asignar_user(self, request):
-        lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
-    
-        if lista_us is None:
-            print('No hay us')
+        lista_miembros = UsuarioProyectoModel().consult_usuarios_asignados(self.id_proyecto)
+        if lista_miembros is None:
+            print('No hay miembros')
  
         view = loader.get_template('asignar_user.html')
-        html_reponse = view.render({'lista_us': lista_us})
-        return HttpResponse(html_reponse)
+        html_reponse = view.render({'lista_miembros': lista_miembros})
+        return HttpResponse(html_reponse)   
 
     def add_us(self, request):
         nombre = request.GET['nombre']
@@ -562,3 +560,24 @@ class ViewRequest:
 
         USModel().insert_us(nombre, descripcion, "to do", None, id_proyecto, None, True)
         return redirect('/crear_us/')
+
+
+    def add_incidencia(self, request):
+        id_us = request.GET['id_us']
+        id_sprint = self.id_sprint
+        USModel().update_backlog_state(False, id_us)
+        USModel().update_sprint_us(id_sprint,id_us)
+        return redirect('/agregar_us/')
+
+    def add_user_sprint(self, request):
+        USModel().update_username(request.GET['username'], self.id_us)
+        return redirect('/asignar_user/')         
+
+        
+#####################################kanban
+    def kanban(self, request):
+        lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
+        view = loader.get_template('kanban.html')
+        html_reponse = view.render({'lista_us': lista_us})
+
+        return HttpResponse(html_reponse)

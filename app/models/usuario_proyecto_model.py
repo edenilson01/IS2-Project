@@ -11,12 +11,12 @@ class UsuarioProyectoModel(DbConnectionModel):
     CONSULT_FEC_SAL_STMT = 'SELECT fecha_salida FROM usuario_proyecto WHERE username = %s AND id_proyecto = %s'
     CONSULT_USUARIOS_STMT = 'SELECT username, fecha_incorporacion, fecha_salida FROM usuario_proyecto WHERE id_proyecto = %s'
     CONSULT_USUARIOS_DISP_STMT = 'SELECT username FROM usuarios WHERE username NOT IN (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'
-    CONSULT_USUARIO_ASIGNADOS_STMT = 'SELECT username FROM usuario_proyecto WHERE id_proyecto = %s AND fecha_salida IS NULL'
+    CONSULT_USUARIO_ASIGNADOS_STMT = 'SELECT username FROM usuarios WHERE username IN (SELECT username FROM usuario_proyecto WHERE ID_PROYECTO = %s )'
     UPDATE_FECHAS_USUARIO_STMT = 'UPDATE usuario_proyecto SET fecha_incorporacion = %s, fecha_salida = %s WHERE username = %s AND id_proyecto = %s'
 
     def consult_usuarios_asignados(self, id_proyecto):
         try:
-            usuarios = super().execute_sql_stmt(self.CONSULT_USUARIO_ASIGNADOS_STMT, [id_proyecto], True)
+            usuarios = super().execute_sql_stmt(self.CONSULT_USUARIO_ASIGNADOS_STMT, id_proyecto, True)
             if len(usuarios) == 0:
                 return None
             return usuarios

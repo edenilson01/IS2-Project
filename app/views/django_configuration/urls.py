@@ -104,9 +104,17 @@ urlpatterns = [
     path('guardar_us_id/', control.guardar_us_id),
 
     path('modificar_sprint/', control.modificar_sprint),
+
+    #path('agregar_us/', control.agregar_us),
     path('agregar_us/', control.agregar_us),
+    path('add_incidencia/', control.add_incidencia),
+    
     path('asignar_user/', control.asignar_user),
     path('guardar_sprint_id/', control.guardar_sprint_id),
+
+    path('kanban/', control.kanban),
+    path('add_user_sprint/', control.add_user_sprint)
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

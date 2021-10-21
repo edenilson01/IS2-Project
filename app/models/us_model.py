@@ -10,7 +10,8 @@ class USModel(DbConnectionModel):
     UPDATE_EST_US_STMT = 'UPDATE us SET estado = %s WHERE id_us = %s'
     UPDATE_USERNAME_US_STMT = 'UPDATE us SET username = %s WHERE id_us = %s'
     UPDATE_SPRINT_US_STMT = 'UPDATE us SET id_sprint = %s WHERE id_us = %s'
-    UPDATE_BACKLOG_STMT = 'UPDATE us SET backlog = %s WHERE id_us = %s'
+    UPDATE_BACKLOG_STMT = 'UPDATE us SET backlog = %s WHERE id_us = %s '
+    UPDATE_SPRINT_STMT = 'UPDATE us SET id_sprint = %s WHERE id_sprint = %s '
     UPDATE_US_STMT = 'UPDATE us SET nombre = %s, descripcion = %s, username =%s WHERE id_us = %s'    
     CONSULT_ESTADO_STMT = 'SELECT backlog FROM us WHERE id_us = %s'
     CONSULT_ESTADO_BACKLOG_STMT = 'SELECT BACKLOG FROM US WHERE BACKLOG = FALSE AND ID_SPRINT = %s AND ID_PROYECTO=%s;'
@@ -19,11 +20,14 @@ class USModel(DbConnectionModel):
     CONSULT_US_BY_ID_2_STMT = 'SELECT nombre, descripcion, estado, user_name, id_proyecto FROM us WHERE id_us = %s'    
     CONSULT_USERNAME_STMT = 'SELECT username from us'  
     CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
+    CONSULT_US_BY_PROYECT_KANBAN_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS False'  
     CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'
     CONSULT_US_BY_ID_SPRINT_STMT = 'SELECT estado FROM us WHERE id_sprint = %s AND estado <> \'DONE\''
     CONSULT_USERNAME_STMT = 'SELECT username from us'    
     CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion, username FROM US WHERE id_proyecto = %s'
     DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
+    UPDATE_USERNAME_STMT = 'UPDATE us SET  username =%s WHERE id_us = %s'
+
 
 
     def consult_backlog_by_id_sprint(self, id_sprint):
@@ -57,6 +61,15 @@ class USModel(DbConnectionModel):
     def consult_us_by_proyect_backlog(self, id_project):
         try:
             us = super().execute_sql_stmt(self.CONSULT_US_BY_PROYECT_BACKLOG_STMT, [id_project], True)
+            if len(us) == 0:
+                return None
+            return us
+        except Exception as e:
+            raise e
+
+    def consult_us_by_proyect_kanban(self, id_project):
+        try:
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_PROYECT_KANBAN_STMT, [id_project], True)
             if len(us) == 0:
                 return None
             return us
@@ -115,6 +128,12 @@ class USModel(DbConnectionModel):
         except Exception as e:
             raise e
     
+    def update_sprint(self, id_sprint):
+        try:
+            super().execute_sql_stmt(self.UPDATE_SPRINT_STMT, (id_sprint))
+        except Exception as e:
+            raise e
+        
     def consult_state(self, id_us):
         try:
             state = super().execute_sql_stmt(self.CONSULT_ESTADO_STMT, [id_us], True)
@@ -157,3 +176,9 @@ class USModel(DbConnectionModel):
             super().execute_sql_stmt(self.DELETE_US_STMT, [id_us])
         except Exception as e:
             raise e
+
+    def update_username(self, username, id_us):
+        try:
+            super().execute_sql_stmt(self.UPDATE_USERNAME_STMT, (username, id_us))
+        except Exception as e:
+            raise e            
