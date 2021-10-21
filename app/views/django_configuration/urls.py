@@ -43,6 +43,7 @@ urlpatterns = [
     path('signup/', control.crear_usuario),
     path('reg_user/', control.registrar_usuario),
     path('mod_user/', control.modificar_usuario),
+    path('guardar_roles_selected/', control.guardar_roles_selected),
 
     path('user_settings/', control.modificar_user),
     path('obtener_usuario/', control.obtener_usuario),

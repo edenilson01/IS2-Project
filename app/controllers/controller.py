@@ -90,7 +90,9 @@ class ViewRequest:
         html_reponse = view.render({'lista_roles': self.obtener_roles()})
         return HttpResponse(html_reponse)
 
-    
+    def guardar_roles_selected(self, request):
+        self.rol_select = request.GET.getlist('rol_select')
+        return HttpResponse()
 
     def registrar_usuario(self, request):
         #persona
@@ -124,6 +126,9 @@ class ViewRequest:
         )
         # usuario_model = UserModel()
         UserModel().insert_user(usuario['username'], usuario['password'], persona['id'], usuario['correo'])
+    
+        for rol in self.rol_select:
+            UsuarioRolModel().insert_rol_usuario2(rol,usuario['username'])
 
         #TODO falta roles
   
