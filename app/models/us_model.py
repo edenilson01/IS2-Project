@@ -20,16 +20,15 @@ class USModel(DbConnectionModel):
     CONSULT_US_BY_ID_2_STMT = 'SELECT nombre, descripcion, estado, user_name, id_proyecto FROM us WHERE id_us = %s'    
     CONSULT_USERNAME_STMT = 'SELECT username from us'  
     CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
-    CONSULT_US_BY_PROYECT_KANBAN_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS False'  
+    #CONSULT_US_BY_PROYECT_KANBAN_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS False'  
+    CONSULT_US_BY_PROYECT_KANBAN_STMT = "SELECT us.*, p.primer_nombre || ' ' || p.primer_apellido FROM us us inner join usuarios u ON u.username = us.username inner join personas p on p.id_persona = u.id_persona WHERE id_proyecto = %s AND backlog IS False"
     CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'
     CONSULT_US_BY_ID_SPRINT_STMT = 'SELECT estado FROM us WHERE id_sprint = %s AND estado <> \'DONE\''
     CONSULT_USERNAME_STMT = 'SELECT username from us'    
     CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion, username FROM US WHERE id_proyecto = %s'
     DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
     UPDATE_USERNAME_STMT = 'UPDATE us SET  username =%s WHERE id_us = %s'
-
-
-
+    
     def consult_backlog_by_id_sprint(self, id_sprint):
         try:
             us = super().execute_sql_stmt(self.CONSULT_ESTADO_BACKLOG_STMT, [id_sprint], True)
@@ -114,7 +113,6 @@ class USModel(DbConnectionModel):
             super().execute_sql_stmt(self.UPDATE_EST_US_STMT, (estado, id_us))
         except Exception as e:
             raise e
-    
     
     def update_sprint_us(self, sprint, id_us):
         try:

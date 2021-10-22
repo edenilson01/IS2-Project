@@ -97,7 +97,20 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
+    var id_div = ev.target.id
     ev.target.appendChild(document.getElementById(data));
+
+    $.ajax({
+        type: 'GET',
+        url: "/update_state_us/",
+        data: { "id_us": data, "estado": id_div},
+        success:function(data) {
+            
+        },
+        error: function() {
+            alert("No se pudo actualizar en la BD");
+        }
+    });
 }
 
 

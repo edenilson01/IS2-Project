@@ -115,7 +115,8 @@ urlpatterns = [
 
     path('kanban/', control.kanban),
     path('kanban2/', control.kanban2),
-    path('add_user_sprint/', control.add_user_sprint)
+    path('add_user_sprint/', control.add_user_sprint),
+    path('update_state_us/', control.actualizar_estado_us)
 
 ]
 

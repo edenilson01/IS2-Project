@@ -11,6 +11,7 @@
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
         <title>Kanban</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
     
     </head>
@@ -35,24 +36,50 @@
         <main id="app">
             <section id="board">
                 <section id="columns">
-                    <div class="column dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="column dropzone" id="TODO" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <h3 class="column-title">TO DO</h3>
                         {% for us in lista_us %}
-                            <ul class="tasks" id="tasks-added" draggable="true" ondragstart="drag(event)">
-                                <li class="task fill" id ="id">
-                                    <div class="task-content" id="id_content">
-                                        <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
-                                        <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.4}}
-                                    </div>
-                                </li>
-                            </ul>                          
+                            {% if us.3 == "TODO" %}
+                                <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
+                                    <li class="task fill" id ="id">
+                                        <div class="task-content" id="id_content">
+                                            <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                            <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
+                                        </div>
+                                    </li>
+                                </ul>
+                            {% endif %}                    
                         {% endfor %}
                     </div>
-                    <div class="column dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="column dropzone" id="DOING" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <h3 class="column-title">DOING</h3>
+                        {% for us in lista_us %}
+                            {% if us.3 == "DOING" %}
+                                <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
+                                    <li class="task fill" id ="id">
+                                        <div class="task-content" id="id_content">
+                                            <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                            <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
+                                        </div>
+                                    </li>
+                                </ul>
+                            {% endif %}                    
+                        {% endfor %}
                     </div>
-                    <div class="column dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="column dropzone" id="DONE" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <h3 class="column-title">DONE</h3>
+                        {% for us in lista_us %}
+                            {% if us.3 == "DONE" %}
+                                <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
+                                    <li class="task fill" id ="id">
+                                        <div class="task-content" id="id_content">
+                                            <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                            <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
+                                        </div>
+                                    </li>
+                                </ul>
+                            {% endif %}                    
+                        {% endfor %}
                     </div>
             </section>
         </main>

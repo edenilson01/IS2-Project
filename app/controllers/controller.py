@@ -593,3 +593,14 @@ class ViewRequest:
         html_reponse = view.render({'lista_us': lista_us})
 
         return HttpResponse(html_reponse)
+
+    def actualizar_estado_us(self, request):
+        id_us = request.GET['id_us']
+        estado = request.GET['estado']
+
+        USModel().update_estado(estado, id_us)
+        return redirect('/kanban/')
+
+        #print(estado)
+        #return HttpResponse(json.dumps(permiso), content_type='application/json')
+        #def update_estado(self, estado, id_us):
