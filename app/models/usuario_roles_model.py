@@ -1,5 +1,6 @@
 from sys import path as path
 path.append('./')
+from datetime import datetime
 from app.models.connection_model import DbConnectionModel
 
 class UsuarioRolModel(DbConnectionModel):
@@ -21,6 +22,14 @@ class UsuarioRolModel(DbConnectionModel):
             raise e
 
     def insert_rol_usuario(self, id_rol, username, inicio, fin):
+        try:
+            super().execute_sql_stmt(self.INSERT_ROL_USUARIO_STMT, (id_rol, username, inicio, fin))
+        except Exception as e:
+            raise e
+
+    def insert_rol_usuario2(self, id_rol, username):
+        inicio = datetime.now()
+        fin = None
         try:
             super().execute_sql_stmt(self.INSERT_ROL_USUARIO_STMT, (id_rol, username, inicio, fin))
         except Exception as e:

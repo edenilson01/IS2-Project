@@ -7,10 +7,12 @@
         <title>REJA. Bienvenid@!!!</title>
         <link rel="stylesheet" href="{% static 'home.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     </head>
     <body>
         <section class="form-home">
-            <h5>BIENVENID@ {{user.upper}} </h5>
+            <i class="far fa-user-circle icon" style="font-family:arial, FontAwesome" ></i>
+            <h5>BIENVENID@ {{user.upper}}</h5>
             <form action>
                 <input class="buttons" id="1" type="button" name="" value="Seguridad" disabled style="background:gray" onclick="window.location='/seguridad/'"> 
                 <br><br><br>

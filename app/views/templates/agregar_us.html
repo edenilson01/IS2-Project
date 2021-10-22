@@ -5,28 +5,174 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <title>Agregar US</title>
-        <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
-        <link rel="stylesheet" href="{% static 'registrar.css' %}">
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <link rel="stylesheet" href="{% static 'proyectos.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
-        <link rel="stylesheet" href="{% static 'check.css' %}">
-        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <!--DATATABLE-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    </head>
-    <body>
-        <section class="form-home" style="height: 250px; width: 400px;">
-            <h5>Agregar US</h5>
-            <form method="GET" autocomplete="off">
-                <select id="us" class="input_txt" style="width: 100%;" required>
-                    <option value="">Elije una opción</option>
-                    {% for us in lista_us %}
-                        <option value={{ us.0 }}>{{ us.1 }}</option> 
-                    {% endfor %}
-                </select>
-                <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/modificar_sprint';" name="" value="CANCELAR">
-                <input class="buttons" id="bt_guardar" type="button" style="float: right; margin-top: 18%;" name="" value="GUARDAR">
 
-            </form>
-        </section>
-        
+        <style>
+            .my_div{
+                background-color: gray;
+                width: 80%;
+                height: 100%;
+                left: 10%;
+                position: relative;
+            }
+    
+            .swal-overlay {
+                background-color: rgba(124, 121, 121, 0.657);
+            }
+    
+            .b_add{
+                background-color: rgb(11, 133, 11);
+                height: 35px;
+                width: 60px;
+                border-radius: 3px;
+                color: white;
+                border: none;
+                margin-right: 3%;
+            }
+    
+            .b_add:hover{
+                background: rgb(46, 150, 46);
+            }
+    
+
+            /*MOSTRANDO*/
+            .dataTables_info { 
+                margin-top: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            /*MOSTRAR*/
+            .dataTables_filter{
+                margin-top: 0px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            /*BUSCAR*/
+            .dataTables_filter input{
+                margin-bottom: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            /*ANTERIOR SIGUIENTE*/
+            .dataTables_paginate{
+                margin-top: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                
+            }
+    
+            /*TEXTO DE ADENTRO*/
+            .dataTables_wrapper{
+                margin-top: 10px;
+                font-family: Arial, Helvetica, sans-serif;
+                color: black;
+            }
+    
+            .dataTables_length {
+                color: red;
+            }
+    
+            .swal-title {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+    
+            .swal-text {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <!--DATATABLE JAVASCRIPT-->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <nav class = "menuPrincipal">
+
+		<ul>
+            <img src="{% static 'logo.png' %}" width="32" height="32"/>
+            <div style="position:relative; z-index: 1">
+                <li><a href="#">REJA Software</a></li>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 90%">
+                <li><a href="/modificar_sprint">ATRAS</a></li>
+            </div>
+		</ul>
+    </nav>
+    <body>
+        <div class="my_div">
+            <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
+                <thead>
+                    <tr>
+                        <th>Nombre del US</th>
+                        <th>Descripción</th>
+                        <th>BACKLOG</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for us in lista_us %}
+                        <tr id = {{us.0}} >
+                            <td>{{ us.1 }}</td>
+                            <td>{{ us.2 }}</td>
+                            <td>{{ us.7 }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </body>
+
+    <script>
+        $(document).ready(function() {
+            $('#tabla').DataTable({
+                responsive: true,
+                destroy: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+                },
+                columns:[
+                    {a: "nombre"},
+                    {b: "descripcion"},
+                    {c: "backlog"},
+                    {
+                        f: null, 
+                        title: 'Controles',
+                        orderable: false,
+                        searchable: false,
+                        wrap: true, 
+                        render: function (data, type, row) {
+                            add = '<button class="b_add" type="button">Agregar</button>'; 
+                            return add;
+                        }
+                    }
+                ]
+            });
+        } );
+
+        $(document).ready(function(){
+            $(".b_add").click(function(){
+                var id_us = $(this).parents("tr")[0].id
+
+                $.ajax({
+                    type: 'GET',
+                    url: "/add_incidencia",
+                    data: {'id_us' : id_us},
+                    success:function(data) {
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        swal('jkhvhv');
+                        window.location.reload();
+                    }
+                });
+             });
+    
+        }); 
+    </script>
 </html>

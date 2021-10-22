@@ -43,7 +43,8 @@
             <input class="input_txt" type="password" value="" name="password_rep" placeholder="Repetir constraseña" maxlength="15" required>
 
             <input class="buttons" type="button" style="float: left;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="REGISTRAR">
+            <input class="buttons" id="btn" type="button" style="float: right;" name="" value="REGISTRAR">
+            <input class="buttons" id="bt_registrar" type="submit" style="float: right; visibility:hidden" name="" value="REGISTRAR">
         </form>
     </section>
     <body>
@@ -84,29 +85,26 @@
         </script>
         <!-- FIN CUADRIO DE ERROR -->
         <script>
-            $('#bt_registrar').on('click', function() {
-                var tasks = show_selected();
-
-                $.ajax({
-                    type: 'GET',
-                    url: '/prueba/',
-                    data: {'roles[]': tasks},
+            $('#btn').on('click', function(e) {
+                e.preventDefault();
+                var roles_seleccionados = [];
+                $("#roles option:selected").each(function() {
+                    roles_seleccionados.push($(this).val());
                 });
+                $.ajax({
+                        type: 'GET',
+                        url: "/guardar_roles_selected",
+                        traditional: true,
+                        data: { 'rol_select' : roles_seleccionados},
+                        success:function(data) {
+                            $("#bt_registrar").click();
+                        },
+                        error: function(xhr, status, error) {
+                            window.location.reload();
+                        }
+                    });
             });
             
-            function show_selected() {
-                var roles = []
-                var selector = document.getElementById('roles');
-                for (var i = 0; i < selector.length; i++) {
-                    if (selector[i].selected) {
-                        roles.push(selector[i].value);
-                    }
-                }
-                console.log(selector)
-                console.log(roles)
-            }
-            
-            // document.getElementById('bt_registrar').addEventListener('click', show_selected);
         </script>
     </body>
 </html>

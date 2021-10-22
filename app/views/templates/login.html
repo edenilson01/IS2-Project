@@ -8,14 +8,15 @@
             <link rel="stylesheet" href="{% static 'login.css' %}">
             <!--CSS DEL POP UP (cuadro de mensaje)-->
             <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
-            <link rel="shortcut icon" href="{% static 'logo.png' %}">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
         </head>
         <body>
             <section class="form-login">
               <h5>REJA Software</h5>
               <form action="/login_form" method="GET" autocomplete="off">
-                    <input class="controls" type="text" name="usuario" value="" placeholder="Username" maxlength="20" required>
-                    <input class="controls" type="password" name="contrasena" value="" placeholder="Contraseña" id="myInput" maxlength="15" required>
+                    <input class="controls" type="text" name="usuario" value="" placeholder="&#xf007; Username" maxlength="20" style="font-family:arial, FontAwesome" required>
+                    <input class="controls" type="password" name="contrasena" value="" placeholder="&#xf084; Contraseña" id="myInput" maxlength="15" style="font-family:arial, FontAwesome"required>
                     <input type="checkbox" onclick="mostrarContrasenha()">
                 Mostrar contraseña
                 <br><br><br>
@@ -33,7 +34,7 @@
                   }
                 }
             </script>
-
+            
             <!-- CUADRO DE ERROR CON MENSAJE-->
             <div class="fondo_transparente" id = "fondo">
                 <div class="modal">

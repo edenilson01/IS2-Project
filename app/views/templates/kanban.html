@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'base.css' %}">
+        <link rel="stylesheet" href="{% static 'tablero_kanban.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <title>Kanban</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
+    
+    </head>
+    <nav class = "menuPrincipal">
+		<ul>
+            <img src="{% static 'logo.png' %}" width="32" height="32"/>
+            <div style="position:relative; z-index: 1">
+                <li><a href="#">REJA Software</a></li>
+            </div>
+
+            <div class= kanban_titulo style="position:absolute; z-index: 1; left: 44%; 	font-family: 'Lato'; font-size: 14px;">
+                <h1><img src="{% static 'kanban.svg' %}" width="30" height="20"/> TABLERO KANBAN<h1>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 90%">
+                <li><a href="/desarrollo">ATRAS</a></li>
+            </div>
+		</ul>
+    </nav>
+
+    <body>     
+        <main id="app">
+            <section id="board">
+                <section id="columns">
+                    <div class="column dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <h3 class="column-title">TO DO</h3>
+                        {% for us in lista_us %}
+                            <ul class="tasks" id="tasks-added" draggable="true" ondragstart="drag(event)">
+                                <li class="task fill" id ="id">
+                                    <div class="task-content" id="id_content">
+                                        <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                        <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.4}}
+                                    </div>
+                                </li>
+                            </ul>                          
+                        {% endfor %}
+                    </div>
+                    <div class="column dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <h3 class="column-title">DOING</h3>
+                    </div>
+                    <div class="column dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <h3 class="column-title">DONE</h3>
+                    </div>
+            </section>
+        </main>
+        <script src="{% static 'kanban.js' %}" defer></script>
+    </body>
+</html>
