@@ -142,7 +142,7 @@
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th>Nombre Sprint</th>
                         <th>Fecha de inicio</th>
                         <th>Fecha de finalización</th>
                         <th>Activo</th>
@@ -153,7 +153,11 @@
                     {% for i in lista_sprint %}
                         <tr id = {{i.0}} >
                             <td>{{ i.1 }}</td>
-                            <td>{{ i.2 }}</td>
+                            {% if i.2 is None %}
+                                <td>Sin fecha</td>
+                            {% else %}
+                                <td>{{ i.2 }}</td>
+                            {% endif %}
                             <td>{{ i.3 }}</td>
                             <td>{{ i.4 }}</td>
                             <td></td>

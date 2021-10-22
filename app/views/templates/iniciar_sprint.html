@@ -54,7 +54,9 @@
         </section> 
         
         <script>
-   
+            // update sprints 
+            // set inicio =(SELECT CAST('15-10-2021' AS DATE) + CAST('31 days' AS INTERVAL)) 
+            // where id_proyecto = 6;
             $("#bt_guardar").on('click', function(e){
                 e.preventDefault();
                 var id_sprint = $(this).parents("tr")[0];
