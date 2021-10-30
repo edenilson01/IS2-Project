@@ -165,16 +165,17 @@ class ViewRequest:
         # usuario_model = UserModel()
         modelo_usuario.update_user(usuario['password'], usuario['correo'], usuario['username'])
 
-        #TODO falta roles
-  
+        roles = self.obtener_roles_usuario(usuario['username'])
+
+        if roles :
+            for rol in roles:
+                UsuarioRolModel().delete_rol_usuario(rol,usuario['username'])
+
+        for rol in self.rol_select:
+            UsuarioRolModel().insert_rol_usuario2(rol,usuario['username'])
+
         return redirect('/user_settings/')
     
-    #def prueba(self, request):
-    #    roles = request.GET.getlist('roles[]')
-    #    usuario_rol = UsuarioRolModel()
-    #    #for rol in roles:
-    #    #    usuario_rol.insert_rol_usuario()
-    #    return HttpResponse('Sucess')
 
 
     ###################################################
@@ -221,6 +222,7 @@ class ViewRequest:
         datos_persona['correo'] = usuario[3]
         datos_persona['pass'] = usuario[1]
         datos_persona['permisos'] = self.obtener_roles_usuario(username)
+        print(datos_persona['permisos'])
         datos_persona['username'] = username
 
         return HttpResponse(json.dumps(datos_persona), content_type='application/json')
