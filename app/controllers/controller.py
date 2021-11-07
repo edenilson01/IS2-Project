@@ -541,7 +541,7 @@ class ViewRequest:
         return render(request, 'crear_us.html')
 
     def modificar_sprint(self, request):
-        lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
+        lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('modificar_sprint.html')
         html_reponse = view.render({'lista_us': lista_us})
 
