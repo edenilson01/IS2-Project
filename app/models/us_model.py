@@ -16,7 +16,7 @@ class USModel(DbConnectionModel):
     CONSULT_ESTADO_STMT = 'SELECT backlog FROM us WHERE id_us = %s'
     CONSULT_ESTADO_BACKLOG_STMT = 'SELECT BACKLOG FROM US WHERE BACKLOG = FALSE AND ID_SPRINT = %s AND ID_PROYECTO=%s;'
     CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'  
-    CONSULT_US_BY_SPRINT_STMT = 'SELECT id_us, nombre, descripcion FROM us WHERE id_sprint = %s' 
+    CONSULT_US_BY_SPRINT_STMT = 'SELECT id_us, nombre, descripcion, estado, username FROM us WHERE id_sprint = %s' 
     CONSULT_US_BY_ID_2_STMT = 'SELECT nombre, descripcion, estado, user_name, id_proyecto FROM us WHERE id_us = %s'    
     CONSULT_USERNAME_STMT = 'SELECT username from us'  
     CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
