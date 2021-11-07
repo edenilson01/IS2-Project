@@ -22,17 +22,18 @@
             </form> 
         </section>
         <script>
-            var permisos = {{permisos}};
+            var permisos = {{permisos | safe}};
             permisos.forEach(function(permiso) {
-                if (permiso === 1) {
+                var per = permiso.toUpperCase();
+                if (per === "SEGURIDAD") {
                     document.getElementById("1").disabled=false;
                     document.getElementById("1").style="background:white";
                 }
-                if (permiso === 2) {
+                if (per === "PROYECTO") {
                     document.getElementById("2").disabled=false;
                     document.getElementById("2").style="background:white";
                 }
-                if (permiso === 3) {
+                if (per === "DESARROLLO") {
                     document.getElementById("3").disabled=false;
                     document.getElementById("3").style="background:white";
                 }

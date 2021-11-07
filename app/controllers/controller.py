@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import json
-import time
+import datetime
 from sys import path as path
 path.append('./')
 from app.models.personas_model import PersonaModel
@@ -28,6 +28,7 @@ class ViewRequest:
         self.mensaje_error = []
         self.titulo_error = None
         self.id_proyecto = None
+        self.id_sprint = None
         self.permisos = None
 
     def enviar_sms_error(self, templade):        
@@ -165,16 +166,17 @@ class ViewRequest:
         # usuario_model = UserModel()
         modelo_usuario.update_user(usuario['password'], usuario['correo'], usuario['username'])
 
-        #TODO falta roles
-  
+        roles = self.obtener_roles_usuario(usuario['username'])
+
+        if roles :
+            for rol in roles:
+                UsuarioRolModel().delete_rol_usuario(rol,usuario['username'])
+
+        for rol in self.rol_select:
+            UsuarioRolModel().insert_rol_usuario2(rol,usuario['username'])
+
         return redirect('/user_settings/')
     
-    #def prueba(self, request):
-    #    roles = request.GET.getlist('roles[]')
-    #    usuario_rol = UsuarioRolModel()
-    #    #for rol in roles:
-    #    #    usuario_rol.insert_rol_usuario()
-    #    return HttpResponse('Sucess')
 
 
     ###################################################
@@ -221,6 +223,7 @@ class ViewRequest:
         datos_persona['correo'] = usuario[3]
         datos_persona['pass'] = usuario[1]
         datos_persona['permisos'] = self.obtener_roles_usuario(username)
+        print(datos_persona['permisos'])
         datos_persona['username'] = username
 
         return HttpResponse(json.dumps(datos_persona), content_type='application/json')
@@ -482,35 +485,40 @@ class ViewRequest:
         return HttpResponse()
     
     def iniciar_sprint(self, request):
-        sprint = SprintModel().consult_sprint(self.id_proyecto)
+        sprint = SprintModel().consult_sprint(self.id_sprint)
+        nombre_sprint = sprint[1]
         view = loader.get_template('iniciar_sprint.html')
-        html = view.render({'nombre': sprint})
+        html = view.render({'nombre': nombre_sprint})
         return HttpResponse(html)
 
+    def calcular_fecha_duracion_sprint(self, request):
+        fecha1 = datetime.datetime.strptime(request.GET['fecha_inicio'], '%Y-%m-%d').date()
+        duracion = int(request.GET['duracion'])
+        fecha2 = fecha1 + datetime.timedelta(days = duracion)
+        response = HttpResponse(
+            json.dumps({ 'fecha_fin_sprint': str(fecha2)}),
+            content_type='application/json'
+        )
+        return response
 
     def ini_sprint(self, request):
-        
-        id_sprint = request.GET['id_sprint']
-        print(request.GET['id_sprint'])
-        print(self.id_proyecto)
         nombre_sprint = request.GET['nombre']
         fecha_inicio = request.GET['fecha_inicio']
         fecha_fin = request.GET['fecha_fin']
+        SprintModel().update_sprint(nombre_sprint, fecha_inicio, fecha_fin, self.id_sprint)
+        return HttpResponse()
 
+    def comprobar_us_sprint(self, request):
+        id_sprint = request.GET['id_sprint']
         us_backlog_sprint = USModel().consult_backlog_by_id_sprint(id_sprint)
-        print(us_backlog_sprint)
-        if us_backlog_sprint is not None:
+        if us_backlog_sprint is None:
             response = HttpResponse(
                 json.dumps({ 'mensaje': 'No se encuentra ningun US en el sprint'}), 
                 content_type='application/json'
             )
             response.status_code = 400
             return response
-        
-        SprintModel().update_sprint( True ,nombre_sprint,fecha_inicio, fecha_fin, id_sprint)
         return HttpResponse()
-
-        
 
     def guardar_sprint_id(self, request):
         self.id_sprint = request.GET['id_sprint']

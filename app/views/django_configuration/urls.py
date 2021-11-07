@@ -96,7 +96,9 @@ urlpatterns = [
     path('reg_sprint/', control.reg_sprint),
     path('fin_sprint/', control.fin_sprint),
     path('iniciar_sprint/', control.iniciar_sprint),
+    path('calcular_fecha/', control.calcular_fecha_duracion_sprint),
     path('ini_sprint/', control.ini_sprint),
+    path('existe_us/', control.comprobar_us_sprint),
 
     path('del_us_h', control.del_us_h),
     path('modificar_us/', control.modificar_us),

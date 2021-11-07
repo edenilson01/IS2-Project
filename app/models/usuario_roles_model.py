@@ -17,7 +17,7 @@ class UsuarioRolModel(DbConnectionModel):
             ids = super().execute_sql_stmt(self.CONSULT_IDS_ROL_USUARIO_STMT, [username], True)
             if len(ids) == 0:
                 return None
-            return ids[0] #VER
+            return ids
         except Exception as e:
             raise e
 
