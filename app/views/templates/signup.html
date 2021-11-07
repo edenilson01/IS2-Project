@@ -35,7 +35,7 @@
 
             <select id="roles" name="roles_usuario">
                 {% for rol in lista_roles %}
-                    <option selected="false" value={{ rol.0 }}>{{ rol.1 }}</option> 
+                    <option value={{ rol.0 }}>{{ rol.1 }}</option>
                 {% endfor %}
             </select>
 
@@ -91,18 +91,19 @@
                 $("#roles option:selected").each(function() {
                     roles_seleccionados.push($(this).val());
                 });
+                console.log(roles_seleccionados); //VER ACA
                 $.ajax({
-                        type: 'GET',
-                        url: "/guardar_roles_selected",
-                        traditional: true,
-                        data: { 'rol_select' : roles_seleccionados},
-                        success:function(data) {
-                            $("#bt_registrar").click();
-                        },
-                        error: function(xhr, status, error) {
-                            window.location.reload();
-                        }
-                    });
+                    type: 'GET',
+                    url: "/guardar_roles_selected",
+                    traditional: true,
+                    data: { 'rol_select' : roles_seleccionados},
+                    success:function(data) {
+                        $("#bt_registrar").click();
+                    },
+                    error: function(xhr, status, error) {
+                        window.location.reload();
+                    }
+                });
             });
             
         </script>

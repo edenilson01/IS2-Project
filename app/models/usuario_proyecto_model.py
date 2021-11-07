@@ -16,7 +16,7 @@ class UsuarioProyectoModel(DbConnectionModel):
 
     def consult_usuarios_asignados(self, id_proyecto):
         try:
-            usuarios = super().execute_sql_stmt(self.CONSULT_USUARIO_ASIGNADOS_STMT, id_proyecto, True)
+            usuarios = super().execute_sql_stmt(self.CONSULT_USUARIO_ASIGNADOS_STMT, [id_proyecto], True)
             if len(usuarios) == 0:
                 return None
             return usuarios

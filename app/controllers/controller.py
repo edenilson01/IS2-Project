@@ -547,6 +547,7 @@ class ViewRequest:
        
 
     def asignar_user(self, request):
+        print(self.id_proyecto)
         lista_miembros = UsuarioProyectoModel().consult_usuarios_asignados(self.id_proyecto)
         if lista_miembros is None:
             print('No hay miembros')
