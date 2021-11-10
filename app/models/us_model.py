@@ -26,6 +26,8 @@ class USModel(DbConnectionModel):
     CONSULT_US_BY_ID_SPRINT_STMT = 'SELECT estado FROM us WHERE id_sprint = %s AND estado <> \'DONE\''
     CONSULT_USERNAME_STMT = 'SELECT username from us'    
     CONSULT_US_STMT = 'SELECT id_us, nombre, descripcion, username FROM US WHERE id_proyecto = %s'
+    CONSULT_NOM_US_SMTM ='SELECT nombre FROM us WHERE id_us = %s'
+    CONSULT_DESC_US_SMTM ='SELECT descripcion FROM us WHERE id_us = %s'
     DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
     UPDATE_USERNAME_STMT = 'UPDATE us SET  username =%s WHERE id_us = %s'
     
@@ -169,6 +171,25 @@ class USModel(DbConnectionModel):
         except Exception as e:
             raise e
 
+    def consult_nombre_us(self, id_us):
+        try:
+            nombre = super().execute_sql_stmt(self.CONSULT_NOM_US_SMTM,  [id_us], True)
+            if len(nombre) == 0:
+                return None
+            return nombre [0][0]
+        except Exception as e:
+            raise e
+
+    def consult_descripcion_us(self, id_us):
+        try:
+            descripcion= super().execute_sql_stmt(self.CONSULT_DESC_US_SMTM, [id_us], True)
+            if len(descripcion) == 0:
+                return None
+            return descripcion [0][0]
+        except Exception as e:
+            raise e
+
+
     def delete_us(self, id_us):
         try:
             super().execute_sql_stmt(self.DELETE_US_STMT, [id_us])
@@ -180,3 +201,5 @@ class USModel(DbConnectionModel):
             super().execute_sql_stmt(self.UPDATE_USERNAME_STMT, (username, id_us))
         except Exception as e:
             raise e            
+
+       

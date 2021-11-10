@@ -317,8 +317,15 @@ class ViewRequest:
         self.id_proyecto = request.GET['id_proyecto']
         return HttpResponse()
 
+
+
     def modificar_proyecto(self, request):
-        return render(request, 'modificar_proyecto.html')
+        #return render(request, 'modificar_proyecto.html')
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        view = loader.get_template('modificar_proyecto.html')
+        html = view.render({'nombre_proyecto': nombre_proyecto})
+        return HttpResponse(html)        
+
 
     def mod_proyecto(self, request):
         nuevo_nombre = request.GET['proy_nombre']
@@ -426,19 +433,20 @@ class ViewRequest:
         return HttpResponse()
 
     def modificar_us(self, request):
+        nombre_us = USModel().consult_nombre_us(self.id_us)
+        descripcion_us = USModel().consult_descripcion_us(self.id_us)
         view = loader.get_template('modificar_us.html')
-        html_reponse = view.render({'lista_us': self.obtener_username()})
-        return HttpResponse(html_reponse) 
+        html = view.render({'nombre_us': nombre_us,'descripcion_us': descripcion_us})
+        return HttpResponse(html) 
     
     def mod_us(self, request):
         nuevo_nombre = request.GET['nombre']
         descripcion = request.GET['descripcion']
         if nuevo_nombre:
-            USModel().update_nombre(nuevo_nombre, self.id_us)
-        
-        if descripcion:
-            USModel().update_descripcion(descripcion, self.id_us) 
-                
+            USModel().update_nombre(nuevo_nombre, self.id_us)     
+
+        USModel().update_descripcion(descripcion, self.id_us) 
+             
         return redirect('/modificar_us/')
 
     def obt_us(self, request):
@@ -531,7 +539,7 @@ class ViewRequest:
 
     def crear_us(self, request):
         return render(request, 'crear_us.html')
-
+        
     def modificar_sprint(self, request):
         lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
         view = loader.get_template('modificar_sprint.html')
@@ -576,14 +584,17 @@ class ViewRequest:
 
     def add_user_sprint(self, request):
         USModel().update_username(request.GET['username'], self.id_us)
-        return redirect('/asignar_user/')         
-
+        return redirect('/asignar_user/')  
         
 #####################################kanban
     def kanban(self, request):
         lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        sprint = SprintModel().consult_sprint_activo(self.id_proyecto)
+        if(sprint==None):
+            sprint='Ningun sprint activo'
         view = loader.get_template('kanban.html')
-        html_reponse = view.render({'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint})
 
         return HttpResponse(html_reponse)
 

@@ -22,7 +22,7 @@
                     </select>
                     <input class="buttons" type="submit" name="" value="SELECCIONAR">
                 </form>
-                <form action="/del_permiso" methon="GET" autocomplete="off">
+                <form id="form_delete_permiso" action="/del_permiso" methon="GET" autocomplete="off">
                     <h4 style="display: none; text-align: center;" id="label1">Datos permiso</h4>
                     <label class="input_txt" id="txt_nombre" style="display: none; color:black; background-color: white; height: 37.5px;">Nombre</label>
                     <label class="input_txt" id="value_nombre" style="display: none; color:black; height: 37.5px;"></label>
@@ -38,10 +38,13 @@
                     e.preventDefault();
                     var formulario = $(this).parents('form');
                     swal(
-                        "¿Desea eliminar el permiso?", 
-                        {
-                            buttons: true
-                        }
+                    {
+                        title: "Eliminar US",
+                        text: "¿Desea realmente eliminar el permiso?",
+                        icon :'warning',                                                       
+                        dangerMode: true,
+                        buttons: true
+                    }
                     ).then(okay => { 
                         if (okay) {
                             formulario.submit();
@@ -91,6 +94,19 @@
                         });
                     });
                 });
+
+                $(document).ready(function(){
+                    $("#lista_permisos").on('change', function(){
+                        document.getElementById("label1").style.display="none";
+                        document.getElementById("txt_nombre").style.display="none";
+                        document.getElementById("value_nombre").style.display="none";
+                        document.getElementById("txt_desc").style.display="none";
+                        document.getElementById("value_desc").style.display="none";
+                        document.getElementById("f").style.display="none";
+                        document.getElementById("e").style.float="left";
+                        document.getElementById("e").style.marginTop="2%";                        
+                    });
+                });             
             </script>
         </body>
     </html>

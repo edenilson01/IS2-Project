@@ -14,10 +14,10 @@
     <section class="form-home" style="width: 600px; height: 330px;">
         <h5>Eliminar usuario</h5>
         <form id="buscar_usuario" action="obtener_usuario_elim" method="GET" autocomplete="off">
-            <input class="input_txt" name="username" type="text" value="" placeholder="Escriba aquí el username" maxlength="15" required>
+            <input class="input_txt" id="user" name="username" type="text" value="" placeholder="Escriba aquí el username" maxlength="15" required>
             <input class="buttons" type="submit" name="" value="BUSCAR">
         </form>
-        <form action="/del_user" method="GET" autocomplete="off">
+        <form id="eliminar" method="GET" action="/del_user" autocomplete="off" type="">
             <h4 style="display: none;" id="label1">Datos del Usuario</h4>
             <label class="input_txt" id="a" style="display: none; color:black; background-color: white; height: 37.5px;">Nombre completo:</label>
             <label class="input_txt" id="nombre" style="display: none; color:black; height: 37.5px;"></label>
@@ -34,8 +34,11 @@
                 e.preventDefault();
                 var formulario = $(this).parents('form');
                 swal(
-                    "¿Desea eliminar el usuario?", 
                     {
+                        title: "Eliminar US",
+                        text: "¿Desea realmente eliminar el usuario?",
+                        icon :'warning',                                                       
+                        dangerMode: true,
                         buttons: true
                     }
                 ).then(okay => { 
@@ -71,12 +74,25 @@
                             document.getElementById("correo").innerHTML=data.correo;
                         },
                         error: function(xhr, status, error) {
-                            window.alert("NO EXISTE EL USUARIO");
-                            window.location.reload();
+                             swal({title:"Error",text:"No existe el usuario ingresado",icon:"error",timer:3010,
+                            buttons: false});
+                            buscar_usuario.reset();
                         }
                     });
                 });
             });
+
+            $(document).ready(function(){
+                $("input[id=user]").keyup(function(){
+                    document.getElementById("label1").style.display="none";
+                    document.getElementById("a").style.display="none";
+                    document.getElementById("nombre").style.display="none";
+                    document.getElementById("c").style.display="none";
+                    document.getElementById("correo").style.display="none";
+                    document.getElementById("f").style.display="none";         
+                });
+            });
+
         </script>
     </body>
 </html>

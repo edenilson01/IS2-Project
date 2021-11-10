@@ -106,7 +106,6 @@ urlpatterns = [
 
     path('modificar_sprint/', control.modificar_sprint),
 
-    #path('agregar_us/', control.agregar_us),
     path('agregar_us/', control.agregar_us),
     path('add_incidencia/', control.add_incidencia),
     

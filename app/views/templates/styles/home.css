@@ -1,9 +1,17 @@
 .icon{
     font-size: 35px;
     text-align: center;
-    margin: 0px 1px 0px 155px;
+    margin: 0px 0px 0px 145px;
     color:violet;
 }
+
+.close{
+    font-size: 20px;
+    text-align: center;
+    margin: 0px 0px 0px 315px;
+    color:violet;
+}
+
 
 * {
     margin: 100;
@@ -21,7 +29,7 @@ body {
 
 .form-home {
     width: 400px;
-    height: 340px;
+    height: 360px;
     background: #4e4d4d;
     margin: auto;
     margin-top: 180px;
