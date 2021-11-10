@@ -50,7 +50,7 @@ class RolPermisoModel(DbConnectionModel):
     
     def consult_permisos2(self, id_rol):
         try:
-            permisos = super().execute_sql_stmt(self.CONSULT_PERS_STMT2, [id_rol], True)
+            permisos = super().execute_sql_stmt(self.CONSULT_PERS_STMT_2, [id_rol], True)
            
             if len(permisos) == 0:
                 return None

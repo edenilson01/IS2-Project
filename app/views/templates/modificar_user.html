@@ -106,12 +106,8 @@
             </div>
 
             <input class="buttons" style="float: left; margin-top: 16.2px;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-<<<<<<< HEAD
-            <input class="buttons" id="bt_modificar" style="float: right;" type="submit" name="" value="MODIFICAR" disabled="true">
-=======
-            <input class="buttons" id="bt_modificar" style="float: right;" type="button" name="" value="MODIFICAR">
+            <input class="buttons" id="bt_modificar" style="float: right;" type="button" name="" value="MODIFICAR" disabled="true">
             <input class="buttons" id="bt_mod" type="submit" style="float: right; visibility:hidden" name="" value="REGISTRAR">
->>>>>>> aeba1042b90cda660815c3a2c46aca853f468a66
             <input class="input_txt" type="hidden" name="username2" id="user2">
         </form>
         
@@ -121,19 +117,12 @@
             $("#bt_mod").on('click', function(e){
                 e.preventDefault();
                 var formulario = $(this).parents('form');
-<<<<<<< HEAD
-                swal({
-                    text:"¿Desea realizar los cambios al usuario?", 
-                    buttons: true                    
-                }).then(okay => { 
-=======
                 swal(
                     "¿Desea modificar el usuario?", 
                     {
                         buttons: true
                     }
                 ).then(okay => { 
->>>>>>> aeba1042b90cda660815c3a2c46aca853f468a66
                     if (okay) {
                         swal({title:"Modificado!",text:" ", icon:"success", button:false}), function () {
                             location.reload();
@@ -168,9 +157,7 @@
                             document.getElementById("pass").disabled = false;
                             document.getElementById("pass").value = data.pass;
                             document.getElementById("user2").value = data.username;
-<<<<<<< HEAD
                             document.getElementById("bt_modificar").disabled= false;
-=======
                             roles = document.querySelectorAll('#check');
                             for (let j = 0; j < roles.length; j++) {
                                 $(roles).eq(j).prop("checked", false); 
@@ -184,7 +171,6 @@
                                 }    
                             }
                             
->>>>>>> aeba1042b90cda660815c3a2c46aca853f468a66
                             //TODO opcion no marca
                             //document.querySelectorAll('option[value="1"]')[0].selected="true"
                             document.querySelectorAll('option[value="1"]')[0].attributes[0].value = "true";

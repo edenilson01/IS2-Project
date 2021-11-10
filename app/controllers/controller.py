@@ -241,6 +241,7 @@ class ViewRequest:
         
         id_rol = request.GET.get('rol_selected')
         permisos = RolPermisoModel().consult_permisos2(id_rol)
+        print(permisos)
         return HttpResponse(json.dumps(permisos), content_type='application/json')
 
     ################### MODIFICAR USUARIO
