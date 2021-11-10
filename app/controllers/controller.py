@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.decorators import login_required
 import json
-import time
+import datetime
 from sys import path as path
 path.append('./')
 from app.models.personas_model import PersonaModel
@@ -28,6 +28,7 @@ class ViewRequest:
         self.mensaje_error = []
         self.titulo_error = None
         self.id_proyecto = None
+        self.id_sprint = None
         self.permisos = None
 
     def enviar_sms_error(self, templade):        
@@ -361,8 +362,15 @@ class ViewRequest:
         self.id_proyecto = request.GET['id_proyecto']
         return HttpResponse()
 
+
+
     def modificar_proyecto(self, request):
-        return render(request, 'modificar_proyecto.html')
+        #return render(request, 'modificar_proyecto.html')
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        view = loader.get_template('modificar_proyecto.html')
+        html = view.render({'nombre_proyecto': nombre_proyecto})
+        return HttpResponse(html)        
+
 
     def mod_proyecto(self, request):
         nuevo_nombre = request.GET['proy_nombre']
@@ -470,19 +478,20 @@ class ViewRequest:
         return HttpResponse()
 
     def modificar_us(self, request):
+        nombre_us = USModel().consult_nombre_us(self.id_us)
+        descripcion_us = USModel().consult_descripcion_us(self.id_us)
         view = loader.get_template('modificar_us.html')
-        html_reponse = view.render({'lista_us': self.obtener_username()})
-        return HttpResponse(html_reponse) 
+        html = view.render({'nombre_us': nombre_us,'descripcion_us': descripcion_us})
+        return HttpResponse(html) 
     
     def mod_us(self, request):
         nuevo_nombre = request.GET['nombre']
         descripcion = request.GET['descripcion']
         if nuevo_nombre:
-            USModel().update_nombre(nuevo_nombre, self.id_us)
-        
-        if descripcion:
-            USModel().update_descripcion(descripcion, self.id_us) 
-                
+            USModel().update_nombre(nuevo_nombre, self.id_us)     
+
+        USModel().update_descripcion(descripcion, self.id_us) 
+             
         return redirect('/modificar_us/')
 
     def obt_us(self, request):
@@ -526,35 +535,40 @@ class ViewRequest:
         return HttpResponse()
     
     def iniciar_sprint(self, request):
-        sprint = SprintModel().consult_sprint(self.id_proyecto)
+        sprint = SprintModel().consult_sprint(self.id_sprint)
+        nombre_sprint = sprint[1]
         view = loader.get_template('iniciar_sprint.html')
-        html = view.render({'nombre': sprint})
+        html = view.render({'nombre': nombre_sprint})
         return HttpResponse(html)
 
+    def calcular_fecha_duracion_sprint(self, request):
+        fecha1 = datetime.datetime.strptime(request.GET['fecha_inicio'], '%Y-%m-%d').date()
+        duracion = int(request.GET['duracion'])
+        fecha2 = fecha1 + datetime.timedelta(days = duracion)
+        response = HttpResponse(
+            json.dumps({ 'fecha_fin_sprint': str(fecha2)}),
+            content_type='application/json'
+        )
+        return response
 
     def ini_sprint(self, request):
-        
-        id_sprint = request.GET['id_sprint']
-        print(request.GET['id_sprint'])
-        print(self.id_proyecto)
         nombre_sprint = request.GET['nombre']
         fecha_inicio = request.GET['fecha_inicio']
         fecha_fin = request.GET['fecha_fin']
+        SprintModel().update_sprint(nombre_sprint, fecha_inicio, fecha_fin, self.id_sprint)
+        return HttpResponse()
 
+    def comprobar_us_sprint(self, request):
+        id_sprint = request.GET['id_sprint']
         us_backlog_sprint = USModel().consult_backlog_by_id_sprint(id_sprint)
-        print(us_backlog_sprint)
-        if us_backlog_sprint is not None:
+        if us_backlog_sprint is None:
             response = HttpResponse(
                 json.dumps({ 'mensaje': 'No se encuentra ningun US en el sprint'}), 
                 content_type='application/json'
             )
             response.status_code = 400
             return response
-        
-        SprintModel().update_sprint( True ,nombre_sprint,fecha_inicio, fecha_fin, id_sprint)
         return HttpResponse()
-
-        
 
     def guardar_sprint_id(self, request):
         self.id_sprint = request.GET['id_sprint']
@@ -575,7 +589,7 @@ class ViewRequest:
 
     def crear_us(self, request):
         return render(request, 'crear_us.html')
-
+        
     def modificar_sprint(self, request):
         lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('modificar_sprint.html')
@@ -591,6 +605,7 @@ class ViewRequest:
        
 
     def asignar_user(self, request):
+        print(self.id_proyecto)
         lista_miembros = UsuarioProyectoModel().consult_usuarios_asignados(self.id_proyecto)
         if lista_miembros is None:
             print('No hay miembros')
@@ -620,14 +635,17 @@ class ViewRequest:
 
     def add_user_sprint(self, request):
         USModel().update_username(request.GET['username'], self.id_us)
-        return redirect('/asignar_user/')         
-
+        return redirect('/asignar_user/')  
         
 #####################################kanban
     def kanban(self, request):
         lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        sprint = SprintModel().consult_sprint_activo(self.id_proyecto)
+        if(sprint==None):
+            sprint='Ningun sprint activo'
         view = loader.get_template('kanban.html')
-        html_reponse = view.render({'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint})
 
         return HttpResponse(html_reponse)
 

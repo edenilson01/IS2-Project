@@ -14,6 +14,19 @@ class SprintModel(DbConnectionModel):
     CONSULT_US_STMT = 'SELECT id_sprint, nombre, inicio, fin, activo FROM sprints WHERE id_proyecto = %s'
     CONSULT_ESTADO_SPRINTS_STMT = 'SELECT id_sprint FROM sprints WHERE id_proyecto = %s AND fin IS NOT NULL AND activo IS FALSE'
     CONSULT_SPRINT_STMT = 'SELECT nombre FROM sprints WHERE id_sprint = %s'
+    CONSULT_SPRINT_ACTIVO_STMT = 'SELECT nombre FROM sprints WHERE id_proyecto = %s AND ACTIVO IS TRUE'
+
+    def consult_sprint_activo(self, id_proyect):
+        try:
+            sprint = super().execute_sql_stmt(self.CONSULT_SPRINT_ACTIVO_STMT, [id_proyect], True)
+            if len(sprint) == 0:
+                return None
+            return sprint [0][0]
+        except Exception as e:
+            raise e
+
+    CONSULT_SPRINT_STMT = 'SELECT id_sprint, nombre FROM sprints WHERE id_sprint = %s'
+    UPDATE_SPRINT_STMT = 'UPDATE sprints SET nombre = %s, inicio = %s, fin = %s, activo = %s WHERE id_sprint = %s'
 
     def consult_estados(self, id_proyecto):
         try:
@@ -30,7 +43,7 @@ class SprintModel(DbConnectionModel):
             sp = super().execute_sql_stmt(self.CONSULT_SPRINT_STMT, [id], True)
             if len(sp) == 0:
                 return None
-            return sp[0][0]
+            return sp[0]
         except Exception as e:
             raise e
 
@@ -80,8 +93,8 @@ class SprintModel(DbConnectionModel):
         except Exception as e:
             raise e
 
-    def update_sprint(self, estado, nombre, fecha_inicio, fecha_fin, id_sprint):
+    def update_sprint(self, nombre, fecha_inicio, fecha_fin, id_sprint):
         try:
-            super().execute_sql_stmt(self.UPDATE_SPRINT_STMT, (fecha_fin, id_sprint))
+            super().execute_sql_stmt(self.UPDATE_SPRINT_STMT, (nombre, fecha_inicio, fecha_fin, True, id_sprint))
         except Exception as e:
             raise e            

@@ -11,30 +11,46 @@
     </head>
     <body>
         <section class="form-home">
+            <a href="/login"><i class="fas fa-window-close close" style="font-family:arial, FontAwesome"></i></a>
             <i class="far fa-user-circle icon" style="font-family:arial, FontAwesome" ></i>
             <h5>BIENVENID@ {{user.upper}}</h5>
             <form action>
-                <input class="buttons" id="1" type="button" name="" value="Seguridad" disabled style="background:gray" onclick="window.location='/seguridad/'"> 
+                <input class="buttons" id="7" type="button" name="" value="Seguridad" disabled style="background:gray" onclick="window.location='/seguridad/'"> 
                 <br><br><br>
-                <input class="buttons" id="2" type="button" name="" disabled style="background:gray" value="Proyecto" onclick="window.location='/proyects/'">
+                <input class="buttons" id="8" type="button" name="" disabled style="background:gray" value="Proyecto" onclick="window.location='/proyects/'">
                 <br><br><br>
-                <input class="buttons" id="3" type="button" name="" disabled style="background:gray" value="Desarrollo" onclick="window.location='/desarrollo'">
+                <input class="buttons" id="9" type="button" name="" disabled style="background:gray" value="Desarrollo" onclick="window.location='/desarrollo'">
             </form> 
         </section>
         <script>
-            var permisos = {{permisos}};
+            var permisos = {{permisos | safe}};
             permisos.forEach(function(permiso) {
-                if (permiso === 1) {
+<<<<<<< HEAD
+                if (permiso === 7) {
+                    document.getElementById("7").disabled=false;
+                    document.getElementById("7").style="background:white";
+                }
+                if (permiso === 8) {
+                    document.getElementById("8").disabled=false;
+                    document.getElementById("8").style="background:white";
+                }
+                if (permiso === 9) {
+                    document.getElementById("9").disabled=false;
+                    document.getElementById("9").style="background:white";
+=======
+                var per = permiso.toUpperCase();
+                if (per === "SEGURIDAD") {
                     document.getElementById("1").disabled=false;
                     document.getElementById("1").style="background:white";
                 }
-                if (permiso === 2) {
+                if (per === "PROYECTO") {
                     document.getElementById("2").disabled=false;
                     document.getElementById("2").style="background:white";
                 }
-                if (permiso === 3) {
+                if (per === "DESARROLLO") {
                     document.getElementById("3").disabled=false;
                     document.getElementById("3").style="background:white";
+>>>>>>> aeba1042b90cda660815c3a2c46aca853f468a66
                 }
             });
         </script>

@@ -23,21 +23,21 @@
             </section>
             <script>
                 $("#bt_registrar").on('click', function(e){
-                e.preventDefault();
-                var formulario = $(this).parents('form');
-                swal(
-                    "¿Desea guardar el permiso?", 
-                    {
-                        buttons: true
-                    }
-                ).then(okay => { 
-                    if (okay) {
-                        formulario.submit();
-                    }else{
-                        return false;
-                    }
+                    e.preventDefault();
+                    var formulario = $(this).parents('form');
+                    swal(
+                        "¿Desea guardar el permiso?", 
+                        {
+                            buttons: true
+                        }
+                    ).then(okay => { 
+                        if (okay) {
+                            formulario.submit();
+                        }else{
+                            return false;
+                        }
+                    });
                 });
-            });
             </script>
         </body>
     </html>

@@ -13,6 +13,9 @@ class ProyectoModel(DbConnectionModel):
     CONSULT_PROYECTOS_STMT = 'SELECT id_proyecto, nombre, estado, fecha_inicio, fecha_fin FROM proyectos'
     UPDATE_PROJEC_STMT = 'UPDATE proyectos SET nombre = %s, estado = %s, fecha_fin = %s WHERE id_proyecto = %s'
     UPDATE_ESTADO_FIN_STMT = 'UPDATE proyectos SET estado = %s, fecha_fin = %s WHERE id_proyecto = %s'
+    CONSULT_NOM_PROYECTO_STMT = "SELECT nombre FROM proyectos WHERE id_proyecto = %s"
+
+
 
     def insert_project(self, nombre):
         try:
@@ -76,5 +79,14 @@ class ProyectoModel(DbConnectionModel):
             if len(proyectos) == 0:
                 return None
             return proyectos
+        except Exception as e:
+            raise e
+
+    def consult_proyecto_nom(self, id_proyecto):
+        try:
+            nombre = super().execute_sql_stmt(self.CONSULT_NOM_PROYECTO_STMT, [id_proyecto], True)
+            if len(nombre) == 0:
+                return None
+            return nombre[0][0]
         except Exception as e:
             raise e

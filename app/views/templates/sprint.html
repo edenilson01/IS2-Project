@@ -125,7 +125,7 @@
 		<ul>
             <img src="{% static 'logo.png' %}" width="32" height="32"/>
             <div style="position:relative; z-index: 1">
-                <li><a href="#">REJA Software</a></li>
+                <li><a href="/home">REJA Software</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 20%">
@@ -279,29 +279,40 @@
                         };
                     {% endfor %}
                     if(activo == 0){
-                        swal(
-                            "¿Desea iniciar el sprint " + "\"" + nombre_sprint + "\"?", 
-                            {
-                                dangerMode: true,
-                                buttons: true
-                            }
-                        ).then(okay => { 
-                            if (okay) {
-                                id = $(this).parents("tr")[0].id;
-
-                                $.ajax({
-                                    type: 'GET',
-                                    url: "/guardar_proyecto_id",
-                                    data: { 'id_proyecto' : id},
-                                    success:function(data) {
-                                        window.location.href = "/iniciar_sprint";
-                                    },
-                                    error: function(xhr, status, error) {
-                                        window.location.reload();
+                        var id_sp = $(this).parents("tr")[0].id;
+                        $.ajax({
+                            type: 'GET',
+                            url: "/existe_us",
+                            data: { 'id_sprint' : id_sp},
+                            success:function(data) {
+                                swal(
+                                    "¿Desea iniciar el sprint " + "\"" + nombre_sprint + "\"?", 
+                                    {
+                                        dangerMode: true,
+                                        buttons: true
                                     }
-                                });                            
-                            };  
-                        });                    
+                                ).then(okay => { 
+                                    if (okay) {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: "/guardar_sprint_id",
+                                            data: { 'id_sprint' : id_sp},
+                                            success:function(data) {
+                                                window.location.href = "/iniciar_sprint";
+                                            },
+                                            error: function(xhr, status, error) {
+                                                window.location.reload();
+                                            }
+                                        });                            
+                                    };  
+                                }); 
+                            },
+                            error: function(xhr, status, error) {
+                                swal(
+                                    xhr.responseJSON["mensaje"]
+                                );
+                            }
+                        });                   
                     };
 
                 }else{

@@ -94,7 +94,7 @@
                 </div>
                 <div id="checkboxes" class="hide">
                     {% for rol in lista_roles %}
-                        <label ><input type="checkbox"  value={{ rol.0 }} />{{ rol.1 }}</label>
+                        <label ><input type="checkbox" value={{ rol.0 }} />{{ rol.1 }}</label>
                     {% endfor %}
                 </div>
             </div>
@@ -154,18 +154,19 @@
                     }
                     
                 });
+                console.log(roles_seleccionados); //VER ACA
                 $.ajax({
-                        type: 'GET',
-                        url: "/guardar_roles_selected",
-                        traditional: true,
-                        data: { 'rol_select' : roles_seleccionados},
-                        success:function(data) {
-                            $("#bt_registrar").click();
-                        },
-                        error: function(xhr, status, error) {
-                            window.location.reload();
-                        }
-                    });
+                    type: 'GET',
+                    url: "/guardar_roles_selected",
+                    traditional: true,
+                    data: { 'rol_select' : roles_seleccionados},
+                    success:function(data) {
+                        $("#bt_registrar").click();
+                    },
+                    error: function(xhr, status, error) {
+                        window.location.reload();
+                    }
+                });
             });
             
         </script>
