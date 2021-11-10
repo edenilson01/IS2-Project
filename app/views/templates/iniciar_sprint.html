@@ -9,29 +9,27 @@
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <script defer src="{% static 'iniciar_sprint.js' %}"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
-
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+        <style>
+            .input_txt2 {
+                width: 100%;
+                border: 1px solid black;
+                margin: 5px;
+                padding: 11px;
+                background: #a8a4a4;
+                font-size: 13px;
+                float: left;
+            }
+        </style> 
     </head>
-    <style>
-        .input_txt2 {
-            width: 100%;
-            border: 1px solid black;
-            margin: 5px;
-            padding: 11px;
-            background: #a8a4a4;
-            font-size: 13px;
-            float: left;
-        }
-    </style>
-    
     <body>        
         <section class="form-home" style="height: 500px;">
-            <h5>INICIAR SPRINT</h5>
-            <h4>Datos del Sprint</h4>
-            Nombre <br>
-            <input class="input_txt2" name="nombre"value= {{nombre.upper}} placeholder= {{nombre.upper}}><br>
             <form action="/ini_sprint" method="GET" autocomplete="off">
-                <select class="input_txt2" onchange="habilitar(this.options[this.selectedIndex].value)">
+                <h5>INICIAR SPRINT</h5>
+                <h4>Datos del Sprint</h4>
+                Nombre <br>
+                <input class="input_txt2" name="nombre" value={{nombre.upper}} placeholder={{nombre.upper}}><br>
+                <select id="duracion" class="input_txt2" onchange="habilitar(this.options[this.selectedIndex].value)">
                     <option selected disabled> Elegir duracion del sprint</option>                     
                     <option value = 0 >Personalizado</option>                     
                     <option value = 1 >1 semana</option> 
@@ -45,8 +43,7 @@
                     <input class="input_txt2" id="fecha1" type="date" name="fecha_inicio" value= "" maxlength="30" disabled required >
                     <br>
                     <p>Fecha Fin</p>
-                    <input class="input_txt2"  id="fecha2" type="date" name="fecha_fin" value="" maxlength="30" disabled required>
-                    
+                    <input class="input_txt2" id="fecha2" type="date" name="fecha_fin" value="" maxlength="30" disabled required>
                 </form>
                 <input class="buttons" type="button" style="float: left;" onclick="window.location='/sprint';" name="" value="CANCELAR">
                 <input class="buttons" id="bt_guardar" type="submit"  name="" value="GUARDAR">
@@ -54,18 +51,27 @@
         </section> 
         
         <script>
-            // update sprints 
-            // set inicio =(SELECT CAST('15-10-2021' AS DATE) + CAST('31 days' AS INTERVAL)) 
-            // where id_proyecto = 6;
+            var duracion = null;
+            $(document).on("change","select",function(){
+                var duraciones = document.getElementById("duracion");
+                duracion = duraciones.options[duraciones.selectedIndex].value;
+            });
+
             $("#bt_guardar").on('click', function(e){
                 e.preventDefault();
-                var id_sprint = $(this).parents("tr")[0];
+                var id = document.getElementsByName("nombre")[0].id;
+                var nombre = document.getElementsByName("nombre")[0].value;
+                var fecha_inicio = document.getElementById("fecha1").value;
+                var fecha_fin = document.getElementById("fecha2").value;
                 $.ajax({
                     type: 'GET',
                     url: "/ini_sprint",
-                    data: { 'id_sprint' : id_sprint },
+                    data: { 
+                        'nombre' : nombre,
+                        'fecha_inicio' : fecha_inicio,
+                        'fecha_fin' : fecha_fin
+                    },
                     success:function(data) {
-                        
                         window.location.reload();
                     },
                     error: function(xhr, status, error) {
@@ -76,6 +82,25 @@
                 });
             });   
             
+
+            $("#fecha1").on("change", function(){
+                var fecha1 = document.getElementById("fecha1").value;
+                var duracion_dias = duracion * 8;
+                $.ajax({
+                    type: 'GET',
+                    url: "/calcular_fecha",
+                    data: { 
+                        'fecha_inicio' : fecha1,
+                        'duracion': duracion_dias
+                    },
+                    success:function(data) {
+                        document.getElementById("fecha2").value = data.fecha_fin_sprint;
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
         
         </script>
     </body>

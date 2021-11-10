@@ -7,7 +7,7 @@ class RolPermisoModel(DbConnectionModel):
     UPDATE_ROL_PER_STMT = 'UPDATE rol_permiso SET estado = %s WHERE id_rol = %s and id_permiso = %s'
     DELETE_ROL_PER_STMT = 'DELETE FROM rol_permiso WHERE id_rol = %s and id_permiso = %s'
     CONSULT_ROL_PER_STMT = 'SELECT estado FROM rol_permiso WHERE id_rol = %s and id_permiso = %s'
-    CONSULT_PERS_STMT = 'SELECT id_permiso FROM rol_permiso WHERE id_rol = %s'
+    CONSULT_PERS_STMT = 'SELECT per.nombre FROM rol_permiso rp JOIN permisos per ON per.id_permiso = rp.id_permiso WHERE rp.id_rol = %s'
 
     def consult_permisos(self, id_rol):
         try:

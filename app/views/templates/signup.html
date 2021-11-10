@@ -2,6 +2,53 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            .multiselect {
+                width: 48%;
+                position: relative;
+                float: left;
+                margin: 5px;
+                padding: 10px;                
+            }
+         
+            .selectBox {
+                position: relative;
+            }
+         
+            .selectBox select {
+                width: 100%;
+            }
+         
+            .overSelect {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+         
+            #checkboxes {
+                display: block;
+                border: 1px #dadada solid;
+                position:absolute;
+                width:100%;
+                color: black;
+                background-color:white;
+                box-sizing: border-box;
+                overflow-y:auto;
+                max-height:110px;
+            }
+            #checkboxes.hide {display:none;}
+         
+            #checkboxes label {
+                display: block;
+                
+            }
+         
+            #checkboxes label:hover {
+                background-color: #af0cc5;
+            }
+        </style>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <title>Registrar usuario en REJA</title>
@@ -11,11 +58,16 @@
         <link rel="stylesheet" href="{% static 'check.css' %}">
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script defer src="{% static 'check.js' %}"></script>
+       
         <script>
-            $(document).ready(function () {
-                $("#roles").CreateMultiCheckBox({ width: '260px',
-                    defaultText : 'Selecciona el/los rol/es', height:'100px'});
-            });
+            function showCheckboxes() {
+                var checkboxes = document.getElementById("checkboxes");
+                if(checkboxes.classList.contains("hide")) {
+                    checkboxes.classList.remove("hide");
+                } else {
+                    checkboxes.classList.add("hide");
+                }
+            }
         </script>
     </head>
     <section class="form-home" style="height: 500px;">
@@ -32,16 +84,23 @@
             <input class="input_txt" type="email" name="correo" value="" placeholder="Correo Electrónico" maxlength="100" required>
 
             <label class="input_txt" style="color:black; height: 37.5px;">Rol/es del usuario:</label>
-
-            <select id="roles" name="roles_usuario">
-                {% for rol in lista_roles %}
-                    <option selected="false" value={{ rol.0 }}>{{ rol.1 }}</option> 
-                {% endfor %}
-            </select>
-
-            <input class="input_txt" style="margin-top: 10.5px;" name="password" type="password" value="" placeholder="Constraseña" maxlength="15" required>
+    
+            <div class="multiselect">
+                <div class="selectBox" onclick="showCheckboxes()">
+                    <select>
+                        <option>Selecciona una opcion</option>
+                    </select>
+                    <div class="overSelect"></div>
+                </div>
+                <div id="checkboxes" class="hide">
+                    {% for rol in lista_roles %}
+                        <label ><input type="checkbox" value={{ rol.0 }} />{{ rol.1 }}</label>
+                    {% endfor %}
+                </div>
+            </div>
+       
+            <input class="input_txt" name="password" type="password" value="" placeholder="Constraseña" maxlength="15" required>
             <input class="input_txt" type="password" value="" name="password_rep" placeholder="Repetir constraseña" maxlength="15" required>
-
             <input class="buttons" type="button" style="float: left;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
             <input class="buttons" id="btn" type="button" style="float: right;" name="" value="REGISTRAR">
             <input class="buttons" id="bt_registrar" type="submit" style="float: right; visibility:hidden" name="" value="REGISTRAR">
@@ -85,24 +144,29 @@
         </script>
         <!-- FIN CUADRIO DE ERROR -->
         <script>
+
             $('#btn').on('click', function(e) {
                 e.preventDefault();
                 var roles_seleccionados = [];
-                $("#roles option:selected").each(function() {
-                    roles_seleccionados.push($(this).val());
+                $('input[type="checkbox"]').each(function() {
+                    if ($(this).is(':checked')) {
+                        roles_seleccionados.push($(this).val());
+                    }
+                    
                 });
+                console.log(roles_seleccionados); //VER ACA
                 $.ajax({
-                        type: 'GET',
-                        url: "/guardar_roles_selected",
-                        traditional: true,
-                        data: { 'rol_select' : roles_seleccionados},
-                        success:function(data) {
-                            $("#bt_registrar").click();
-                        },
-                        error: function(xhr, status, error) {
-                            window.location.reload();
-                        }
-                    });
+                    type: 'GET',
+                    url: "/guardar_roles_selected",
+                    traditional: true,
+                    data: { 'rol_select' : roles_seleccionados},
+                    success:function(data) {
+                        $("#bt_registrar").click();
+                    },
+                    error: function(xhr, status, error) {
+                        window.location.reload();
+                    }
+                });
             });
             
         </script>

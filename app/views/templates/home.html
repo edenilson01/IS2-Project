@@ -23,8 +23,9 @@
             </form> 
         </section>
         <script>
-            var permisos = {{permisos}};
+            var permisos = {{permisos | safe}};
             permisos.forEach(function(permiso) {
+<<<<<<< HEAD
                 if (permiso === 7) {
                     document.getElementById("7").disabled=false;
                     document.getElementById("7").style="background:white";
@@ -36,6 +37,20 @@
                 if (permiso === 9) {
                     document.getElementById("9").disabled=false;
                     document.getElementById("9").style="background:white";
+=======
+                var per = permiso.toUpperCase();
+                if (per === "SEGURIDAD") {
+                    document.getElementById("1").disabled=false;
+                    document.getElementById("1").style="background:white";
+                }
+                if (per === "PROYECTO") {
+                    document.getElementById("2").disabled=false;
+                    document.getElementById("2").style="background:white";
+                }
+                if (per === "DESARROLLO") {
+                    document.getElementById("3").disabled=false;
+                    document.getElementById("3").style="background:white";
+>>>>>>> aeba1042b90cda660815c3a2c46aca853f468a66
                 }
             });
         </script>
