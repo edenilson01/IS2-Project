@@ -537,7 +537,7 @@ class ViewRequest:
     
     def iniciar_sprint(self, request):
         sprint = SprintModel().consult_sprint(self.id_sprint)
-        nombre_sprint = sprint[1]
+        nombre_sprint = sprint[0]
         view = loader.get_template('iniciar_sprint.html')
         html = view.render({'nombre': nombre_sprint})
         return HttpResponse(html)
@@ -623,7 +623,7 @@ class ViewRequest:
         if not descripcion:
             descripcion = None
 
-        USModel().insert_us(nombre, descripcion, "to do", None, id_proyecto, None, True)
+        USModel().insert_us(nombre, descripcion, "TODO", None, id_proyecto, None, True)
         return redirect('/crear_us/')
 
 
