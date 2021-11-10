@@ -196,7 +196,7 @@ class ViewRequest:
 
     def updt_rol(self, request):
         id_rol = request.GET['rol_selected']
-        p = RolPermisoModel().consult_permisos(id_rol)
+        p = RolPermisoModel().consult_permisos2(id_rol)
         
         if (p):
             for permiso in p:
@@ -240,7 +240,7 @@ class ViewRequest:
     def obtener_permisos_rol(self, request):
         
         id_rol = request.GET.get('rol_selected')
-        permisos = RolPermisoModel().consult_permisos(id_rol)
+        permisos = RolPermisoModel().consult_permisos2(id_rol)
         return HttpResponse(json.dumps(permisos), content_type='application/json')
 
     ################### MODIFICAR USUARIO
