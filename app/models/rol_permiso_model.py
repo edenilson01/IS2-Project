@@ -7,11 +7,12 @@ class RolPermisoModel(DbConnectionModel):
     UPDATE_ROL_PER_STMT = 'UPDATE rol_permiso SET estado = %s WHERE id_rol = %s and id_permiso = %s'
     DELETE_ROL_PER_STMT = 'DELETE FROM rol_permiso WHERE id_rol = %s and id_permiso = %s'
     CONSULT_ROL_PER_STMT = 'SELECT estado FROM rol_permiso WHERE id_rol = %s and id_permiso = %s'
-    CONSULT_PERS_STMT = 'SELECT id_permiso FROM rol_permiso WHERE id_rol = %s'
+    CONSULT_PERS_STMT = 'SELECT id_permiso FROM rol_permiso WHERE id_rol = %s and estado = True'
 
     def consult_permisos(self, id_rol):
         try:
             permisos = super().execute_sql_stmt(self.CONSULT_PERS_STMT, [id_rol], True)
+           
             if len(permisos) == 0:
                 return None
             return permisos

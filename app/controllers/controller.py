@@ -184,12 +184,31 @@ class ViewRequest:
         return render(request, 'asignar_nombre_rol.html')
 
     def rol_permisos(self, request):
-        return render(request, 'asignar_permisos.html') 
+        view = loader.get_template('asignar_permisos.html')
+        html_reponse = view.render({'lista_permisos': self.obtener_permisos(), 'nombre_rol': self.nombre_rol})
+        return HttpResponse(html_reponse)
 
     def modificar_rol(self, request):
         view = loader.get_template('modificar_rol.html')
-        html_reponse = view.render({'lista_roles': self.obtener_roles()})
+        html_reponse = view.render({'lista_roles': self.obtener_roles(), 'lista_permisos': self.obtener_permisos()})
         return HttpResponse(html_reponse)
+
+    def updt_rol(self, request):
+        id_rol = request.GET['rol_selected']
+        p = RolPermisoModel().consult_permisos(id_rol)
+        
+        if (p):
+            for permiso in p:
+                RolPermisoModel().update_rol_permiso(False, id_rol, permiso)
+        
+        for permiso in self.permisos_selected:
+            existe_registro = RolPermisoModel().consult_estado(id_rol, permiso)
+            if (existe_registro is None):
+                RolPermisoModel().insert_rol_permiso(id_rol, permiso, True)
+            else:
+                RolPermisoModel().update_rol_permiso(True, id_rol, permiso)
+            
+        return redirect('/seguridad/')
 
     def eliminar_rol(self, request):
         view = loader.get_template('delete_rol.html')
@@ -198,8 +217,31 @@ class ViewRequest:
         
     def seguridad(self, request):
         return render(request, 'seguridad.html')
-
     
+    def guardar_nombre_rol(self, request):
+        self.nombre_rol = request.GET.get('nombre')
+        return HttpResponse()
+    
+    def guardar_permisos_selected(self, request):
+        self.permisos_selected = request.GET.getlist('permisos_selected')
+        return HttpResponse()
+   
+    def registrar_rol(self, request):
+        nombre_rol = request.GET.get('nombre_rol')
+
+        rol_id = RolesModel().insert_rol(nombre_rol, None)
+
+        for permiso in self.permisos_selected:
+            RolPermisoModel().insert_rol_permiso(rol_id, permiso, True)
+            
+        return render(request, 'seguridad.html')
+    
+    def obtener_permisos_rol(self, request):
+        
+        id_rol = request.GET.get('rol_selected')
+        permisos = RolPermisoModel().consult_permisos(id_rol)
+        return HttpResponse(json.dumps(permisos), content_type='application/json')
+
     ################### MODIFICAR USUARIO
     def modificar_user(self, request):
         view = loader.get_template('modificar_user.html')
