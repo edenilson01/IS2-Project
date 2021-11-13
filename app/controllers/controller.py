@@ -369,8 +369,9 @@ class ViewRequest:
         view = loader.get_template('modificar_proyecto.html')
 
         res = SprintModel().sprint_activo(self.id_proyecto)
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
 
-        html_reponse = view.render({'respuesta': res})
+        html_reponse = view.render({'respuesta': res, 'nombre_proyecto': nombre_proyecto})
         return HttpResponse(html_reponse)
 
         #return render(request, 'modificar_proyecto.html')
