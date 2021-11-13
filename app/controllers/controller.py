@@ -321,27 +321,38 @@ class ViewRequest:
         return HttpResponse()
 
     def modificar_proyecto(self, request):
-        return render(request, 'modificar_proyecto.html')
+        view = loader.get_template('modificar_proyecto.html')
+
+        res = SprintModel().sprint_activo(self.id_proyecto)
+
+        html_reponse = view.render({'respuesta': res})
+        return HttpResponse(html_reponse)
+
+        #return render(request, 'modificar_proyecto.html')
 
     def mod_proyecto(self, request):
         nuevo_nombre = request.GET['proy_nombre']
         estado = request.GET.get('estado')
-        if estado == 'true':
-            estados_sprints = SprintModel().consult_estados(self.id_proyecto)
-            print(estados_sprints)
-            if estados_sprints is None:
-                response = HttpResponse(
-                    json.dumps({ 'mensaje': 'Existen Sprints para el proyecto sin finalizar'}), 
-                    content_type='application/json'
-                )
-                response.status_code = 400
-                return response
+        #if estado == 'true':
+        #    estados_sprints = SprintModel().consult_estados(self.id_proyecto)
+        #    print(estados_sprints)
+        #    if estados_sprints is None:
+        #        response = HttpResponse(
+        #            json.dumps({ 'mensaje': 'Existen Sprints para el proyecto sin finalizar'}), 
+        #            content_type='application/json'
+        #        )
+        #       response.status_code = 400
+        #        return response
         
         if nuevo_nombre == '':
             ProyectoModel().update_estado_fin(estado, self.id_proyecto)
         else:
-            ProyectoModel().update_project(nuevo_nombre, estado, self.id_proyecto)
-
+            if estado == 'false':
+                ProyectoModel().update_nombre(nuevo_nombre, self.id_proyecto)
+            else:
+                ProyectoModel().update_project(nuevo_nombre, False, self.id_proyecto)
+                ProyectoModel().update_estado_fin(estado, self.id_proyecto)
+      
         return HttpResponse()
 
     def crear_proyecto(self, request):
@@ -585,8 +596,20 @@ class ViewRequest:
 
     def add_user_sprint(self, request):
         USModel().update_username(request.GET['username'], self.id_us)
-        return redirect('/asignar_user/')         
+        return redirect('/asignar_user/')  
 
+    def sprint_historico(self, request):
+        lista = SprintModel().consult(self.id_proyecto)
+        view = loader.get_template('sprint_historico.html')
+        html_reponse = view.render({'lista_sprint': lista})
+        return HttpResponse(html_reponse)
+
+    def sprint_us_historico(self, request):
+        lista_us = USModel().consult_us_by_sprint(self.id_sprint)
+        view = loader.get_template('sprint_us_historico.html')
+        html_reponse = view.render({'lista_us': lista_us})
+
+        return HttpResponse(html_reponse)
         
 #####################################kanban
     def kanban(self, request):

@@ -154,9 +154,20 @@
                     {% for proyecto in lista_proyectos %}
                         <tr id = {{proyecto.0}} >
                             <td>{{ proyecto.1 }}</td>
-                            <td>{{ proyecto.2 }}</td>
+
+                            {% if proyecto.2 == False %}
+                                <td>En curso</td>
+                            {% else %}
+                                <td>Finalizado</td>
+                            {% endif %}
+
                             <td>{{ proyecto.3 }}</td>
-                            <td>{{ proyecto.4 }}</td>
+
+                            {% if proyecto.4 == None %}
+                                <td>En curso</td>
+                            {% else %}
+                                <td>{{ proyecto.4 }}</td>
+                            {% endif %}
                             <td></td>
                         </tr>
                     {% endfor %}

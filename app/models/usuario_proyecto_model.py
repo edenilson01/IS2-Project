@@ -10,7 +10,19 @@ class UsuarioProyectoModel(DbConnectionModel):
     CONSULT_FEC_INC_STMT = 'SELECT fecha_incorporacion FROM usuario_proyecto WHERE username = %s AND id_proyecto = %s'
     CONSULT_FEC_SAL_STMT = 'SELECT fecha_salida FROM usuario_proyecto WHERE username = %s AND id_proyecto = %s'
     CONSULT_USUARIOS_STMT = 'SELECT username, fecha_incorporacion, fecha_salida FROM usuario_proyecto WHERE id_proyecto = %s'
-    CONSULT_USUARIOS_DISP_STMT = 'SELECT username FROM usuarios WHERE username NOT IN (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'
+    #CONSULT_USUARIOS_DISP_STMT = 'SELECT username FROM usuarios WHERE username NOT IN (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'
+
+    CONSULT_USUARIOS_DISP_STMT = '''
+    select 
+          ur.username 
+    from usuarios_roles ur
+    inner join rol_permiso rp on rp.id_rol = ur.id_rol
+    inner join permisos p on p.id_permiso = rp.id_permiso 
+    where ur.fin is null and rp.estado is true and
+          lower(trim(both from p.nombre)) = 'desarrollo'
+          and username NOT IN 
+          (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'''
+
     CONSULT_USUARIO_ASIGNADOS_STMT = 'SELECT username FROM usuarios WHERE username IN (SELECT username FROM usuario_proyecto WHERE ID_PROYECTO = %s )'
     UPDATE_FECHAS_USUARIO_STMT = 'UPDATE usuario_proyecto SET fecha_incorporacion = %s, fecha_salida = %s WHERE username = %s AND id_proyecto = %s'
 

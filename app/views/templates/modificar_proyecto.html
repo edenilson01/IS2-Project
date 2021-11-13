@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title>Crear Proyectos</title>
+        <title>Modificar proyectos</title>
         <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
@@ -42,36 +42,42 @@
                 var formulario = $(this).parents('form');
                 var nuevo_nombre_proyecto = document.getElementsByName("proy_nombre")[0].value;
                 var proyecto_finalizado = $("#check1").is(":checked");
-                console.log(nuevo_nombre_proyecto);
-                console.log(proyecto_finalizado);
-                
-                swal(
-                    "¿Desea guardar el proyecto?", 
-                    {
-                        buttons: true
-                    }
-                ).then(okay => {
-                    if (okay) {
-                        $.ajax({
-                            type: 'GET',
-                            url: "/mod_proyecto",
-                            data: { 
-                                'proy_nombre' : nuevo_nombre_proyecto,
-                                'estado': proyecto_finalizado
-                            },
-                            success:function(data) {
-                                window.location.reload();
-                            },
-                            error: function(xhr, status, error) {
-                                swal(
-                                    xhr.responseJSON['mensaje']
-                                );
-                            }
-                        });
-                    } else {
-                        return false;
-                    }
-                });
+                //console.log(nuevo_nombre_proyecto);
+                //console.log(proyecto_finalizado);
+
+                var variable = "{{respuesta}}";
+
+                if(variable == "True" && proyecto_finalizado) 
+                    swal("NO SE PUEDE FINALIZAR PROYECTO");
+                else
+                    swal(
+                        "¿Desea guardar el proyecto?", 
+                        {
+                            buttons: true
+                        }
+                    ).then(okay => {
+                        if (okay) {
+                            $.ajax({
+                                type: 'GET',
+                                url: "/mod_proyecto",
+                                data: { 
+                                    'proy_nombre' : nuevo_nombre_proyecto,
+                                    'estado': proyecto_finalizado
+                                },
+                                success:function(data) {
+                                    //window.location.reload();
+                                    window.location.href = "/proyects/";
+                                },
+                                error: function(xhr, status, error) {
+                                    swal(
+                                        xhr.responseJSON['mensaje']
+                                    );
+                                }
+                            });
+                        } else {
+                            return false;
+                        }
+                    });
             });
         </script>
     </body>

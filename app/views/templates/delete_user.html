@@ -71,8 +71,14 @@
                             document.getElementById("correo").innerHTML=data.correo;
                         },
                         error: function(xhr, status, error) {
-                            window.alert("NO EXISTE EL USUARIO");
-                            window.location.reload();
+                            //window.alert("NO EXISTE EL USUARIO");
+                            swal("NO EXISTE EL USUARIO").then(okay => { 
+                                if (okay) {
+                                    window.location.reload();
+                                }else{
+                                    window.location.reload();
+                                }
+                            });
                         }
                     });
                 });

@@ -68,7 +68,7 @@ class USModel(DbConnectionModel):
 
     def consult_us_by_proyect_kanban(self, id_project):
         try:
-            us = super().execute_sql_stmt(self.CONSULT_US_BY_PROYECT_KANBAN_STMT, [id_project], True)
+            us = super().execute_sql_stmt(self.CONSULT_US_BY_PROYECT_KANBAN_STMT, (id_project, id_project), True)
             if len(us) == 0:
                 return None
             return us

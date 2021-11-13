@@ -15,6 +15,17 @@ class SprintModel(DbConnectionModel):
     CONSULT_ESTADO_SPRINTS_STMT = 'SELECT id_sprint FROM sprints WHERE id_proyecto = %s AND fin IS NOT NULL AND activo IS FALSE'
     CONSULT_SPRINT_STMT = 'SELECT id_sprint, nombre FROM sprints WHERE id_sprint = %s'
     UPDATE_SPRINT_STMT = 'UPDATE sprints SET nombre = %s, inicio = %s, fin = %s, activo = %s WHERE id_sprint = %s'
+    CONSULTAR_SPRINT_ACTIVO = 'select s.activo from sprints s where s.activo is true and s.id_proyecto = %s;'
+
+    def sprint_activo(self, id):
+        try:
+            res = super().execute_sql_stmt(self.CONSULTAR_SPRINT_ACTIVO, [id], True)
+            if not res:
+                return False
+            else:
+                return res[0][0]
+        except Exception as e:
+            raise e
 
     def consult_estados(self, id_proyecto):
         try:

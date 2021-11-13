@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title>Sprint</title>
+        <title>Sprint Historico</title>
         
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
@@ -128,9 +128,6 @@
                 <li><a href="#">REJA Software</a></li>
             </div>
 
-            <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO SPRINT</a></li>
-            </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
                 <li><a href="/desarrollo">ATRAS</a></li>
@@ -200,11 +197,8 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
-                            mf = '<button class="b_mod" type="button">Modificar</button>';
-                            iniciar = '<button class="b_ini" type="button">Iniciar</button>';
-                            fin = '<button class="b_fin" type="button">Finalizar</button>'; 
-
-                            return mf + iniciar + fin;
+                            mf = '<button class="b_mod" type="button">Historial</button>';
+                            return mf;
                         }
                     }
                 ]
@@ -219,122 +213,13 @@
                     url: "/guardar_sprint_id",
                     data: { 'id_sprint' : id_sprint },
                     success:function(data) {
-                        window.location.href = "/modificar_sprint";
+                        window.location.href = "/sprint_us_historico";
                     },
                     error: function(xhr, status, error) {
                         window.location.reload();
                     }
                });
             });
-        
-
-            $(".b_fin").click(function(){
-                var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
-                var fecha_fin_sprint = $(this).parents("tr").find("td").eq(2).html();
-                var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
-                var id_sprint = $(this).parents("tr")[0].id
-                swal(
-                    "¿Desea finalizar el sprint " + "\"" + nombre_sprint + "\"?", 
-                    {
-                        dangerMode: true,
-                        buttons: true
-                    }
-                ).then(okay => { 
-                    if (okay) {
-                        if (estado_sprint == 'None'){
-                            swal(
-                                'No se puede finalizar un Sprint que no fue iniciado'
-                            );
-                        } else if(estado_sprint == 'False') {
-                            swal(
-                                'No se puede finalizar un Sprint que ya fue finalizado previamente'
-                            );
-                        } else {
-                            $.ajax({
-                                type: 'GET',
-                                url: "/fin_sprint",
-                                data: { 'id_sprint' : id_sprint },
-                                success:function(data) {
-                                    window.location.reload();
-                                },
-                                error: function(xhr, status, error) {
-                                    swal(
-                                        xhr.responseJSON['mensaje']
-                                    );
-                                }
-                            });
-                        };
-                    };
-                });
-            });
-            
-            $(".b_ini").click(function(){
-                var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
-                var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
-                            
-                if(estado_sprint == 'True'){
-                    swal(
-                        '!! "' + nombre_sprint + '"  ACTUALMENTE ACTIVO  !!'
-                    );
-                }else if (estado_sprint == 'None'){
-
-                    False = false;
-                    True = true;
-                    None  = ' ';
-                    activo = 0;
-                    {% for i in lista_sprint %}
-                        if({{i.4}} == true){ 
-                            activo = 1;
-                            swal(
-                                ' NO PUEDE INICIAR HASTA FINALIZAR EL SPRINT \n \n "{{i.1}}" '  
-                           ); 
-                        };
-                    {% endfor %}
-                    if(activo == 0){
-                        var id_sp = $(this).parents("tr")[0].id;
-                        $.ajax({
-                            type: 'GET',
-                            url: "/existe_us",
-                            data: { 'id_sprint' : id_sp},
-                            success:function(data) {
-                                swal(
-                                    "¿Desea iniciar el sprint " + "\"" + nombre_sprint + "\"?", 
-                                    {
-                                        dangerMode: true,
-                                        buttons: true
-                                    }
-                                ).then(okay => { 
-                                    if (okay) {
-                                        $.ajax({
-                                            type: 'GET',
-                                            url: "/guardar_sprint_id",
-                                            data: { 'id_sprint' : id_sp},
-                                            success:function(data) {
-                                                window.location.href = "/iniciar_sprint";
-                                            },
-                                            error: function(xhr, status, error) {
-                                                window.location.reload();
-                                            }
-                                        });                            
-                                    };  
-                                }); 
-                            },
-                            error: function(xhr, status, error) {
-                                swal(
-                                    xhr.responseJSON["mensaje"]
-                                );
-                            }
-                        });                   
-                    };
-
-                }else{
-                    swal(
-                        ' El SPRINT "' + nombre_sprint + '" YA FUE COMPLETADO'
-                    );
-  
-                };    
-            });
-
         });
         
 

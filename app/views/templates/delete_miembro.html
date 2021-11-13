@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <title>Crear Proyectos</title>
+        <title>Eliminar miembros</title>
         <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
@@ -16,18 +16,28 @@
         <section class="form-home" style="height: 250px; width: 400px;">
             <h5>Eliminar miembro</h5>
             <form action="/del_miembro" method="GET" autocomplete="off">
-                <select id="miembros" class="input_txt" style="width: 100%;" required>
+                <select id="miembros" class="input_txt" style="width: 100%;" onchange="es_vacio()">
                     <option value="0">Elije una opción</option> 
                     {% for miembro in lista_miembros %}
                     <option value={{ miembro.0 }}>{{ miembro.0 }}</option> 
                     {% endfor %}
                 </select>
                 <input class="buttons" type="button" style="float: left; margin-top: 18%;" onclick="window.location='/proyects';" name="" value="CANCELAR">
-                <input class="buttons" id="bt_eliminar" type="submit" style="float: right; margin-top: 18%;" name="" value="ELIMINAR">
+                <input class="buttons" id="bt_eliminar" type="submit" style="float: right; margin-top: 18%;" name="" value="ELIMINAR" disabled>
                 <input class="input_txt" type="hidden" name="username" id="miembro">
             </form>
         </section>
         <script>
+            function es_vacio(){
+                var campo1 = document.getElementById("miembros").value;
+                if(campo1 != ""){
+                    document.getElementById("bt_eliminar").removeAttribute('disabled');
+                }
+                else{
+                    document.getElementById("bt_eliminar").setAttribute('disabled', 'disabled');
+                }
+            }
+
             $(document).on("change","select",function(){
                 $("option[value=" + this.value + "]", this)
                 .attr("selected", true).siblings()
