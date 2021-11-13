@@ -9,34 +9,49 @@
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'rol_permisos.js' %}"></script>
             <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         </head>
         <body>
             <section class="form-crear_rol">
               <h5>Seleccione los permisos a asignar</h5>
-              <form action="/reg_rol">
-                {% for permiso in lista_permisos %}
-                    <input type="checkbox" class = "permisos" value={{ permiso.0 }}> {{ permiso.2 }}
-                    <br><br><br>
-                {% endfor %}
-                <input class="input_txt" type="hidden" name="nombre_rol" id="nombre_rol" value = {{nombre_rol}>
-                <input class="buttons" style="margin-top: 28%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                <input class="buttons" id = "guardar" disabled=true type="submit" name="" value="GUARDAR">
+              <form action="/reg_rol" method="GET" autocomplete="off">
+                    {% for permiso in lista_permisos %}
+                        <input type="checkbox" class = "permisos" value={{ permiso.0 }}> {{ permiso.1 }}
+                        <br>
+                    {% endfor %}
+                    <input class="input_txt" type="hidden" name="nombre_rol" id="nombre_rol" value = {{nombre_rol}}>
+                    <input class="buttons" style="margin-top: 28%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                    <input class="buttons" id = "guardar" disabled=true type="submit" name="" value="GUARDAR">
                </form> 
             </section>
 
             <script>
-                $(document).ready(function()
-                {
-                    var formulario = $(this).parents('form');
+                
+                $("#guardar").on('click', function(e) {	 
                     var permisos_seleccionados = [];
-                    $("#guardar").click(function () {	 
+                    e.preventDefault();
+                    var formulario = $(this).parents('form');
+                    $("input:checkbox:checked").each(function() {
                         
-                        $("input:checkbox:checked").each(function() {
-                            permisos_seleccionados.push($(this).val());
-                        });
-                        formulario.submit();
+                        permisos_seleccionados.push($(this).val());
                     });
+
+                    $.ajax({
+                        type: 'GET',
+                        url: "/guardar_permisos_selected",
+                        traditional: true,
+                        data: { 'permisos_selected' : permisos_seleccionados},
+                        
+                        success:function(data) {
+                            formulario.submit();
+                        },
+                        error: function(xhr, status, error) {
+                            window.location.reload();
+                        }
+                    });
+                    
                 });
+            
             </script>
 
     </body>

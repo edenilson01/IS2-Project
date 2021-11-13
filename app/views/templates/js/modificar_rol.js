@@ -1,9 +1,10 @@
 
 const submitButton = document.getElementById('guardar');
-const permisos = document.querySelector('.permisos').querySelectorAll('input[type=checkbox]');
+const permisos = document.querySelectorAll('input[type=checkbox]');
 
 function habilitar(selected) {
     estado_checkbox = false;
+    
     if (selected == 0) {
         submitButton.toggleAttribute('disabled', true);
         estado_checkbox = true;      
@@ -11,12 +12,18 @@ function habilitar(selected) {
         submitButton.toggleAttribute('disabled', false);
     }
     bloquear_checkbox(estado_checkbox);
-    submitButton.toggleAttribute('disabled', true);
+    check_permiso = validar_checkbox();
+    if (!check_permiso) {
+        submitButton.toggleAttribute('disabled', true);
+    } else {
+        submitButton.toggleAttribute('disabled', false);
+    }
+   
 }
 
 function bloquear_checkbox(estado) {
     var i = 0;
-    while (i < permisos.length) {        
+    while (i < permisos.length) {      
         permisos[i].toggleAttribute('disabled', estado);
         i++;
     }

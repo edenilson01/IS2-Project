@@ -8,30 +8,99 @@
             <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
             <link rel="shortcut icon" href="{% static 'logo.png' %}">
             <script defer src="{% static 'modificar_rol.js' %}"></script>
+            <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         </head>
         <body>
             <section class="form-modificar_rol">
                 <h5>Modificar rol</h5>
-                <form>
-                    <select name="rol" onchange="habilitar(this.options[this.selectedIndex].value)">
-                        <option selected value = 0 class='op' >Elige una opción</option> 
+                <form action="/updt_rol" method="GET" autocomplete="off">
+                    <select name="rol" id="select" >
+                        <option  selected value = 0 class='op' >Elige una opción</option> 
                         {% for rol in lista_roles %}
                             <option value={{ rol.0 }}>{{ rol.1 }}</option> 
                         {% endfor %}             
                     </select>
-                </form>
-                <form class='permisos'>
-                    <input type="checkbox"  id="perm_seg" value="seguridad" disabled=true> Seguridad 
-                    <br><br><br>
-                    <input type="checkbox"  id="perm_des" value="desarrollo" disabled=true> Desarrollo
-                    <br><br><br>
-                    <input type="checkbox"  id="perm_proy" value="proyecto" disabled=true> Proyecto              
-                    <br><br><br>
-                </form>
+                
+                    {% for permiso in lista_permisos %}
+                        <input type="checkbox" id="check" disabled class = "permisos" value={{ permiso.0 }}> {{ permiso.1 }}
+                        <br>
+                    {% endfor %}
+               
                 <input class="buttons" style="margin-top: 15%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-                <input class="buttons" id = "guardar" disabled=true type="button" name="" value="GUARDAR">
+                <input class="buttons" id = "guardar" disabled=true type="submit" name="" value="GUARDAR">
+                <input class="input_txt" type="hidden" name="rol_selected" id="rol_selected" onclick="habilitar(this.value)">
                </form> 
             </section>
+
+            <script>
+                $(document).ready(function(){
+                    $("#select").on('change', function(e){
+                        $("option[value=" + this.value + "]", this)
+                        .attr("selected", true).siblings()
+                        .removeAttr("selected");
+                        var formulario = $(this).parents('form');
+                        var roles = document.getElementById("select");
+                        var rol = roles.options[roles.selectedIndex].value;
+                        document.getElementById("rol_selected").value = rol;
+                        
+                       
+                        $.ajax({
+                            type: 'GET',
+                            url: "/obtener_permisos_rol/",
+                            data: formulario.serialize(),
+                            success:function(data) {
+                                
+                                p= document.querySelectorAll('#check');
+
+                                for (let j = 0; j < p.length; j++) {
+                                    $(p).eq(j).prop("checked", false); 
+                                }
+                                if (data) {
+                                    for (let j = 0; j < p.length; j++) {
+                                        for (let i = 0; i < (data).length; i++) {
+                                            if (p[j].value == (data)[i]) {
+                                                $(p).eq(j).prop("checked", true);
+                                            }   
+                                        }    
+                                    }
+                                    
+                                }
+                                
+                                document.getElementById("rol_selected").click();
+                            },
+                            error: function() {
+                                window.location.reload();
+                            }
+                        });
+                    });
+                });
+
+                $("#guardar").on('click', function(e) {	 
+                    var permisos_seleccionados = [];
+                    e.preventDefault();
+                    var formulario = $(this).parents('form');
+                    $("input:checkbox:checked").each(function() {
+                        
+                        permisos_seleccionados.push($(this).val());
+                    });
+
+                    $.ajax({
+                        type: 'GET',
+                        url: "/guardar_permisos_selected",
+                        traditional: true,
+                        data: { 'permisos_selected' : permisos_seleccionados},
+                        
+                        success:function(data) {
+                            formulario.submit();
+                        },
+                        error: function(xhr, status, error) {
+                            window.location.reload();
+                        }
+                    });
+                    
+                });
+            </script>
 
     </body>
 </html>

@@ -4,6 +4,7 @@ from app.models.connection_model import DbConnectionModel
 
 class RolesModel(DbConnectionModel):
     INSERT_ROL_STMT = 'INSERT INTO roles(nombre, descripcion) VALUES (%s, %s)'
+    CONSULT_LAST_ROL = 'SELECT MAX(id_rol) FROM roles'
     CONSULT_ROL_STMT = 'SELECT * FROM roles'
     CONSULT_ROL_STMT_ = 'SELECT id_rol FROM roles WHERE nombre = %s'
     UPDATE_NOMBRE_STMT = 'UPDATE roles SET nombre = %s WHERE id_rol = %s'
@@ -13,6 +14,11 @@ class RolesModel(DbConnectionModel):
     def insert_rol(self, nombre, descripcion):
         try:
             super().execute_sql_stmt(self.INSERT_ROL_STMT, (nombre, descripcion))
+            id_rol = super().execute_sql_stmt(self.CONSULT_LAST_ROL, '', True)
+
+            if len(id_rol) == 0:
+                return None
+            return id_rol[0][0]
         except Exception as e:
             raise e
         

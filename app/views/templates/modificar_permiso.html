@@ -25,7 +25,7 @@
                 </form>
                 <br>
                 <h4>Datos actuales</h4>
-                <form action="/mod_permiso" methon="GET" autocomplete="off">
+                <form id="form_modificar" action="/mod_permiso" methon="GET" autocomplete="off">
                     <input class="input_txt" id="name" name="nombre" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" disabled required>
                     <input class="input_txt" id="desc" name="descripcion" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
                     <br><br><br><br>
@@ -46,6 +46,9 @@
                         }
                     ).then(okay => { 
                         if (okay) {
+                            swal({title:"Modificado!",text:" ", icon:"success", button:false}), function () {
+                                location.reload();
+                            };
                             formulario.submit();
                         }else{
                             return false;
@@ -80,6 +83,14 @@
                         });
                     });
                 });
+
+                $(document).ready(function(){
+                    $("#lista_permisos").on('change', function(){
+                        form_modificar.reset();
+                        document.getElementById("reg").disabled="true";
+                    });
+                });  
+
             </script>
         </body>
     </html>

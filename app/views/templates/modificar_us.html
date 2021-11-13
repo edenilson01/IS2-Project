@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="{% static 'cuadro_mensaje.css' %}">
         <link rel="stylesheet" href="{% static 'registrar.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
-        <link rel="stylesheet" href="{% static 'check.css' %}">
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </head>
@@ -28,29 +27,11 @@
             <h5>Modificar US</h5>
             <br><br>
             <form action="/mod_us" method="GET" autocomplete="off">           
-                <input class="input_txt2" type="text" name="nombre" value="" placeholder="Ingrese el nuevo nombre del US" maxlength="30">
-                <input class="input_txt2" type="text" name="descripcion" value="" placeholder="Ingrese la descripcion del US" maxlength="60">
+                <input id ="id" class="input_txt2" type="text" name="nombre" value= '{{nombre_us}}' placeholder="Ingrese el nuevo nombre del US" maxlength="30"required>
+                <input class="input_txt2" type="text" name="descripcion" value= '{{descripcion_us}}' placeholder="Ingrese la descripcion del US" maxlength="60">
                 <input class="buttons" type="button" style="float: left;" onclick="window.location='/backlog';" name="" value="CANCELAR">
-                <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="MODIFICAR">
+                <input class="buttons" id="bt_registrar" type="submit" style="float: right;" name="" value="MODIFICAR" >                
             </form>
         </section>
-        <script>
-            $("#bt_registrar").on('click', function(e){
-                e.preventDefault();
-                var formulario = $(this).parents('form');
-                swal(
-                    "¿Desea modificar el US?", 
-                    {
-                        buttons: true
-                    }
-                ).then(okay => { 
-                    if (okay) {
-                        formulario.submit();
-                    }else{
-                        return false;
-                    }
-                });
-            });
-        </script>
     </body>
 </html>

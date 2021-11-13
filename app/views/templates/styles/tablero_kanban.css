@@ -1,3 +1,28 @@
+header{
+    width: 100%;
+    right: 4%;
+    background: #80008012;
+    position: relative;
+    top:5px;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+header h3{
+	text-transform: uppercase;
+    font-size: 18px;
+    color: #740d74;
+    line-height: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+header h3 i{
+    font-weight: bold;
+    text-transform: uppercase;
+    color:white;
+}
+
 
 .my_div{
 	background-color: gray;
@@ -62,7 +87,7 @@ body {
 
 
   #columns {
-	margin-top: 40px;
+	margin-top: 30px;
 	display: flex;
 	flex-wrap: nowrap;
 	overflow-x: auto;

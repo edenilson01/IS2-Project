@@ -29,7 +29,7 @@
             <h5>Modificar proyecto</h5>
             <h4>Datos del Proyecto</h4>
             <form action="/mod_proyecto" method="GET" autocomplete="off">
-                <input class="input_txt2" type="text" name="proy_nombre" value="" placeholder="Ingrese el nuevo nombre del proyecto" maxlength="30">
+                <input class="input_txt2" type="text" name="proy_nombre" value= '{{nombre_proyecto}}' placeholder="Ingrese el nuevo nombre del proyecto" maxlength="30">
                 <label><input id="check1" class="check" type="checkbox" name="estado">¿El proyecto ha finalizado?</label><br>
 
                 <input class="buttons" type="button" style="float: left;" onclick="window.location='/proyects';" name="" value="CANCELAR">

@@ -37,6 +37,11 @@ urlpatterns = [
     path('rol_nombre/', control.rol_nombre),
     path('rol_permisos/', control.rol_permisos),
     path('modificar_rol/', control.modificar_rol),
+    path('updt_rol/', control.updt_rol),
+    path('guardar_nombre_rol/', control.guardar_nombre_rol),
+    path('guardar_permisos_selected/', control.guardar_permisos_selected),
+    path('reg_rol/', control.registrar_rol),
+    path('obtener_permisos_rol/', control.obtener_permisos_rol),
 
     path('seguridad/', control.seguridad),
 
@@ -108,7 +113,6 @@ urlpatterns = [
 
     path('modificar_sprint/', control.modificar_sprint),
 
-    #path('agregar_us/', control.agregar_us),
     path('agregar_us/', control.agregar_us),
     path('add_incidencia/', control.add_incidencia),
     
