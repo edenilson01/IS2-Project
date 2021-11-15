@@ -94,6 +94,30 @@ class ViewRequest:
     def guardar_roles_selected(self, request):
         self.rol_select = request.GET.getlist('rol_select')
         return HttpResponse()
+    
+    def validar_datos_signup(self, request):
+        password = request.GET['password']
+        password2 = request.GET['password2']
+        if password != password2:
+            response = HttpResponse(
+                json.dumps({ 'mensaje': 'Las contraseñas no coinciden'}), 
+                content_type='application/json'
+            )
+            response.status_code = 400
+            return response
+
+        username = request.GET['username']
+        print(username)
+        if UserModel().consult_persona(username) is not None:
+            response = HttpResponse(
+                json.dumps({ 'mensaje': 'Ya existe un usuario con ese "USERNAME"'}), 
+                content_type='application/json'
+            )
+            response.status_code = 400
+            return response
+
+        return HttpResponse()
+        
 
     def registrar_usuario(self, request):
         #persona
@@ -112,11 +136,6 @@ class ViewRequest:
         usuario['password2'] = request.GET['password_rep']
         print(usuario)
 
-        if usuario['password'] != usuario['password2']:
-            self.titulo_error = 'Error contraseñas'
-            self.mensaje_error.append('No se verifican las contraseñas.')
-            return self.enviar_sms_error('signup.html')
-
 
         persona['id'] = PersonaModel().insert_persona(
             persona['p_nombre'],
@@ -125,13 +144,12 @@ class ViewRequest:
             persona['s_apellido'],
             persona['fec_nac']
         )
-        # usuario_model = UserModel()
+
         UserModel().insert_user(usuario['username'], usuario['password'], persona['id'], usuario['correo'])
     
         for rol in self.rol_select:
             UsuarioRolModel().insert_rol_usuario2(rol,usuario['username'])
 
-        #TODO falta roles
   
         return redirect('/signup/')
     
@@ -396,6 +414,7 @@ class ViewRequest:
         #       response.status_code = 400
         #        return response
         
+        
         if nuevo_nombre == '':
             ProyectoModel().update_estado_fin(estado, self.id_proyecto)
         else:
@@ -404,6 +423,11 @@ class ViewRequest:
             else:
                 ProyectoModel().update_project(nuevo_nombre, False, self.id_proyecto)
                 ProyectoModel().update_estado_fin(estado, self.id_proyecto)
+
+                usuarios_proyecto = UsuarioProyectoModel().consult_usuarios_asignados_fin(self.id_proyecto)
+                if usuarios_proyecto is not None:
+                    for usuario in usuarios_proyecto:
+                        UsuarioProyectoModel().update_fecha_salida(usuario[0], self.id_proyecto)
       
         return HttpResponse()
 

@@ -21,7 +21,7 @@ class USModel(DbConnectionModel):
     CONSULT_USERNAME_STMT = 'SELECT username from us'  
     CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
     #CONSULT_US_BY_PROYECT_KANBAN_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS False'  
-    CONSULT_US_BY_PROYECT_KANBAN_STMT = "SELECT us.*, p.primer_nombre || ' ' || p.primer_apellido FROM us us inner join usuarios u ON u.username = us.username inner join personas p on p.id_persona = u.id_persona WHERE id_proyecto = %s AND backlog IS False"
+    CONSULT_US_BY_PROYECT_KANBAN_STMT = "SELECT us.*, p.primer_nombre || ' ' || p.primer_apellido FROM us us inner join usuarios u ON u.username = us.username inner join personas p on p.id_persona = u.id_persona WHERE id_proyecto = %s AND backlog IS False AND us.id_sprint = (SELECT sp.id_sprint FROM sprints sp WHERE activo IS TRUE AND sp.id_proyecto = %s)"
     CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'
     CONSULT_US_BY_ID_SPRINT_STMT = 'SELECT estado FROM us WHERE id_sprint = %s AND estado <> \'DONE\''
     CONSULT_USERNAME_STMT = 'SELECT username from us'    

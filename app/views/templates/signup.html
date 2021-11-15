@@ -58,7 +58,7 @@
         <link rel="stylesheet" href="{% static 'check.css' %}">
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
         <script defer src="{% static 'check.js' %}"></script>
-       
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
             function showCheckboxes() {
                 var checkboxes = document.getElementById("checkboxes");
@@ -70,81 +70,44 @@
             }
         </script>
     </head>
-    <section class="form-home" style="height: 500px;">
-        <h5>Crea un usuario</h5>
-        <h4>1) Datos del Usuario</h4>
-        <form action="/reg_user" method="GET" autocomplete="off">
-            <input class="input_txt" type="text" name="p_nombre" value="" placeholder="Primer nombre" maxlength="50" required>
-            <input class="input_txt" type="text" name="s_nombre" value="" placeholder="Segundo nombre" maxlength="50">
-            <input class="input_txt" type="text" name="p_apellido" value="" placeholder="Primer apellido" maxlength="50" required>
-            <input class="input_txt" type="text" name="s_apellido" value="" placeholder="Segundo apellido" maxlength="50">
-            <label class="input_txt" style="color:black; height: 37.5px;">Fecha de nacimiento:</label>
-            <input class="input_txt" type="date" name="fec_nacimiento" value="" required>
-            <input class="input_txt" type="text" name="username" value="" placeholder="Username" maxlength="15" required>
-            <input class="input_txt" type="email" name="correo" value="" placeholder="Correo Electrónico" maxlength="100" required>
-
-            <label class="input_txt" style="color:black; height: 37.5px;">Rol/es del usuario:</label>
-    
-            <div class="multiselect">
-                <div class="selectBox" onclick="showCheckboxes()">
-                    <select>
-                        <option>Selecciona una opcion</option>
-                    </select>
-                    <div class="overSelect"></div>
-                </div>
-                <div id="checkboxes" class="hide">
-                    {% for rol in lista_roles %}
-                        <label ><input type="checkbox" value={{ rol.0 }} />{{ rol.1 }}</label>
-                    {% endfor %}
-                </div>
-            </div>
-       
-            <input class="input_txt" name="password" type="password" value="" placeholder="Constraseña" maxlength="15" required>
-            <input class="input_txt" type="password" value="" name="password_rep" placeholder="Repetir constraseña" maxlength="15" required>
-            <input class="buttons" type="button" style="float: left;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
-            <input class="buttons" id="btn" type="button" style="float: right;" name="" value="REGISTRAR">
-            <input class="buttons" id="bt_registrar" type="submit" style="float: right; visibility:hidden" name="" value="REGISTRAR">
-        </form>
-    </section>
     <body>
-        <!-- CUADRO DE ERROR CON MENSAJE-->
-        <div class="fondo_transparente" id = "fondo">
-            <div class="modal">
-                <div class="modal_titulo">
-                    {{ titulo }}<br>
-                </div>
+        <section class="form-home" style="height: 500px;">
+            <h5>Crea un usuario</h5>
+            <h4>1) Datos del Usuario</h4>
+            <form action="/reg_user" method="GET" autocomplete="off">
+                <input class="input_txt" type="text" name="p_nombre" value="" placeholder="Primer nombre" maxlength="50" required>
+                <input class="input_txt" type="text" name="s_nombre" value="" placeholder="Segundo nombre" maxlength="50">
+                <input class="input_txt" type="text" name="p_apellido" value="" placeholder="Primer apellido" maxlength="50" required>
+                <input class="input_txt" type="text" name="s_apellido" value="" placeholder="Segundo apellido" maxlength="50">
+                <label class="input_txt" style="color:black; height: 37.5px;">Fecha de nacimiento:</label>
+                <input class="input_txt" type="date" name="fec_nacimiento" value="" required>
+                <input class="input_txt" type="text" id="user" name="username" value="" placeholder="Username" maxlength="15" required>
+                <input class="input_txt" type="email" name="correo" value="" placeholder="Correo Electrónico" maxlength="100" required>
 
-                <div class="modal_mensaje">
-                    {% for error in errors %}
-                        {% if forloop.first %}
-                            <br>{{ error }}
-                        {% else %}
-                            <br><br>{{ error }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- TODO -->
-                <div class="modal_botones" >
-                    <a href="/signup" class="boton">VOLVER A INTENTARLO</a>
-                </div>
-            </div>
-        </div> 
+                <label class="input_txt" style="color:black; height: 37.5px;">Rol/es del usuario:</label>
         
-        {% if errors|length > 0 %}
-            <script type="text/javascript">
-                setTimeout("mostrarError()", 0);
-            </script>
-        {% endif %}
-
+                <div class="multiselect">
+                    <div class="selectBox" onclick="showCheckboxes()">
+                        <select>
+                            <option>Selecciona una opcion</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+                    <div id="checkboxes" class="hide">
+                        {% for rol in lista_roles %}
+                            <label ><input type="checkbox" value={{ rol.0 }} />{{ rol.1 }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+        
+                <input class="input_txt" id="pass" name="password" type="password" value="" placeholder="Constraseña" maxlength="15" required>
+                <input class="input_txt" id="pass2" type="password" value="" name="password_rep" placeholder="Repetir constraseña" maxlength="15" required>
+                <input class="buttons" type="button" style="float: left;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" id="btn" type="button" style="float: right;" name="" value="REGISTRAR">
+                <input class="buttons" id="bt_registrar" type="submit" style="float: right; visibility:hidden" name="" value="REGISTRAR">
+            </form>
+        </section>
         <script>
-            function mostrarError(){
-                var estilo = document.getElementById("fondo");
-                estilo.style.display="block";
-            }
-        </script>
-        <!-- FIN CUADRIO DE ERROR -->
-        <script>
-
             $('#btn').on('click', function(e) {
                 e.preventDefault();
                 var roles_seleccionados = [];
@@ -152,23 +115,47 @@
                     if ($(this).is(':checked')) {
                         roles_seleccionados.push($(this).val());
                     }
-                    
                 });
-                console.log(roles_seleccionados); //VER ACA
+
+                var password = document.getElementById('pass').value;
+                var password2 = document.getElementById('pass2').value;
+                var username = document.getElementById('user').value;
+
                 $.ajax({
                     type: 'GET',
-                    url: "/guardar_roles_selected",
+                    url: "/validar_datos_signup",
                     traditional: true,
-                    data: { 'rol_select' : roles_seleccionados},
+                    data: { 
+                        'password' : password,
+                        'password2' : password2,
+                        'username' : username
+                    },
                     success:function(data) {
-                        $("#bt_registrar").click();
+                        console.log(roles_seleccionados.length); //VER ACA
+                        if (roles_seleccionados.length == 0){
+                            swal("No se selecciono ningun rol");
+                        }else{
+                            $.ajax({
+                                type: 'GET',
+                                url: "/guardar_roles_selected",
+                                traditional: true,
+                                data: { 'rol_select' : roles_seleccionados},
+                                success:function(data) {
+                                    $("#bt_registrar").click();
+                                },
+                                error: function(xhr, status, error) {
+                                    window.location.reload();
+                                }
+                            });
+                        }
                     },
                     error: function(xhr, status, error) {
-                        window.location.reload();
+                        swal(
+                            xhr.responseJSON['mensaje']
+                        );
                     }
                 });
             });
-            
         </script>
     </body>
 </html>

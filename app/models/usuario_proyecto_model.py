@@ -23,8 +23,20 @@ class UsuarioProyectoModel(DbConnectionModel):
           and username NOT IN 
           (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'''
 
-    CONSULT_USUARIO_ASIGNADOS_STMT = 'SELECT username FROM usuarios WHERE username IN (SELECT username FROM usuario_proyecto WHERE ID_PROYECTO = %s )'
+    CONSULT_USUARIO_ASIGNADOS_STMT = 'SELECT username FROM usuarios WHERE username IN (SELECT username FROM usuario_proyecto WHERE id_proyecto = %s )'
     UPDATE_FECHAS_USUARIO_STMT = 'UPDATE usuario_proyecto SET fecha_incorporacion = %s, fecha_salida = %s WHERE username = %s AND id_proyecto = %s'
+
+    CONSULT_USUARIO_ASIGNADOS_FIN_STMT = 'SELECT username FROM usuarios WHERE username IN (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL AND id_proyecto = %s )'
+
+    def consult_usuarios_asignados_fin(self, id_proyecto):
+        try:
+            usuarios = super().execute_sql_stmt(self.CONSULT_USUARIO_ASIGNADOS_FIN_STMT, [id_proyecto], True)
+            if len(usuarios) == 0:
+                return None
+            return usuarios
+        except Exception as e:
+            raise e
+
 
     def consult_usuarios_asignados(self, id_proyecto):
         try:

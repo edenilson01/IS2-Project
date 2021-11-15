@@ -131,7 +131,11 @@
                         <tr>
                             <td>{{ miembro.0 }}</td>
                             <td>{{ miembro.1 }}</td>
-                            <td>{{ miembro.2 }}</td>
+                            {% if miembro.2 == None %}
+                                <td>Sin asignar</td>
+                            {% else %}
+                                <td>{{ miembro.2 }}</td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>
