@@ -700,12 +700,6 @@ class ViewRequest:
 
         return HttpResponse(html_reponse)
 
-    def kanban2(self, request):
-        lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
-        view = loader.get_template('kanban2.html')
-        html_reponse = view.render({'lista_us': lista_us})
-
-        return HttpResponse(html_reponse)
 
     def actualizar_estado_us(self, request):
         id_us = request.GET['id_us']

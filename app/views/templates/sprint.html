@@ -271,12 +271,11 @@
             $(".b_ini").click(function(){
                 var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
                 var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
-                            
-                if(estado_sprint == 'True'){
+                if(estado_sprint == 'En curso'){
                     swal(
                         '!! "' + nombre_sprint + '"  ACTUALMENTE ACTIVO  !!'
                     );
-                }else if (estado_sprint == 'None'){
+                }else if (estado_sprint == 'No iniciado'){
 
                     False = false;
                     True = true;
