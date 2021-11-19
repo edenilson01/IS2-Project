@@ -12,13 +12,11 @@ class USModel(DbConnectionModel):
     UPDATE_SPRINT_US_STMT = 'UPDATE us SET id_sprint = %s WHERE id_us = %s'
     UPDATE_BACKLOG_STMT = 'UPDATE us SET backlog = %s WHERE id_us = %s '
     UPDATE_SPRINT_STMT = 'UPDATE us SET id_sprint = %s WHERE id_sprint = %s '
-    UPDATE_US_STMT = 'UPDATE us SET nombre = %s, descripcion = %s, username =%s WHERE id_us = %s'    
-    CONSULT_ESTADO_STMT = 'SELECT backlog FROM us WHERE id_us = %s'
+    UPDATE_US_STMT = 'UPDATE us SET nombre = %s, descripcion = %s, username =%s WHERE id_us = %s'
     CONSULT_ESTADO_BACKLOG_STMT = 'SELECT backlog FROM us WHERE backlog = false AND id_sprint = %s'
     CONSULT_US_BY_ID_STMT = 'SELECT nombre, descripcion FROM us WHERE username = %s'  
-    CONSULT_US_BY_SPRINT_STMT = 'SELECT id_us, nombre, descripcion, estado, username FROM us WHERE id_sprint = %s' 
-    CONSULT_US_BY_ID_2_STMT = 'SELECT nombre, descripcion, estado, user_name, id_proyecto FROM us WHERE id_us = %s'    
-    CONSULT_USERNAME_STMT = 'SELECT username from us'  
+    CONSULT_US_BY_SPRINT_STMT = 'SELECT id_us, nombre, descripcion, estado, username FROM us WHERE backlog = false AND id_sprint = %s' 
+    CONSULT_USERNAME_STMT = 'SELECT username from us'
     CONSULT_US_BY_PROYECT_BACKLOG_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS True'  
     #CONSULT_US_BY_PROYECT_KANBAN_STMT = 'SELECT *  FROM us WHERE id_proyecto = %s AND backlog IS False'  
     CONSULT_US_BY_PROYECT_KANBAN_STMT = "SELECT us.*, p.primer_nombre || ' ' || p.primer_apellido FROM us us inner join usuarios u ON u.username = us.username inner join personas p on p.id_persona = u.id_persona WHERE id_proyecto = %s AND backlog IS False AND us.id_sprint = (SELECT sp.id_sprint FROM sprints sp WHERE activo IS TRUE AND sp.id_proyecto = %s)"
@@ -29,7 +27,7 @@ class USModel(DbConnectionModel):
     CONSULT_NOM_US_SMTM ='SELECT nombre FROM us WHERE id_us = %s'
     CONSULT_DESC_US_SMTM ='SELECT descripcion FROM us WHERE id_us = %s'
     DELETE_US_STMT = 'DELETE FROM US WHERE id_us = %s'
-    UPDATE_USERNAME_STMT = 'UPDATE us SET  username =%s WHERE id_us = %s'
+    UPDATE_USERNAME_STMT = 'UPDATE us SET username = %s WHERE id_us = %s'
     
     def consult_backlog_by_id_sprint(self, id_sprint):
         try:
@@ -39,7 +37,6 @@ class USModel(DbConnectionModel):
             return us
         except Exception as e:
             raise e    
-
 
     def consult_us_by_id_sprint(self, id_sprint):
         try:
@@ -135,15 +132,6 @@ class USModel(DbConnectionModel):
         except Exception as e:
             raise e
         
-    def consult_state(self, id_us):
-        try:
-            state = super().execute_sql_stmt(self.CONSULT_ESTADO_STMT, [id_us], True)
-            if len(state) == 0:
-                return None
-            return state[0][0]
-        except Exception as e:
-            raise e
-
     def consult_us(self, id):
         try:
             us = super().execute_sql_stmt(self.CONSULT_US_STMT, [id], True)
@@ -152,16 +140,6 @@ class USModel(DbConnectionModel):
             return us
         except Exception as e:
             raise e
-    
-    def consult_us_by_id_2(self, id):
-        try:
-            us = super().execute_sql_stmt(self.CONSULT_US_BY_ID_2_STMT, [id], True)
-            if len(us) == 0:
-                return None
-            return us
-        except Exception as e:
-            raise e
-    
 
     def consult_username(self):
         try:
@@ -201,6 +179,5 @@ class USModel(DbConnectionModel):
         try:
             super().execute_sql_stmt(self.UPDATE_USERNAME_STMT, (username, id_us))
         except Exception as e:
-            raise e            
-
+            raise e
        

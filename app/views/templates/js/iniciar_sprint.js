@@ -31,9 +31,6 @@ window.addEventListener('load',function(){
         }
     });
 
-    fecha_2.addEventListener("change", function() {
-       console.log(fecha_2);
-    });
 });
 
 function habilitar(selected) {

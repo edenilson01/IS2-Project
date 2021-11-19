@@ -80,9 +80,9 @@ urlpatterns = [
     path('del_miembro/', control.del_miembro),
 
 
-    path('delete_rol', control.eliminar_rol),
+    path('delete_rol/', control.eliminar_rol),
+    path('del_rol/', control.del_rol),
     
-    #path('prueba/', control.prueba),
     
     path('crear_proyecto', control.crear_proyecto),
     path('equipo', control.equipo),
@@ -107,6 +107,7 @@ urlpatterns = [
     path('existe_us/', control.comprobar_us_sprint),
 
     path('del_us_h', control.del_us_h),
+    path('del_us_backlog', control.del_us_backlog),
     path('modificar_us/', control.modificar_us),
     path('mod_us/', control.mod_us),
     path('obt_us/', control.obt_us),    

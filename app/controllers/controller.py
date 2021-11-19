@@ -108,7 +108,7 @@ class ViewRequest:
 
         username = request.GET['username']
         print(username)
-        if UserModel().consult_persona(username) is not None:
+        if UserModel().consult_persona_exists(username) is not None:
             response = HttpResponse(
                 json.dumps({ 'mensaje': 'Ya existe un usuario con ese "USERNAME"'}), 
                 content_type='application/json'
@@ -233,7 +233,12 @@ class ViewRequest:
         view = loader.get_template('delete_rol.html')
         html_reponse = view.render({'lista_roles': self.obtener_roles()})
         return HttpResponse(html_reponse)
-        
+    
+    def del_rol(self, request):
+        RolesModel().delete_rol(request.GET['rol_selected'])
+        return redirect('/login/')
+    
+
     def seguridad(self, request):
         return render(request, 'seguridad.html')
     
@@ -299,9 +304,18 @@ class ViewRequest:
         return render(request, 'delete_user.html')
 
     def del_user(self, request):
-        usuario = request.GET['username2']
+        usuario = request.GET['username2']        
+        ids_proyecto = UsuarioProyectoModel().consult_usuarios_proyecto_fin(usuario)
+        if ids_proyecto is not None:
+            for id_proyecto in ids_proyecto:
+                UsuarioProyectoModel().update_fecha_salida(usuario, id_proyecto)
+
+        UsuarioRolModel().delete_roles_usuario(usuario)
         UserModel().delete_user(usuario)
-        return redirect('/delete_user/')  
+        if self.usuario_logueado == usuario:
+            return redirect('/login/')
+        
+        return redirect('/delete_user/')
 
     def buscar_user_elm(self, request):
         username = request.GET.get('username')
@@ -365,7 +379,7 @@ class ViewRequest:
 
     def del_permiso(self, request):
         PermisosModel().delete_permiso(request.GET['id_permiso'])
-        return redirect('/eliminar_permiso/')  
+        return redirect('/login/')  
 
     #############################PROYECTOS
     def proyecto(self, request):
@@ -501,15 +515,16 @@ class ViewRequest:
         return HttpResponse(html_reponse)
 
     def del_us_h(self, request):
+        USModel().update_backlog_state(True, request.GET['id_us'])
+        return HttpResponse()
+    
+    def del_us_backlog(self, request):
         USModel().delete_us(request.GET['id_us'])
         return HttpResponse()
 
     def eliminar_us(self, request):
         return render(request, 'eliminar_us.html')
 
-    def del_us(self, request):
-        return redirect('/eliminar_us/')  
-  
 
     def guardar_us_id(self, request):
         self.id_us = request.GET['id_us']

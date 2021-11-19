@@ -1,19 +1,21 @@
 {% load static %}
 <!DOCTYPE html>
-    <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-            <title>Eliminar Rol</title>
-            <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
-            <link rel="shortcut icon" href="{% static 'logo.png' %}">
-            <script defer src="{% static 'delete_rol.js' %}"></script>
-        </head>
-        <body>
-            <section class="form-delete_rol">
-              <h5>Eliminar rol</h5>
-              <form>
-                <select name="rol" onchange="habilitar(this.options[this.selectedIndex].value)">
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Eliminar Rol</title>
+        <link rel="stylesheet" href="{% static 'rol_crear.css' %}">
+        <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <script defer src="{% static 'delete_rol.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    </head>
+    <body>
+        <section class="form-delete_rol">
+            <h5>Eliminar rol</h5>
+            <form method="GET" action="/del_rol">
+                <select id="select" name="rol" onchange="habilitar(this.options[this.selectedIndex].value)">
                     <option selected value = 0 class='op' >Elige una opción</option> 
                     {% for rol in lista_roles %}
                         <option value={{ rol.0 }}>{{ rol.1 }}</option> 
@@ -22,8 +24,43 @@
                 <br><br>
                 <input class="buttons" style="margin-top: 37%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
                 <input class="buttons" id = "eliminar" disabled=true type="button" name="" value="ELIMINAR">
-               </form> 
-            </section>
+                <input class="input_txt" type="hidden" name="rol_selected" id="rol_selected">
+            </form> 
+        </section>
+        <script>
+            $("#select").on('change', function(e){
+                $("option[value=" + this.value + "]", this)
+                .attr("selected", true).siblings()
+                .removeAttr("selected");
+                var formulario = $(this).parents('form');
+                var roles = document.getElementById("select");
+                var rol = roles.options[roles.selectedIndex].value;
+                document.getElementById("rol_selected").value = rol;
+            });
 
+            $("#eliminar").on('click', function(e){
+                var formulario = $(this).parents('form');
+                var roles = document.getElementById("select");
+                var rol = roles.options[roles.selectedIndex].value;
+                console.log(rol);
+                e.preventDefault();
+                var formulario = $(this).parents('form');
+                swal(
+                    {
+                        title: "Eliminar Rol",
+                        text: "¿Desea realmente eliminar el rol?",
+                        icon :'warning',                                                       
+                        dangerMode: true,
+                        buttons: true
+                    }
+                ).then(okay => { 
+                    if (okay) {
+                        formulario.submit();
+                    }else{
+                        return false;
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

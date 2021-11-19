@@ -8,13 +8,11 @@ class ProyectoModel(DbConnectionModel):
     DELETE_PROJECT_STMT = 'DELETE FROM proyectos WHERE id_proyecto = %s'
     UPDATE_NOMBRE_STMT = 'UPDATE proyectos SET nombre = %s WHERE id_proyecto = %s'
     UPDATE_ESTADO_STMT = 'UPDATE proyectos SET estado = %s WHERE id_proyecto = %s'
-    UPDATE_FECHA_INI_STMT = 'UPDATE proyectos SET fecha_inicio = %s WHERE id_proyecto = %s'
     UPDATE_FECHA_FIN_STMT = 'UPDATE proyectos SET fecha_fin = %s WHERE id_proyecto = %s'
     CONSULT_PROYECTOS_STMT = 'SELECT id_proyecto, nombre, estado, fecha_inicio, fecha_fin FROM proyectos'
     UPDATE_PROJEC_STMT = 'UPDATE proyectos SET nombre = %s, estado = %s, fecha_fin = %s WHERE id_proyecto = %s'
     UPDATE_ESTADO_FIN_STMT = 'UPDATE proyectos SET estado = %s, fecha_fin = %s WHERE id_proyecto = %s'
     CONSULT_NOM_PROYECTO_STMT = "SELECT nombre FROM proyectos WHERE id_proyecto = %s"
-
 
 
     def insert_project(self, nombre):
@@ -58,12 +56,6 @@ class ProyectoModel(DbConnectionModel):
 
         try:
             super().execute_sql_stmt(self.UPDATE_ESTADO_FIN_STMT, (estado, fecha_fin, id_proyecto))
-        except Exception as e:
-            raise e
-
-    def update_fecha_inicio(self, fecha_inicio, id_proyecto):
-        try:
-            super().execute_sql_stmt(self.UPDATE_FECHA_INI_STMT, (fecha_inicio, id_proyecto))
         except Exception as e:
             raise e
     
