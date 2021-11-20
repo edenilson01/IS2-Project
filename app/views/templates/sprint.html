@@ -41,6 +41,10 @@
                 background: rgb(46, 150, 46);
             }
 
+            .b_mod:disabled{
+                background-color: gray;
+            }
+
             .b_ini{
                 background-color: rgb(11, 119, 133);
                 height: 35px;
@@ -55,6 +59,10 @@
                 background: rgb(55, 130, 153);
             }            
     
+            .b_ini:disabled{
+                background-color: gray;
+            }
+
             .b_fin{
                 background-color: #fd3c2b;
                 height: 35px;
@@ -64,10 +72,14 @@
                 border: none;
             }
     
-            .b_el:hover{
+            .b_fin:hover{
                 background: #f16356;
             }
-    
+
+            .b_fin:disabled{
+                background-color: gray;
+            }
+
             /*MOSTRANDO*/
             .dataTables_info { 
                 margin-top: 10px;
@@ -200,9 +212,16 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
-                            mf = '<button class="b_mod" type="button">Modificar</button>';
-                            iniciar = '<button class="b_ini" type="button">Iniciar</button>';
-                            fin = '<button class="b_fin" type="button">Finalizar</button>'; 
+                            if (row[3] != 'Finalizado'){
+                                mf = '<button class="b_mod" type="button">Modificar</button>';
+                                iniciar = '<button class="b_ini" type="button">Iniciar</button>';
+                                fin = '<button class="b_fin" type="button">Finalizar</button>';
+                            
+                            }else{
+                                mf = '<button class="b_mod" type="button" disabled>Modificar</button>';
+                                iniciar = '<button class="b_ini" type="button" disabled>Iniciar</button>';
+                                fin = '<button class="b_fin" type="button" disabled>Finalizar</button>';
+                            }
 
                             return mf + iniciar + fin;
                         }

@@ -10,9 +10,22 @@ class UserModel(DbConnectionModel):
     UPDATE_USER_STMT = 'UPDATE usuarios SET password = %s, correo = %s WHERE username = %s'
     UPDATE_USER_US_STMT = 'UPDATE us SET username = NULL'
     SELECT_USER_EXISTS_STMT = 'SELECT * FROM usuarios WHERE username = %s'
+    SELECT_NAME_STMT = '''select p.primer_nombre || ' ' || p.primer_apellido as nombre
+        from usuarios u 
+        inner join personas p on p.id_persona = u.id_persona 
+        where u.username = %s'''
 
     def __init__(self):
         super().__init__()
+
+    def consultar_nombre(self, username):
+        try:
+            nombre = super().execute_sql_stmt(self.SELECT_NAME_STMT, [username], True)
+            if len(nombre) == 0:
+                return None
+            return nombre[0][0]
+        except Exception as e:
+            raise e
     
     def insert_user(self, username, password, id_persona, correo, estado = True):
         try:

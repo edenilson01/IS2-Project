@@ -1,6 +1,6 @@
 #aqui van los controladores, encargados de la logica del negocio
 #se pueden agregar mas archivos
-
+from datetime import date
 from app.models.usuario_proyecto_model import UsuarioProyectoModel
 from django.urls.base import resolve
 from django import http
@@ -87,8 +87,11 @@ class ViewRequest:
 
     ##################################CREAR USUARIO
     def crear_usuario(self, request):
+        today = date.today()
+        hoy = today.strftime("%Y-%m-%d")
+
         view = loader.get_template('signup.html')
-        html_reponse = view.render({'lista_roles': self.obtener_roles()})
+        html_reponse = view.render({'lista_roles': self.obtener_roles(), 'current_date': hoy})
         return HttpResponse(html_reponse)
 
     def guardar_roles_selected(self, request):
@@ -708,10 +711,11 @@ class ViewRequest:
         lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         sprint = SprintModel().consult_sprint_activo(self.id_proyecto)
+        nombre = UserModel().consultar_nombre(self.usuario_logueado)
         if(sprint==None):
             sprint='Ningun sprint activo'
         view = loader.get_template('kanban.html')
-        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint})
+        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint, 'current_user': nombre})
 
         return HttpResponse(html_reponse)
 

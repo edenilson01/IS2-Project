@@ -132,7 +132,7 @@
                         <th>Nombre del US</th>
                         <th>Descripción</th>
                         <th>Estado</th>
-                        <th>Username</th>
+                        <th>Responsable</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -140,9 +140,21 @@
                     {% for us in lista_us %}
                         <tr id = {{us.0}} >
                             <td>{{ us.1 }}</td>
-                            <td>{{ us.2 }}</td>
+
+                            {% if us.2 == None %}
+                                <td>No hay descripción</td>
+                            {% else %}
+                                <td>{{ us.2 }}</td>
+                            {% endif %}
+
                             <td>{{ us.3 }}</td>
-                            <td>{{ us.4 }}</td>
+
+                            {% if us.4 == None %}
+                                <td>Sin asignar</td>
+                            {% else %}
+                                <td>{{ us.4 }}</td>
+                            {% endif %}
+
                             <td></td>
                         </tr>
                     {% endfor %}
