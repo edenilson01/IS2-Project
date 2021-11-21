@@ -12,8 +12,6 @@
         <title>Kanban</title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
-    
     </head>
     <nav class = "menuPrincipal">
 		<ul>
@@ -22,7 +20,7 @@
                 <li><a href="/home">REJA Software</a></li>
             </div>
 
-            <div class= kanban_titulo style="position:absolute; z-index: 1; left: 44%; 	font-family: 'Lato'; font-size: 14px;">
+            <div class= kanban_titulo style="position:absolute; z-index: 1; left: 44%; top:3%;font-family: 'Lato'; font-size: 14px;">
                 <h1><img src="{% static 'kanban.svg' %}" width="30" height="20"/> TABLERO KANBAN<h1>
             </div>
 
@@ -33,11 +31,11 @@
     </nav>
 
     <body>     
+        <header>
+            <h3>PROYECTO : <b style="color:White">{{proy}}</b></h3>
+            <h3>SPRINT : <b style="color:White">{{sprint}}</b></h3>
+        </header> 
         <main id="app">
-            <header><br>
-            <h3>&nbsp;&nbsp;&nbsp;&nbsp;PROYECTO : <i> &nbsp;{{proy}}</i> </h3>
-            <br><h3>&nbsp;&nbsp;&nbsp;&nbsp;SPRINT :<i>&nbsp; {{sprint}}</i></h3>
-            </header>
             <section id="board">
                 <section id="columns">
                     <div class="column dropzone" id="TODO" ondrop="drop(event)" ondragover="allowDrop(event)">

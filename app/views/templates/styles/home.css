@@ -1,14 +1,50 @@
-.icon{
-    font-size: 35px;
+
+.popover__content {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: 790px;
+    transform: translate(10px, 10px);
+    background-color: rgba(128, 0, 128, 0.308);
+    padding: 0.1rem;
+    box-shadow: 0px 10px 5px 0 rgba(0, 0, 0, 0.26);
+    width: auto;
+  }
+  .popover__content:before {
+    position: absolute;
+    z-index: 0;
+    content: "";
+    right: calc(45% - 10px);
+    top: -10px;
+    border-style: solid;
+    border-width: 0 20px 10px 10px;
+    border-color: transparent transparent rgba(128, 0, 128, 0.308);
+    transition-duration: 0.3s;
+    transition-property: transform;
+  }
+  .popover__wrapper:hover .popover__content {
+    z-index: 10;
+    opacity: 1;
+    visibility: visible;
+    transform: translate(0, 20px);
+    transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+  }
+  .popover__message {
     text-align: center;
-    margin: 0px 0px 0px 145px;
+  }
+  
+
+.icon{
+    font-size: 40px;
+    text-align: center;
+    margin: 0px 0px 0px 155px;
     color:violet;
 }
 
 .close{
     font-size: 20px;
     text-align: center;
-    margin: 0px 0px 0px 315px;
+    margin: 0px 0px 0px 314px;
     color:violet;
 }
 

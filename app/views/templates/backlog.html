@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <!--DATATABLE-->
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
@@ -15,7 +16,26 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <style>
+            header{
+                width: 100%;
+                background: #80008012;
+                position: relative;
+                top: 6px;
+                overflow: hidden;
+                transition: all 0.5s ease;
+            }    
+
+            h3 {
+                margin: 10px 10px 8px 140px;  
+                text-transform: uppercase;
+                font-size: 18px;
+                color: #740d74;
+                line-height: 18px;
+                font-weight: bold;
+                transition: all 0.3s ease;                              
+            }        
             .my_div{
+                top: 8px;
                 background-color: gray;
                 width: 80%;
                 height: 100%;
@@ -97,6 +117,16 @@
             .swal-text {
                 font-family: Arial, Helvetica, sans-serif;
             }
+            .add{
+                font-family:arial, FontAwesome;
+                font-size:20px;
+                margin-right:8px; 
+                color:violet;
+            }
+            .iconos{
+                font-family:arial, FontAwesome;
+                font-size:20px;
+            }               
         </style>
     </head>
     <!--DATATABLE JAVASCRIPT-->
@@ -114,16 +144,23 @@
                 <li><a href="/home">REJA Software</a></li>
             </div>
 
-            <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO USER STORY</a></li>
+            <div class= backlog_titulo style="position:absolute; z-index: 1; left: 45%;top:3%; font-family: 'Lato'; font-size: 14px;">
+                <h1><img src="{% static 'backlog.svg' %}" width="30" height="20"/>BACKLOG<h1>
+            </div>
+
+            <div style="position:absolute; z-index: 1; left: 70% ;top: 60px">
+                <li><a href="#" onclick="crear_pro();return false;"><b class="fas fa-plus add"></b>CREAR NUEVO USER STORY</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
-                <li><a href="/desarrollo">ATRAS</a></li>
+                    <li><a href="/desarrollo">ATRAS</a></li>
             </div>
 		</ul>
     </nav>
     <body>
+        <header>
+            <h3>NOMBRE PROYECTO: <b style="color:white">{{nombre_proyecto}}</b></h3>
+        </header>      
         <div class="my_div">
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
@@ -164,8 +201,8 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
-                            mf = '<button class="b_mod" type="button">Modificar</button>';
-                            dele = '<button class="b_el" type="button">Eliminar</button>'; 
+                            mf = '<button class="b_mod" type="button"><span class="fas fa-edit iconos"></span></button>';
+                            dele = '<button class="b_el" type="button"><span class="fas fa-trash iconos"></span></button>'; 
 
                             return mf + dele;
                         }
