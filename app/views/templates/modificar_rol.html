@@ -21,7 +21,7 @@
                             <option value={{ rol.0 }}>{{ rol.1 }}</option> 
                         {% endfor %}             
                     </select>
-                
+                    <input class="input_txt" type="text" id="desc_rol"  name="desc" disabled=true maxlength="50">
                     {% for permiso in lista_permisos %}
                         <input type="checkbox" id="check" disabled class = "permisos" value={{ permiso.0 }}> {{ permiso.1 }}
                         <br>
@@ -53,13 +53,22 @@
                                 
                                 p= document.querySelectorAll('#check');
 
+                                document.getElementById("desc_rol").value = null;
+                                
+
                                 for (let j = 0; j < p.length; j++) {
                                     $(p).eq(j).prop("checked", false); 
                                 }
-                                if (data) {
+                                
+                                if(data.descripcion) {
+                                    document.getElementById("desc_rol").value = data.descripcion;
+                                }
+  
+
+                                if (data.permisos) {
                                     for (let j = 0; j < p.length; j++) {
-                                        for (let i = 0; i < (data).length; i++) {
-                                            if (p[j].value == (data)[i]) {
+                                        for (let i = 0; i < (data.permisos).length; i++) {
+                                            if (p[j].value == (data.permisos)[i]) {
                                                 $(p).eq(j).prop("checked", true);
                                             }   
                                         }    

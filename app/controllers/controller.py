@@ -219,6 +219,8 @@ class ViewRequest:
         id_rol = request.GET['rol_selected']
         p = RolPermisoModel().consult_permisos2(id_rol)
         
+        desc = request.GET['desc']
+        RolesModel().update_descripcion(desc, id_rol)
         if (p):
             for permiso in p:
                 RolPermisoModel().update_rol_permiso(False, id_rol, permiso)
@@ -229,7 +231,8 @@ class ViewRequest:
                 RolPermisoModel().insert_rol_permiso(id_rol, permiso, True)
             else:
                 RolPermisoModel().update_rol_permiso(True, id_rol, permiso)
-            
+
+        RolesModel().update_descripcion(desc, id_rol)    
         return redirect('/seguridad/')
 
     def eliminar_rol(self, request):
@@ -247,6 +250,9 @@ class ViewRequest:
     
     def guardar_nombre_rol(self, request):
         self.nombre_rol = request.GET.get('nombre')
+        print(self.nombre_rol)
+        self.descripcion = request.GET.get('descripcion')
+        print(self.descripcion)
         return HttpResponse()
     
     def guardar_permisos_selected(self, request):
@@ -255,8 +261,15 @@ class ViewRequest:
    
     def registrar_rol(self, request):
         nombre_rol = request.GET.get('nombre_rol')
+        descripcion = request.GET.get('desc_rol')
+        if (descripcion):
+            rol_id = RolesModel().insert_rol(nombre_rol, descripcion)
+        else:
+            rol_id = RolesModel().insert_rol(nombre_rol, None)
+        
+        
 
-        rol_id = RolesModel().insert_rol(nombre_rol, None)
+        
 
         for permiso in self.permisos_selected:
             RolPermisoModel().insert_rol_permiso(rol_id, permiso, True)
@@ -267,8 +280,12 @@ class ViewRequest:
         
         id_rol = request.GET.get('rol_selected')
         permisos = RolPermisoModel().consult_permisos2(id_rol)
-        print(permisos)
-        return HttpResponse(json.dumps(permisos), content_type='application/json')
+        desc = RolesModel().consult_rol_desc(id_rol)
+        datos={}
+        datos['permisos'] = permisos
+        datos['descripcion'] = desc
+        print(desc)
+        return HttpResponse(json.dumps(datos), content_type='application/json')
 
     ################### MODIFICAR USUARIO
     def modificar_user(self, request):

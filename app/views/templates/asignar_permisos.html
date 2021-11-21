@@ -19,7 +19,8 @@
                         <input type="checkbox" class = "permisos" value={{ permiso.0 }}> {{ permiso.1 }}
                         <br>
                     {% endfor %}
-                    <input class="input_txt" type="hidden" name="nombre_rol" id="nombre_rol" value = {{nombre_rol}}>
+                    <input class="input_txt" type="hidden" name="nombre_rol" id="nombre_rol" value = "{{nombre_rol}}">
+                    <input class="input_txt" type="hidden" name="desc_rol" id="desc_rol" value = "{{descripcion}}">
                     <input class="buttons" style="margin-top: 28%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
                     <input class="buttons" id = "guardar" disabled=true type="submit" name="" value="GUARDAR">
                </form> 
@@ -31,8 +32,8 @@
                     var permisos_seleccionados = [];
                     e.preventDefault();
                     var formulario = $(this).parents('form');
-                    $("input:checkbox:checked").each(function() {
-                        
+                    
+                    $("input:checkbox:checked").each(function() { 
                         permisos_seleccionados.push($(this).val());
                     });
 

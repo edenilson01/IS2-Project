@@ -16,9 +16,10 @@
                 <form method="GET" autocomplete="off">
                     <div class ="form-box">
                         <input class="text" type="text" id="nombre_rol" placeholder="Nombre" name="nombre" maxlength="30">
+                        <input class="text" type="text" id="desc_rol" placeholder="Descripcion" name="desc" maxlength="50">
                     </div>                
                    
-                    <input class="buttons" style="margin-top: 50%;" type="button" onclick="history.go(-1);" name="" value="CANCELAR">
+                    <input class="buttons" style="margin-top: 40%;" type="button" onclick="history.go(-1);" name="" value="CANCELAR">
                     <input class="buttons" id = "asig_perm" disabled type="button" name="siguiente" value="SIGUIENTE">
                </form> 
             </section>
@@ -29,11 +30,13 @@
         $(document).ready(function(){
             $("#asig_perm" ).click(function(){
                 var nombre = $(document.getElementById("nombre_rol")).val();
+                var descripcion = $(document.getElementById("desc_rol")).val();
+                
                 $.ajax({
                     type: 'GET',
                     url: "/guardar_nombre_rol",
                     traditional: true,
-                    data: { 'nombre' : nombre},
+                    data: { 'nombre' : nombre, 'descripcion':descripcion},
                     success:function(data) {
                         window.location.href = "/rol_permisos";
                     },

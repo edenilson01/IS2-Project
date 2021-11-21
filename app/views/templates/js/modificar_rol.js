@@ -7,11 +7,14 @@ function habilitar(selected) {
     
     if (selected == 0) {
         submitButton.toggleAttribute('disabled', true);
+        document.getElementById('desc_rol').toggleAttribute('disabled', true);
         estado_checkbox = true;      
     } else {
         submitButton.toggleAttribute('disabled', false);
+        document.getElementById('desc_rol').toggleAttribute('disabled', false);
     }
     bloquear_checkbox(estado_checkbox);
+    
     check_permiso = validar_checkbox();
     if (!check_permiso) {
         submitButton.toggleAttribute('disabled', true);
