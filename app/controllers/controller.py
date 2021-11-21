@@ -427,7 +427,10 @@ class ViewRequest:
         return HttpResponse()
 
     def equipo(self, request):
-        return render(request, 'equipo.html')
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        view = loader.get_template('equipo.html')
+        html_reponse = view.render({'nombre_proyecto':nombre_proyecto})
+        return HttpResponse(html_reponse)
 
     #-------------------------EQUIPOS-------------------------------#
     def add_miembro(self, request):
@@ -605,7 +608,7 @@ class ViewRequest:
         nombre_sprint = sprint[0]        
         lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('modificar_sprint.html')
-        html_reponse = view.render({'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us,'proy':nombre_proyecto,'sprint':nombre_sprint})
         return HttpResponse(html_reponse)
     
     def sprint_historico(self, request):
@@ -616,7 +619,10 @@ class ViewRequest:
 
     #-------------------------US-------------------------------#
     def crear_us(self, request):
-        return render(request, 'crear_us.html')
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        view = loader.get_template('crear_us.html')
+        html_reponse = view.render({'proy':nombre_proyecto})
+        return HttpResponse(html_reponse)        
     
     def agregar_us(self, request):
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)

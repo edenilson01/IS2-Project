@@ -254,22 +254,19 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
-<<<<<<< HEAD
                             mf = '<button class="b_mod" type="button"><span class="fas fa-cogs iconos"></span></button>';
                             iniciar = '<button class="b_ini" type="button"><span class="fas fa-play-circle iconos"></span> Iniciar</button>';
                             fin = '<button class="b_fin" type="button"><span class="far fa-stop-circle iconos"></span> Finalizar</button>'; 
-=======
                             if (row[3] != 'Finalizado'){
-                                mf = '<button class="b_mod" type="button">Modificar</button>';
-                                iniciar = '<button class="b_ini" type="button">Iniciar</button>';
-                                fin = '<button class="b_fin" type="button">Finalizar</button>';
+                                mf = '<button class="b_mod" type="button"><span class="fas fa-cogs iconos"></span></button>';
+                                iniciar = '<button class="b_ini" type="button"><span class="fas fa-play-circle iconos"></span> Iniciar</button>';
+                                fin = '<button class="b_fin" type="button"><span class="far fa-stop-circle iconos"></span> Finalizar</button>';
                             
                             }else{
-                                mf = '<button class="b_mod" type="button" disabled>Modificar</button>';
-                                iniciar = '<button class="b_ini" type="button" disabled>Iniciar</button>';
-                                fin = '<button class="b_fin" type="button" disabled>Finalizar</button>';
+                                mf = '<button class="b_mod" type="button" disabled><span class="fas fa-cogs iconos"></span></button>';
+                                iniciar = '<button class="b_ini" type="button" disabled><span class="fas fa-play-circle iconos"></span> Iniciar</button>';
+                                fin = '<button class="b_fin" type="button" disabled><span class="far fa-stop-circle iconos"></span> Finalizar</button>';
                             }
->>>>>>> dc7093e1619d59edbb65bf3c885fb3f0d4bbea1a
 
                             return mf + iniciar + fin;
                         }
