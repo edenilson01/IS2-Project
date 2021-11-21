@@ -624,9 +624,10 @@ class ViewRequest:
         return HttpResponse(html_reponse)
     
     def sprint_historico(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         lista = SprintModel().consult(self.id_proyecto)
         view = loader.get_template('sprint_historico.html')
-        html_reponse = view.render({'lista_sprint': lista})
+        html_reponse = view.render({'lista_sprint': lista, 'proy':nombre_proyecto})
         return HttpResponse(html_reponse)
 
     #-------------------------US-------------------------------#
