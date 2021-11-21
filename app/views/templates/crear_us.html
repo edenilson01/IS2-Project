@@ -10,8 +10,9 @@
             <script defer src="{% static 'us_nombre.js' %}"></script>
         </head>
         <body>
-            <section class="form-crear_us" style="height: 250px;">
+            <section class="form-home" style="height: 300px;">
                 <h5>Crear US</h5>
+                <h4>Nombre Proyecto:&nbsp;{{proy}}</h4><br>
                 <form action="/add_us" method="GET" autocomplete="off">
                     <input type="text" id="nombre_us" placeholder="Nombre" name="nombre" maxlength="30" required>               
                     <input type="text" id="descripcion_us" placeholder="Descripción" name="descripcion" maxlength="30">

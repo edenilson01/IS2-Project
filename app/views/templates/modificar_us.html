@@ -23,9 +23,9 @@
         }
     </style>
     <body>        
-        <section class="form-home" style="height: 400px;">
-            <h5>Modificar US</h5>
-            <br><br>
+        <section class="form-home" style="height: 300px;">
+            <h5>Modificar US</h5><br>
+            <h4>Nombre Proyecto: {{proy}}</h4>
             <form action="/mod_us" method="GET" autocomplete="off">           
                 <input id ="id" class="input_txt2" type="text" name="nombre" value= '{{nombre_us}}' placeholder="Ingrese el nuevo nombre del US" maxlength="30"required>
                 <input class="input_txt2" type="text" name="descripcion" value= '{{descripcion_us}}' placeholder="Ingrese la descripcion del US" maxlength="60">

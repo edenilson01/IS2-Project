@@ -11,8 +11,13 @@
     </head>
     <body>
         <section class="form-home">
-            <a href="/login"><i class="fas fa-window-close close" style="font-family:arial, FontAwesome"></i></a>
-            <i class="far fa-user-circle icon" style="font-family:arial, FontAwesome" ></i>
+            <div class="popover__wrapper">
+                <a href="/login"><i class="fas fa-window-close close" style="font-family:arial, FontAwesome"></i></a>
+                <div class="popover__content">
+                    <span class="popover__message">Cerrar Sesión</span>
+                </div>
+            </div>
+            <b class="far fa-user-circle icon" style="font-family:arial, FontAwesome"></b>
             <h5>BIENVENID@ {{user.upper}}</h5>
             <form action>
                 <input class="buttons" id="1" type="button" name="" value="Seguridad" disabled style="background:gray" onclick="window.location='/seguridad/'"> 
