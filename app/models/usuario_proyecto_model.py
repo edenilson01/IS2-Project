@@ -10,13 +10,15 @@ class UsuarioProyectoModel(DbConnectionModel):
     #CONSULT_USUARIOS_DISP_STMT = 'SELECT username FROM usuarios WHERE username NOT IN (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'
 
     CONSULT_USUARIOS_DISP_STMT = '''
-    SELECT ur.username FROM usuarios_roles ur
+    SELECT distinct ur.username FROM usuarios_roles ur
     INNER JOIN rol_permiso rp ON rp.id_rol = ur.id_rol
     INNER JOIN permisos p ON p.id_permiso = rp.id_permiso 
     WHERE ur.fin IS NULL AND rp.estado IS TRUE AND
           LOWER(TRIM(both FROM p.nombre)) = 'desarrollo'
           AND username NOT IN 
           (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL)'''
+
+    CONSULT_FEC_INC_STMT = 'SELECT fecha_incorporacion FROM usuario_proyecto WHERE username = %s AND id_proyecto = %s'
 
     CONSULT_USUARIO_ASIGNADOS_STMT = 'SELECT username FROM usuarios WHERE username IN (SELECT username FROM usuario_proyecto WHERE fecha_salida IS NULL AND id_proyecto = %s)'
     UPDATE_FECHAS_USUARIO_STMT = 'UPDATE usuario_proyecto SET fecha_incorporacion = %s, fecha_salida = %s WHERE username = %s AND id_proyecto = %s'

@@ -21,13 +21,13 @@
                             <option value={{ rol.0 }}>{{ rol.1 }}</option> 
                         {% endfor %}             
                     </select>
-                    <input class="input_txt" type="text" id="desc_rol"  name="desc" disabled=true maxlength="50">
+                    <input class="input_txt" type="text" id="desc_rol" placeholder="Descripción" name="desc" disabled=true maxlength="50">
                     {% for permiso in lista_permisos %}
                         <input type="checkbox" id="check" disabled class = "permisos" value={{ permiso.0 }}> {{ permiso.1 }}
                         <br>
                     {% endfor %}
                
-                <input class="buttons" style="margin-top: 15%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
+                <input class="buttons" style="margin-top: 5%;" type="button" onclick="window.location='/seguridad';" name="" value="CANCELAR">
                 <input class="buttons" id = "guardar" disabled=true type="submit" name="" value="GUARDAR">
                 <input class="input_txt" type="hidden" name="rol_selected" id="rol_selected" onclick="habilitar(this.value)">
                </form> 

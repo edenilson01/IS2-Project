@@ -303,7 +303,7 @@ class ViewRequest:
     
     def rol_permisos(self, request):
         view = loader.get_template('asignar_permisos.html')
-        html_reponse = view.render({'lista_permisos': self.obtener_permisos(), 'nombre_rol': self.nombre_rol})
+        html_reponse = view.render({'lista_permisos': self.obtener_permisos(), 'nombre_rol': self.nombre_rol, 'descripcion': self.descripcion})
         return HttpResponse(html_reponse)
     
     def guardar_nombre_rol(self, request):
@@ -480,6 +480,15 @@ class ViewRequest:
         html_reponse = view.render({'lista_miembros': lista_miembros})
         return HttpResponse(html_reponse)
 
+    def lista_miembro2(self, request):
+        lista_miembros = UsuarioProyectoModel().consult_usuarios(self.id_proyecto)
+        if lista_miembros is None:
+            print('No hay miembros')
+ 
+        view = loader.get_template('lista_miembro2.html')
+        html_reponse = view.render({'lista_miembros': lista_miembros})
+        return HttpResponse(html_reponse)
+
     #-------------------------BACKLOG-------------------------------#
     def desarrollo(self, request):
         lista_proyectos = ProyectoModel().consult_proyectos()
@@ -516,6 +525,10 @@ class ViewRequest:
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         nombre_us = USModel().consult_nombre_us(self.id_us)
         descripcion_us = USModel().consult_descripcion_us(self.id_us)
+
+        if descripcion_us is None:
+            descripcion_us = ''
+
         view = loader.get_template('modificar_us.html')
         html = view.render({'nombre_us': nombre_us,'descripcion_us': descripcion_us,'proy':nombre_proyecto})
         return HttpResponse(html) 
@@ -574,11 +587,13 @@ class ViewRequest:
         return HttpResponse()
     
     def iniciar_sprint(self, request):
+        today = date.today()
+        hoy = today.strftime("%Y-%m-%d")
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         sprint = SprintModel().consult_sprint(self.id_sprint)
         nombre_sprint = sprint[0]
         view = loader.get_template('iniciar_sprint.html')
-        html = view.render({'nombre': nombre_sprint,'proy':nombre_proyecto})
+        html = view.render({'nombre': nombre_sprint,'proy':nombre_proyecto, 'current_date': hoy})
         return HttpResponse(html)
 
     def calcular_fecha_duracion_sprint(self, request):
@@ -635,7 +650,13 @@ class ViewRequest:
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         view = loader.get_template('crear_us.html')
         html_reponse = view.render({'proy':nombre_proyecto})
-        return HttpResponse(html_reponse)        
+        return HttpResponse(html_reponse)
+
+    def crear_us2(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        view = loader.get_template('crear_us2.html')
+        html_reponse = view.render({'proy':nombre_proyecto})
+        return HttpResponse(html_reponse) 
     
     def agregar_us(self, request):
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
@@ -666,6 +687,16 @@ class ViewRequest:
         USModel().insert_us(nombre, descripcion, "TODO", None, id_proyecto, None, True)
         return redirect('/crear_us/')
 
+    def add_us2(self, request):
+        nombre = request.GET['nombre']
+        descripcion = request.GET['descripcion']
+        id_proyecto = self.id_proyecto
+        if not descripcion:
+            descripcion = None
+
+        USModel().insert_us(nombre, descripcion, "TODO", None, id_proyecto, None, True)
+        return redirect('/crear_us2/')
+
     def add_incidencia(self, request):
         id_us = request.GET['id_us']
         id_sprint = self.id_sprint
@@ -675,7 +706,7 @@ class ViewRequest:
 
     def add_user_sprint(self, request):
         USModel().update_username(request.GET['username'], self.id_us)
-        return redirect('/asignar_user/')  
+        return redirect('/modificar_sprint/')  
 
     def sprint_us_historico(self, request):
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)

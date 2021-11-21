@@ -41,10 +41,10 @@
             
                 <form class = "fechas" id="reset_form">  
                     <br><br><br><p>Fecha Inicio</p>
-                    <input class="input_txt2" id="fecha1" type="date" name="fecha_inicio" value= "" maxlength="30" disabled required >
+                    <input class="input_txt2" id="fecha1" type="date" name="fecha_inicio" min={{current_date}} value= "" maxlength="30" disabled required >
                     <br>
                     <p>Fecha Fin</p>
-                    <input class="input_txt2" id="fecha2" type="date" name="fecha_fin" value="" maxlength="30" disabled required>
+                    <input class="input_txt2" id="fecha2" type="date" name="fecha_fin" min={{current_date}} value="" maxlength="30" disabled required>
                 </form>
                 <input class="buttons" type="button" style="float: left;" onclick="window.location='/sprint';" name="" value="CANCELAR">
                 <input class="buttons" id="bt_guardar" type="submit"  name="" value="GUARDAR">
@@ -97,7 +97,7 @@
 
             $("#fecha1").on("change", function(){
                 var fecha1 = document.getElementById("fecha1").value;
-                var duracion_dias = duracion * 8;
+                var duracion_dias = duracion * 7;
                 $.ajax({
                     type: 'GET',
                     url: "/calcular_fecha",

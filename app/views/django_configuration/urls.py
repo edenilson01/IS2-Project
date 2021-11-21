@@ -89,9 +89,12 @@ urlpatterns = [
     path('add_miembro/', control.add_miembro),
     path('delete_miembro/', control.delete_miembro),
     path('lista_miembro/', control.lista_miembro),
+    path('lista_miembro2/', control.lista_miembro2),
     path('desarrollo/', control.desarrollo),
     path('crear_us/', control.crear_us),
+    path('crear_us2/', control.crear_us2),
     path('add_us/', control.add_us),
+    path('add_us2/', control.add_us2),
 
     path('desarrollo/', control.desarrollo),
     path('backlog/', control.backlog),

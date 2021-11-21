@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+            <title>Crear US</title>
+            <link rel="stylesheet" href="{% static 'modificar_us.css' %}">
+            <link rel="shortcut icon" href="{% static 'logo.png' %}">
+            <script defer src="{% static 'us_nombre.js' %}"></script>
+        </head>
+        <body>
+            <section class="form-home" style="height: 300px;">
+                <h5>Crear US</h5>
+                <h4>Nombre Proyecto:&nbsp;{{proy}}</h4><br>
+                <form action="/add_us2" method="GET" autocomplete="off">
+                    <input type="text" id="nombre_us" placeholder="Nombre" name="nombre" maxlength="30" required>               
+                    <input type="text" id="descripcion_us" placeholder="Descripción" name="descripcion" maxlength="30">
+                    <input class="buttons" type="button" onclick="window.location='/agregar_us';" name="" value="CANCELAR">
+                    <input class="buttons" id = "guardar" type="submit" name="" value="GUARDAR">
+               </form> 
+            </section>
+
+    </body>
+</html>
