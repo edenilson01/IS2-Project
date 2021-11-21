@@ -38,7 +38,7 @@ class ViewRequest:
         self.mensaje_error = []
         return HttpResponse(html_reponse)
 
-    ############################LOGIN
+    #-------------------------LOGIN-------------------------------#
     def iniciar_sesion(self, request):
         return render(request, 'login.html')
 
@@ -85,7 +85,7 @@ class ViewRequest:
         html = view.render({'user': self.usuario_logueado})
         return HttpResponse(html)
 
-    ##################################CREAR USUARIO
+    #-------------------------USUARIOS-------------------------------#
     def crear_usuario(self, request):
         today = date.today()
         hoy = today.strftime("%Y-%m-%d")
@@ -121,9 +121,8 @@ class ViewRequest:
 
         return HttpResponse()
         
-
     def registrar_usuario(self, request):
-        #persona
+        #datos de la persona
         persona = {}
         persona['p_nombre'] = request.GET['p_nombre']
         persona['s_nombre'] = request.GET['s_nombre']
@@ -131,15 +130,13 @@ class ViewRequest:
         persona['s_apellido'] = request.GET['s_apellido']
         persona['fec_nac'] = request.GET['fec_nacimiento']
         print(persona)
-        #usuario
+        #datos del usuario
         usuario = {}
         usuario['username'] = request.GET['username']
         usuario['correo'] = request.GET['correo']
         usuario['password'] = request.GET['password']
         usuario['password2'] = request.GET['password_rep']
         print(usuario)
-
-
         persona['id'] = PersonaModel().insert_persona(
             persona['p_nombre'],
             persona['s_nombre'],
@@ -149,17 +146,14 @@ class ViewRequest:
         )
 
         UserModel().insert_user(usuario['username'], usuario['password'], persona['id'], usuario['correo'])
-    
+        #datos de los roles
         for rol in self.rol_select:
             UsuarioRolModel().insert_rol_usuario2(rol,usuario['username'])
 
-  
         return redirect('/signup/')
-    
-
 
     def modificar_usuario(self, request):
-        #persona
+        #datos de la persona
         persona = {}
         persona['p_nombre'] = request.GET['p_nombre']
         persona['s_nombre'] = request.GET['s_nombre']
@@ -167,13 +161,12 @@ class ViewRequest:
         persona['s_apellido'] = request.GET['s_apellido']
         persona['fec_nac'] = request.GET['fec_nacimiento']
         print(persona)
-        #usuario
+        #datos del usuario
         usuario = {}
         usuario['username'] = request.GET['username2']
         usuario['correo'] = request.GET['correo']
         usuario['password'] = request.GET['password']
         print(usuario)
-
         modelo_usuario = UserModel()
         persona['id'] = modelo_usuario.consult_id_persona(usuario['username'])
         PersonaModel().update_persona(
@@ -184,11 +177,10 @@ class ViewRequest:
             persona['fec_nac'],
             persona['id']
         )
-        # usuario_model = UserModel()
+
         modelo_usuario.update_user(usuario['password'], usuario['correo'], usuario['username'])
-
+        #datos de los roles
         roles = self.obtener_roles_usuario(usuario['username'])
-
         if roles :
             for rol in roles:
                 UsuarioRolModel().delete_rol_usuario(rol,usuario['username'])
@@ -197,80 +189,7 @@ class ViewRequest:
             UsuarioRolModel().insert_rol_usuario2(rol,usuario['username'])
 
         return redirect('/user_settings/')
-    
 
-
-    ###################################################
-
-    def rol_nombre(self, request):
-        return render(request, 'asignar_nombre_rol.html')
-
-    def rol_permisos(self, request):
-        view = loader.get_template('asignar_permisos.html')
-        html_reponse = view.render({'lista_permisos': self.obtener_permisos(), 'nombre_rol': self.nombre_rol})
-        return HttpResponse(html_reponse)
-
-    def modificar_rol(self, request):
-        view = loader.get_template('modificar_rol.html')
-        html_reponse = view.render({'lista_roles': self.obtener_roles(), 'lista_permisos': self.obtener_permisos()})
-        return HttpResponse(html_reponse)
-
-    def updt_rol(self, request):
-        id_rol = request.GET['rol_selected']
-        p = RolPermisoModel().consult_permisos2(id_rol)
-        
-        if (p):
-            for permiso in p:
-                RolPermisoModel().update_rol_permiso(False, id_rol, permiso)
-        
-        for permiso in self.permisos_selected:
-            existe_registro = RolPermisoModel().consult_estado(id_rol, permiso)
-            if (existe_registro is None):
-                RolPermisoModel().insert_rol_permiso(id_rol, permiso, True)
-            else:
-                RolPermisoModel().update_rol_permiso(True, id_rol, permiso)
-            
-        return redirect('/seguridad/')
-
-    def eliminar_rol(self, request):
-        view = loader.get_template('delete_rol.html')
-        html_reponse = view.render({'lista_roles': self.obtener_roles()})
-        return HttpResponse(html_reponse)
-    
-    def del_rol(self, request):
-        RolesModel().delete_rol(request.GET['rol_selected'])
-        return redirect('/login/')
-    
-
-    def seguridad(self, request):
-        return render(request, 'seguridad.html')
-    
-    def guardar_nombre_rol(self, request):
-        self.nombre_rol = request.GET.get('nombre')
-        return HttpResponse()
-    
-    def guardar_permisos_selected(self, request):
-        self.permisos_selected = request.GET.getlist('permisos_selected')
-        return HttpResponse()
-   
-    def registrar_rol(self, request):
-        nombre_rol = request.GET.get('nombre_rol')
-
-        rol_id = RolesModel().insert_rol(nombre_rol, None)
-
-        for permiso in self.permisos_selected:
-            RolPermisoModel().insert_rol_permiso(rol_id, permiso, True)
-            
-        return render(request, 'seguridad.html')
-    
-    def obtener_permisos_rol(self, request):
-        
-        id_rol = request.GET.get('rol_selected')
-        permisos = RolPermisoModel().consult_permisos2(id_rol)
-        print(permisos)
-        return HttpResponse(json.dumps(permisos), content_type='application/json')
-
-    ################### MODIFICAR USUARIO
     def modificar_user(self, request):
         view = loader.get_template('modificar_user.html')
         html_reponse = view.render({'lista_roles': self.obtener_roles()})
@@ -297,12 +216,6 @@ class ViewRequest:
 
         return HttpResponse(json.dumps(datos_persona), content_type='application/json')
     
-    def obtener_roles_usuario(self, usuario_user):
-        return UsuarioRolModel().consult_id_roles(usuario_user)
-
-            
-
-    ######################### ELIMINAR USUARIO    
     def eliminar_user(self, request):
         return render(request, 'delete_user.html')
 
@@ -341,9 +254,79 @@ class ViewRequest:
         datos_persona['username'] = username
         return HttpResponse(json.dumps(datos_persona), content_type='application/json')
 
-
+    #-------------------------ROLES-------------------------------#
+    def obtener_roles_usuario(self, usuario_user):
+        return UsuarioRolModel().consult_id_roles(usuario_user)
     
-    ################################PERMISOS
+    def seguridad(self, request):
+        return render(request, 'seguridad.html')
+    
+    def rol_nombre(self, request):
+        return render(request, 'asignar_nombre_rol.html')
+
+    def modificar_rol(self, request):
+        view = loader.get_template('modificar_rol.html')
+        html_reponse = view.render({'lista_roles': self.obtener_roles(), 'lista_permisos': self.obtener_permisos()})
+        return HttpResponse(html_reponse)
+
+    def updt_rol(self, request):
+        id_rol = request.GET['rol_selected']
+        p = RolPermisoModel().consult_permisos2(id_rol)
+        if (p):
+            for permiso in p:
+                RolPermisoModel().update_rol_permiso(False, id_rol, permiso)
+        
+        for permiso in self.permisos_selected:
+            existe_registro = RolPermisoModel().consult_estado(id_rol, permiso)
+            if (existe_registro is None):
+                RolPermisoModel().insert_rol_permiso(id_rol, permiso, True)
+            else:
+                RolPermisoModel().update_rol_permiso(True, id_rol, permiso)
+            
+        return redirect('/seguridad/')
+
+    def eliminar_rol(self, request):
+        view = loader.get_template('delete_rol.html')
+        html_reponse = view.render({'lista_roles': self.obtener_roles()})
+        return HttpResponse(html_reponse)
+    
+    def del_rol(self, request):
+        id_rol = request.GET['rol_selected']
+        rol = UsuarioRolModel().consult_rol_user(self.usuario_logueado, id_rol)
+        RolesModel().delete_rol(id_rol)
+        if rol is not None:
+            return redirect('/login/')
+        
+        return redirect('/delete_rol/')
+    
+    def rol_permisos(self, request):
+        view = loader.get_template('asignar_permisos.html')
+        html_reponse = view.render({'lista_permisos': self.obtener_permisos(), 'nombre_rol': self.nombre_rol})
+        return HttpResponse(html_reponse)
+    
+    def guardar_nombre_rol(self, request):
+        self.nombre_rol = request.GET.get('nombre')
+        return HttpResponse()
+    
+    def registrar_rol(self, request):
+        nombre_rol = request.GET.get('nombre_rol')
+        rol_id = RolesModel().insert_rol(nombre_rol, None)
+        for permiso in self.permisos_selected:
+            RolPermisoModel().insert_rol_permiso(rol_id, permiso, True)
+            
+        return render(request, 'seguridad.html')
+
+    #-------------------------PERMISOS-------------------------------#
+    def guardar_permisos_selected(self, request):
+        self.permisos_selected = request.GET.getlist('permisos_selected')
+        return HttpResponse()
+   
+    def obtener_permisos_rol(self, request):
+        id_rol = request.GET.get('rol_selected')
+        permisos = RolPermisoModel().consult_permisos2(id_rol)
+        print(permisos)
+        return HttpResponse(json.dumps(permisos), content_type='application/json')
+
     def crear_permisos(self, request):
         return render(request, 'crear_permiso.html')
 
@@ -381,10 +364,18 @@ class ViewRequest:
         return redirect('/modificar_permiso/')
 
     def del_permiso(self, request):
-        PermisosModel().delete_permiso(request.GET['id_permiso'])
-        return redirect('/login/')  
+        id_permiso = request.GET['id_permiso']
+        ids_roles = RolPermisoModel().consult_roles_permiso(id_permiso)
+        PermisosModel().delete_permiso(id_permiso)
+        if ids_roles is not None:
+            for id_rol in ids_roles:
+                rol = UsuarioRolModel().consult_rol_user(self.usuario_logueado, id_rol)
+                if rol is not None:
+                    return redirect('/login/')
+        
+        return redirect('/eliminar_permiso/')
 
-    #############################PROYECTOS
+    #-------------------------PROYECTOS-------------------------------#
     def proyecto(self, request):
         lista_proyectos = ProyectoModel().consult_proyectos()
         if lista_proyectos is None:
@@ -398,39 +389,16 @@ class ViewRequest:
         self.id_proyecto = request.GET['id_proyecto']
         return HttpResponse()
 
-
-
     def modificar_proyecto(self, request):
         view = loader.get_template('modificar_proyecto.html')
-
         res = SprintModel().sprint_activo(self.id_proyecto)
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
-
         html_reponse = view.render({'respuesta': res, 'nombre_proyecto': nombre_proyecto})
-        return HttpResponse(html_reponse)
-
-        #return render(request, 'modificar_proyecto.html')
-        #return render(request, 'modificar_proyecto.html')
-        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
-        view = loader.get_template('modificar_proyecto.html')
-        html = view.render({'nombre_proyecto': nombre_proyecto})
-        return HttpResponse(html)        
-
+        return HttpResponse(html_reponse)     
 
     def mod_proyecto(self, request):
         nuevo_nombre = request.GET['proy_nombre']
         estado = request.GET.get('estado')
-        #if estado == 'true':
-        #    estados_sprints = SprintModel().consult_estados(self.id_proyecto)
-        #    print(estados_sprints)
-        #    if estados_sprints is None:
-        #        response = HttpResponse(
-        #            json.dumps({ 'mensaje': 'Existen Sprints para el proyecto sin finalizar'}), 
-        #            content_type='application/json'
-        #        )
-        #       response.status_code = 400
-        #        return response
-        
         
         if nuevo_nombre == '':
             ProyectoModel().update_estado_fin(estado, self.id_proyecto)
@@ -453,7 +421,6 @@ class ViewRequest:
 
     def reg_proyecto(self, request):
         ProyectoModel().insert_project(request.GET['pro_nombre'])
-        #return render(request, 'crear_proyecto.html')
         return redirect('/proyects') 
     
     def del_proyecto(self, request):
@@ -463,8 +430,7 @@ class ViewRequest:
     def equipo(self, request):
         return render(request, 'equipo.html')
 
-
-    #####################################EQUIPOS
+    #-------------------------EQUIPOS-------------------------------#
     def add_miembro(self, request):
         lista_miembros = UsuarioProyectoModel().consult_usuarios_disponibles()
         if lista_miembros is None:
@@ -500,7 +466,7 @@ class ViewRequest:
         html_reponse = view.render({'lista_miembros': lista_miembros})
         return HttpResponse(html_reponse)
 
-    #####################################Desarrollo
+    #-------------------------BACKLOG-------------------------------#
     def desarrollo(self, request):
         lista_proyectos = ProyectoModel().consult_proyectos()
         if lista_proyectos is None:
@@ -514,7 +480,6 @@ class ViewRequest:
         lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
         view = loader.get_template('backlog.html')
         html_reponse = view.render({'lista_us': lista_us})
-
         return HttpResponse(html_reponse)
 
     def del_us_h(self, request):
@@ -527,7 +492,6 @@ class ViewRequest:
 
     def eliminar_us(self, request):
         return render(request, 'eliminar_us.html')
-
 
     def guardar_us_id(self, request):
         self.id_us = request.GET['id_us']
@@ -546,8 +510,7 @@ class ViewRequest:
         if nuevo_nombre:
             USModel().update_nombre(nuevo_nombre, self.id_us)     
 
-        USModel().update_descripcion(descripcion, self.id_us) 
-             
+        USModel().update_descripcion(descripcion, self.id_us)    
         return redirect('/modificar_us/')
 
     def obt_us(self, request):
@@ -558,7 +521,7 @@ class ViewRequest:
         }
         return HttpResponse(json.dumps(us), content_type='application/json')     
 
-    #####################################SPRINT
+    #-------------------------SPRINTS-------------------------------#
     def sprint(self, request):
         lista = SprintModel().consult(self.id_proyecto)
         view = loader.get_template('sprint.html')
@@ -630,36 +593,28 @@ class ViewRequest:
         self.id_sprint = request.GET['id_sprint']
         return HttpResponse()
 
-    #####################################otras funciones
-    def obtener_roles(self):
-        return RolesModel().consult_roles()
-
-    def obtener_permisos(self):
-        return PermisosModel().consult_permiso()
-
-    def obtener_us(self):
-        return USModel().consult_us()
-
-    def obtener_username(self):
-        return USModel().consult_username()
-
-    def crear_us(self, request):
-        return render(request, 'crear_us.html')
-        
     def modificar_sprint(self, request):
         lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('modificar_sprint.html')
         html_reponse = view.render({'lista_us': lista_us})
-
+        return HttpResponse(html_reponse)
+    
+    def sprint_historico(self, request):
+        lista = SprintModel().consult(self.id_proyecto)
+        view = loader.get_template('sprint_historico.html')
+        html_reponse = view.render({'lista_sprint': lista})
         return HttpResponse(html_reponse)
 
+    #-------------------------US-------------------------------#
+    def crear_us(self, request):
+        return render(request, 'crear_us.html')
+    
     def agregar_us(self, request):
         lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
         view = loader.get_template('agregar_us.html')
         html_reponse = view.render({'lista_us': lista_us})
         return HttpResponse(html_reponse)        
        
-
     def asignar_user(self, request):
         print(self.id_proyecto)
         lista_miembros = UsuarioProyectoModel().consult_usuarios_asignados(self.id_proyecto)
@@ -674,13 +629,11 @@ class ViewRequest:
         nombre = request.GET['nombre']
         descripcion = request.GET['descripcion']
         id_proyecto = self.id_proyecto
-
         if not descripcion:
             descripcion = None
 
         USModel().insert_us(nombre, descripcion, "TODO", None, id_proyecto, None, True)
         return redirect('/crear_us/')
-
 
     def add_incidencia(self, request):
         id_us = request.GET['id_us']
@@ -693,20 +646,13 @@ class ViewRequest:
         USModel().update_username(request.GET['username'], self.id_us)
         return redirect('/asignar_user/')  
 
-    def sprint_historico(self, request):
-        lista = SprintModel().consult(self.id_proyecto)
-        view = loader.get_template('sprint_historico.html')
-        html_reponse = view.render({'lista_sprint': lista})
-        return HttpResponse(html_reponse)
-
     def sprint_us_historico(self, request):
         lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('sprint_us_historico.html')
         html_reponse = view.render({'lista_us': lista_us})
-
         return HttpResponse(html_reponse)
         
-#####################################kanban
+    #-------------------------KANBAN-------------------------------#
     def kanban(self, request):
         lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
@@ -716,9 +662,7 @@ class ViewRequest:
             sprint='Ningun sprint activo'
         view = loader.get_template('kanban.html')
         html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint, 'current_user': nombre})
-
         return HttpResponse(html_reponse)
-
 
     def actualizar_estado_us(self, request):
         id_us = request.GET['id_us']
@@ -727,6 +671,16 @@ class ViewRequest:
         USModel().update_estado(estado, id_us)
         return redirect('/kanban/')
 
-        #print(estado)
-        #return HttpResponse(json.dumps(permiso), content_type='application/json')
-        #def update_estado(self, estado, id_us):
+    #-------------------------OTRAS FUNCIONES-------------------------------#
+    def obtener_roles(self):
+        return RolesModel().consult_roles()
+
+    def obtener_permisos(self):
+        return PermisosModel().consult_permiso()
+
+    def obtener_us(self):
+        return USModel().consult_us()
+
+    def obtener_username(self):
+        return USModel().consult_username()
+  

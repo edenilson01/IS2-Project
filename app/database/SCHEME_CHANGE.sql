@@ -1,8 +1,6 @@
 ALTER TABLE sprints ALTER COLUMN activo DROP NOT NULL;
 
 --DELETE CASCADE
---ALTER TABLE public.usuarios DROP COLUMN estado;
-
 ALTER TABLE public.USUARIO_PROYECTO DROP CONSTRAINT proyectos_usuario_proyecto_fk;
 ALTER TABLE public.SPRINTS DROP CONSTRAINT proyectos_sprints_fk;
 ALTER TABLE public.US DROP CONSTRAINT proyectos_us_fk;

@@ -8,8 +8,18 @@ class UsuarioRolModel(DbConnectionModel):
     UPDATE_FIN_ROL_USUARIO_STMT = 'UPDATE usuarios_roles SET fin = %s WHERE id_rol = %s and username = %s'
     DELETE_ROL_USUARIO_STMT = 'DELETE FROM usuarios_roles WHERE id_rol = %s and username = %s'
     CONSULT_IDS_ROL_USUARIO_STMT = 'SELECT id_rol FROM usuarios_roles WHERE username = %s'
+    CONSULT_ROL_USER_STMT = 'SELECT id_rol FROM usuarios_roles WHERE username = %s AND id_rol = %s'
     DELETE_ROLES_USUARIO_STMT = 'DELETE FROM usuarios_roles WHERE username = %s'
 
+    def consult_rol_user(self, username, id_rol):
+        try:
+            ids = super().execute_sql_stmt(self.CONSULT_ROL_USER_STMT, (username, id_rol), True)
+            if len(ids) == 0:
+                return None
+            return ids
+        except Exception as e:
+            raise e
+    
     def consult_id_roles(self, username):
         try:
             ids = super().execute_sql_stmt(self.CONSULT_IDS_ROL_USUARIO_STMT, [username], True)
