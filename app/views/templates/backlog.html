@@ -174,7 +174,13 @@
                     {% for us in lista_us %}
                         <tr id = {{us.0}} >
                             <td>{{ us.1 }}</td>
-                            <td>{{ us.2 }}</td>
+
+                            {% if us.2 == None %}
+                                <td>No hay descripción</td>
+                            {% else %}
+                                <td>{{ us.2 }}</td>
+                            {% endif %}
+
                             <td></td>
                         </tr>
                     {% endfor %}
@@ -233,6 +239,7 @@
             $(".b_el").click(function(){
                 var valor = $(this).parents("tr").find("td").eq(0).html();
                 var id_us = $(this).parents("tr")[0].id
+                console.log(id_us);
                 swal( 
                     {
                         title: "Eliminar US",
@@ -245,7 +252,7 @@
                         if (okay) {
                             $.ajax({
                                 type: 'GET',
-                                url: "/del_us_h",
+                                url: "/del_us_backlog",
                                 data: {'id_us' : id_us},
                                 success:function(data) {
                                     window.location.reload();

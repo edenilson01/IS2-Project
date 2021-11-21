@@ -170,9 +170,7 @@
                                     }   
                                 }    
                             }
-                            
-                            //TODO opcion no marca
-                            //document.querySelectorAll('option[value="1"]')[0].selected="true"
+
                             document.querySelectorAll('option[value="1"]')[0].attributes[0].value = "true";
                             console.log(document.querySelectorAll('option[value="1"]')[0].attributes[0]);
                         },
@@ -180,9 +178,9 @@
                             swal({title:"Error",text:"No existe el usuario ingresado",icon:"error",timer:3010,
                             buttons: false});
                             buscar_usuario.reset();
-                            bt_registrar.disabled();                       }
+                            bt_registrar.disabled();
+                        }
                     });
-
                 });
             });
 
@@ -202,7 +200,11 @@
                     }
                     
                 });
-                $.ajax({
+                
+                if (roles_seleccionados.length == 0){
+                    swal("No se selecciono ningun rol");
+                }else{
+                    $.ajax({
                         type: 'GET',
                         url: "/guardar_roles_selected",
                         traditional: true,
@@ -214,8 +216,8 @@
                             window.location.reload();
                         }
                     });
+                }
             });
-
         </script>
     </body>
 </html>

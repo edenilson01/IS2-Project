@@ -64,23 +64,34 @@
                 var nombre = document.getElementsByName("nombre")[0].value;
                 var fecha_inicio = document.getElementById("fecha1").value;
                 var fecha_fin = document.getElementById("fecha2").value;
-                $.ajax({
-                    type: 'GET',
-                    url: "/ini_sprint",
-                    data: { 
-                        'nombre' : nombre,
-                        'fecha_inicio' : fecha_inicio,
-                        'fecha_fin' : fecha_fin
-                    },
-                    success:function(data) {
-                        window.location.reload();
-                    },
-                    error: function(xhr, status, error) {
-                        swal(
-                            xhr.responseJSON["mensaje"]
-                        );
-                    }
-                });
+
+                var fecha_actual = new Date();
+                var fecha_actual_str = String(fecha_actual.getFullYear()) + "-" + String(fecha_actual.getMonth()+1) + "-" + String(fecha_actual.getDate());
+
+
+                if (fecha_inicio === "" || fecha_fin === ""){
+                    swal("No se selecciono ninguna FECHA");
+                }else if (fecha_fin < fecha_inicio){
+                    swal("La FECHA FIN no puede ser menor que la FECHA INICIO");
+                }else if (fecha_inicio < fecha_actual_str){
+                    swal("La FECHA INICIO no puede ser menor que la FECHA ACTUAL");
+                }else{
+                    $.ajax({
+                        type: 'GET',
+                        url: "/ini_sprint",
+                        data: { 
+                            'nombre' : nombre,
+                            'fecha_inicio' : fecha_inicio,
+                            'fecha_fin' : fecha_fin
+                        },
+                        success:function(data) {
+                            window.location.href = "/sprint";
+                        },
+                        error: function(xhr, status, error) {
+                            swal(xhr.responseJSON["mensaje"]);
+                        }
+                    });
+                }
             });   
             
 

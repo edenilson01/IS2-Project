@@ -17,7 +17,7 @@
 		<ul>
             <img src="{% static 'logo.png' %}" width="32" height="32"/>
             <div style="position:relative; z-index: 1">
-                <li><a href="/home">REJA Software</a></li>
+                <li><a href="/home">USUARIO: {{current_user}}</a></li>
             </div>
 
             <div class= kanban_titulo style="position:absolute; z-index: 1; left: 44%; top:3%;font-family: 'Lato'; font-size: 14px;">
@@ -30,11 +30,15 @@
 		</ul>
     </nav>
 
+<<<<<<< HEAD
     <body>     
         <header>
             <h3>PROYECTO : <b style="color:White">{{proy}}</b></h3>
             <h3>SPRINT : <b style="color:White">{{sprint}}</b></h3>
         </header> 
+=======
+    <body onselectstart="return false" oncontextmenu="return false">     
+>>>>>>> dc7093e1619d59edbb65bf3c885fb3f0d4bbea1a
         <main id="app">
             <section id="board">
                 <section id="columns">
@@ -42,14 +46,25 @@
                         <h3 class="column-title">TO DO</h3>
                         {% for us in lista_us %}
                             {% if us.3 == "TODO" %}
-                                <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
-                                    <li class="task fill" id ="id">
-                                        <div class="task-content" id="id_content">
-                                            <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
-                                            <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
-                                        </div>
-                                    </li>
-                                </ul>
+                                {% if us.8 == current_user%}
+                                    <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
+                                        <li class="task fill" id ="id">
+                                            <div class="task-content" id="id_content">
+                                                <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                                <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    <ul class="tasks" id={{us.0}} draggable="false" ondragstart="drag(event)">
+                                        <li class="task fill" id ="id" style="background-color: gray">
+                                            <div class="task-content" id="id_content">
+                                                <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:black"></i> {{ us.1}}
+                                                <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:black"></i> {{ us.8}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% endif %}
                             {% endif %}                    
                         {% endfor %}
                     </div>
@@ -57,14 +72,25 @@
                         <h3 class="column-title">DOING</h3>
                         {% for us in lista_us %}
                             {% if us.3 == "DOING" %}
-                                <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
-                                    <li class="task fill" id ="id">
-                                        <div class="task-content" id="id_content">
-                                            <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
-                                            <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
-                                        </div>
-                                    </li>
-                                </ul>
+                                {% if us.8 == current_user%}
+                                    <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
+                                        <li class="task fill" id ="id">
+                                            <div class="task-content" id="id_content">
+                                                <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                                <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    <ul class="tasks" id={{us.0}} draggable="false" ondragstart="drag(event)">
+                                        <li class="task fill" id ="id" style="background-color: gray">
+                                            <div class="task-content" id="id_content">
+                                                <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:black"></i> {{ us.1}}
+                                                <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:black"></i> {{ us.8}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% endif %}
                             {% endif %}                    
                         {% endfor %}
                     </div>
@@ -72,14 +98,25 @@
                         <h3 class="column-title">DONE</h3>
                         {% for us in lista_us %}
                             {% if us.3 == "DONE" %}
-                                <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
-                                    <li class="task fill" id ="id">
-                                        <div class="task-content" id="id_content">
-                                            <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
-                                            <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
-                                        </div>
-                                    </li>
-                                </ul>
+                                {% if us.8 == current_user%}
+                                    <ul class="tasks" id={{us.0}} draggable="true" ondragstart="drag(event)">
+                                        <li class="task fill" id ="id">
+                                            <div class="task-content" id="id_content">
+                                                <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.1}}
+                                                <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:#800080"></i> {{ us.8}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    <ul class="tasks" id={{us.0}} draggable="false" ondragstart="drag(event)">
+                                        <li class="task fill" id ="id" style="background-color: gray;">
+                                            <div class="task-content" id="id_content">
+                                                <i class="fas fa-edit" style="font-family:arial, FontAwesome; color:black"></i> {{ us.1}}
+                                                <br><i class="fas fa-user" style="font-family:arial, FontAwesome; color:black"></i> {{ us.8}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% endif %}
                             {% endif %}                    
                         {% endfor %}
                     </div>

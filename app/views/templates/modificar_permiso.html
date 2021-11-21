@@ -26,7 +26,7 @@
                 <br>
                 <h4>Datos actuales</h4>
                 <form id="form_modificar" action="/mod_permiso" methon="GET" autocomplete="off">
-                    <input class="input_txt" id="name" name="nombre" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" disabled required>
+                    <input class="input_txt" id="name" name="nombre" style="width: 100%;" type="text" value="" placeholder="Nombre" maxlength="30" onkeyup="es_vacio()" disabled>
                     <input class="input_txt" id="desc" name="descripcion" style="width: 100%;" type="text" value="" placeholder="Agrega una descripción" maxlength="50" disabled>
                     <br><br><br><br>
                     <input class="buttons" type="button" style="float: left; margin-top: 14%;" onclick="window.location='/seguridad';" name="" value="CANCELAR">
@@ -36,6 +36,16 @@
             </section>
 
             <script>
+                function es_vacio(){
+                    var campo1 = document.getElementById("name").value;
+                    if(campo1 != ""){
+                        document.getElementById("reg").removeAttribute('disabled');
+                    }
+                    else{
+                        document.getElementById("reg").setAttribute('disabled', 'disabled');
+                    }
+                }
+
                 $("#reg").on('click', function(e){
                     e.preventDefault();
                     var formulario = $(this).parents('form');

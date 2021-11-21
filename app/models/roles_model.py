@@ -6,7 +6,6 @@ class RolesModel(DbConnectionModel):
     INSERT_ROL_STMT = 'INSERT INTO roles(nombre, descripcion) VALUES (%s, %s)'
     CONSULT_LAST_ROL = 'SELECT MAX(id_rol) FROM roles'
     CONSULT_ROL_STMT = 'SELECT * FROM roles'
-    CONSULT_ROL_STMT_ = 'SELECT id_rol FROM roles WHERE nombre = %s'
     UPDATE_NOMBRE_STMT = 'UPDATE roles SET nombre = %s WHERE id_rol = %s'
     UPDATE_DESC_STMT = 'UPDATE roles SET descripcion = %s WHERE id_rol = %s'
     DELETE_ROL_STMT = 'DELETE FROM roles WHERE id_rol = %s'
@@ -25,15 +24,6 @@ class RolesModel(DbConnectionModel):
     def consult_roles(self):
         try:
             roles = super().execute_sql_stmt(self.CONSULT_ROL_STMT, '', True)
-            if len(roles) == 0:
-                return None
-            return roles
-        except Exception as e:
-            raise e
-
-    def consult_roles2(self, nombre):
-        try:
-            roles = super().execute_sql_stmt(self.CONSULT_ROL_STMT_, (nombre))
             if len(roles) == 0:
                 return None
             return roles

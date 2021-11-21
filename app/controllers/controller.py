@@ -1,6 +1,6 @@
 #aqui van los controladores, encargados de la logica del negocio
 #se pueden agregar mas archivos
-
+from datetime import date
 from app.models.usuario_proyecto_model import UsuarioProyectoModel
 from django.urls.base import resolve
 from django import http
@@ -87,9 +87,10 @@ class ViewRequest:
 
     ##################################CREAR USUARIO
     def crear_usuario(self, request):
-
+        today = date.today()
+        hoy = today.strftime("%Y-%m-%d")
         view = loader.get_template('signup.html')
-        html_reponse = view.render({'lista_roles': self.obtener_roles()})
+        html_reponse = view.render({'lista_roles': self.obtener_roles(), 'current_date': hoy})
         return HttpResponse(html_reponse)
 
     def guardar_roles_selected(self, request):
@@ -109,7 +110,7 @@ class ViewRequest:
 
         username = request.GET['username']
         print(username)
-        if UserModel().consult_persona(username) is not None:
+        if UserModel().consult_persona_exists(username) is not None:
             response = HttpResponse(
                 json.dumps({ 'mensaje': 'Ya existe un usuario con ese "USERNAME"'}), 
                 content_type='application/json'
@@ -234,7 +235,12 @@ class ViewRequest:
         view = loader.get_template('delete_rol.html')
         html_reponse = view.render({'lista_roles': self.obtener_roles()})
         return HttpResponse(html_reponse)
-        
+    
+    def del_rol(self, request):
+        RolesModel().delete_rol(request.GET['rol_selected'])
+        return redirect('/login/')
+    
+
     def seguridad(self, request):
         return render(request, 'seguridad.html')
     
@@ -300,9 +306,18 @@ class ViewRequest:
         return render(request, 'delete_user.html')
 
     def del_user(self, request):
-        usuario = request.GET['username2']
+        usuario = request.GET['username2']        
+        ids_proyecto = UsuarioProyectoModel().consult_usuarios_proyecto_fin(usuario)
+        if ids_proyecto is not None:
+            for id_proyecto in ids_proyecto:
+                UsuarioProyectoModel().update_fecha_salida(usuario, id_proyecto)
+
+        UsuarioRolModel().delete_roles_usuario(usuario)
         UserModel().delete_user(usuario)
-        return redirect('/delete_user/')  
+        if self.usuario_logueado == usuario:
+            return redirect('/login/')
+        
+        return redirect('/delete_user/')
 
     def buscar_user_elm(self, request):
         username = request.GET.get('username')
@@ -366,7 +381,7 @@ class ViewRequest:
 
     def del_permiso(self, request):
         PermisosModel().delete_permiso(request.GET['id_permiso'])
-        return redirect('/eliminar_permiso/')  
+        return redirect('/login/')  
 
     #############################PROYECTOS
     def proyecto(self, request):
@@ -502,15 +517,16 @@ class ViewRequest:
         return HttpResponse(html_reponse)
 
     def del_us_h(self, request):
+        USModel().update_backlog_state(True, request.GET['id_us'])
+        return HttpResponse()
+    
+    def del_us_backlog(self, request):
         USModel().delete_us(request.GET['id_us'])
         return HttpResponse()
 
     def eliminar_us(self, request):
         return render(request, 'eliminar_us.html')
 
-    def del_us(self, request):
-        return redirect('/eliminar_us/')  
-  
 
     def guardar_us_id(self, request):
         self.id_us = request.GET['id_us']
@@ -713,10 +729,11 @@ class ViewRequest:
         lista_us = USModel().consult_us_by_proyect_kanban(self.id_proyecto)
         nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         sprint = SprintModel().consult_sprint_activo(self.id_proyecto)
+        nombre = UserModel().consultar_nombre(self.usuario_logueado)
         if(sprint==None):
             sprint='Ningún sprint activo'
         view = loader.get_template('kanban.html')
-        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint})
+        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint, 'current_user': nombre})
 
         return HttpResponse(html_reponse)
 
