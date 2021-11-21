@@ -89,7 +89,6 @@ class ViewRequest:
     def crear_usuario(self, request):
         today = date.today()
         hoy = today.strftime("%Y-%m-%d")
-
         view = loader.get_template('signup.html')
         html_reponse = view.render({'lista_roles': self.obtener_roles(), 'current_date': hoy})
         return HttpResponse(html_reponse)
@@ -477,9 +476,10 @@ class ViewRequest:
         return HttpResponse(html_reponse)
 
     def backlog(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
         view = loader.get_template('backlog.html')
-        html_reponse = view.render({'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us,'nombre_proyecto':nombre_proyecto})
         return HttpResponse(html_reponse)
 
     def del_us_h(self, request):
@@ -498,10 +498,11 @@ class ViewRequest:
         return HttpResponse()
 
     def modificar_us(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         nombre_us = USModel().consult_nombre_us(self.id_us)
         descripcion_us = USModel().consult_descripcion_us(self.id_us)
         view = loader.get_template('modificar_us.html')
-        html = view.render({'nombre_us': nombre_us,'descripcion_us': descripcion_us})
+        html = view.render({'nombre_us': nombre_us,'descripcion_us': descripcion_us,'proy':nombre_proyecto})
         return HttpResponse(html) 
     
     def mod_us(self, request):
@@ -523,13 +524,17 @@ class ViewRequest:
 
     #-------------------------SPRINTS-------------------------------#
     def sprint(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         lista = SprintModel().consult(self.id_proyecto)
         view = loader.get_template('sprint.html')
-        html_reponse = view.render({'lista_sprint': lista})
+        html_reponse = view.render({'lista_sprint': lista,'nombre_proyecto':nombre_proyecto})
         return HttpResponse(html_reponse)
 
     def crear_sprint(self, request):
-        return render(request, 'crear_sprint.html')
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        view = loader.get_template('crear_sprint.html')
+        html_reponse = view.render({'proy': nombre_proyecto})
+        return HttpResponse(html_reponse)        
 
     def reg_sprint(self, request):
         SprintModel().insert_sprint_short(request.GET['spr_nombre'], self.id_proyecto)
@@ -554,10 +559,11 @@ class ViewRequest:
         return HttpResponse()
     
     def iniciar_sprint(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
         sprint = SprintModel().consult_sprint(self.id_sprint)
         nombre_sprint = sprint[0]
         view = loader.get_template('iniciar_sprint.html')
-        html = view.render({'nombre': nombre_sprint})
+        html = view.render({'nombre': nombre_sprint,'proy':nombre_proyecto})
         return HttpResponse(html)
 
     def calcular_fecha_duracion_sprint(self, request):
@@ -594,6 +600,9 @@ class ViewRequest:
         return HttpResponse()
 
     def modificar_sprint(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        sprint = SprintModel().consult_sprint(self.id_sprint)
+        nombre_sprint = sprint[0]        
         lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('modificar_sprint.html')
         html_reponse = view.render({'lista_us': lista_us})
@@ -610,9 +619,12 @@ class ViewRequest:
         return render(request, 'crear_us.html')
     
     def agregar_us(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        sprint = SprintModel().consult_sprint(self.id_sprint)  
+        nombre_sprint = sprint[0]        
         lista_us = USModel().consult_us_by_proyect_backlog(self.id_proyecto)
         view = loader.get_template('agregar_us.html')
-        html_reponse = view.render({'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': nombre_sprint})
         return HttpResponse(html_reponse)        
        
     def asignar_user(self, request):
@@ -647,9 +659,13 @@ class ViewRequest:
         return redirect('/asignar_user/')  
 
     def sprint_us_historico(self, request):
+        nombre_proyecto = ProyectoModel().consult_proyecto_nom(self.id_proyecto)
+        sprint = SprintModel().consult_sprint(self.id_sprint)
+        nombre_sprint = sprint[0]         
         lista_us = USModel().consult_us_by_sprint(self.id_sprint)
         view = loader.get_template('sprint_us_historico.html')
-        html_reponse = view.render({'lista_us': lista_us})
+        html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': nombre_sprint})
+
         return HttpResponse(html_reponse)
         
     #-------------------------KANBAN-------------------------------#
@@ -659,7 +675,7 @@ class ViewRequest:
         sprint = SprintModel().consult_sprint_activo(self.id_proyecto)
         nombre = UserModel().consultar_nombre(self.usuario_logueado)
         if(sprint==None):
-            sprint='Ningun sprint activo'
+            sprint='Ningún sprint activo'
         view = loader.get_template('kanban.html')
         html_reponse = view.render({'lista_us': lista_us,'proy': nombre_proyecto, 'sprint': sprint, 'current_user': nombre})
         return HttpResponse(html_reponse)

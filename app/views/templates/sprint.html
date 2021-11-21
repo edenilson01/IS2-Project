@@ -5,7 +5,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <title>Sprint</title>
-        
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
@@ -14,8 +13,33 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <style>
+            header{
+                width: 100%;
+                background: #80008012;
+                position: relative;
+                top: 6px;
+                overflow: hidden;
+                transition: all 0.5s ease;
+            }    
+            .sprint_titulo h1 {
+                margin-top: -40%;
+                margin-left:60%;
+                
+            }  
+
+            h3 {
+                margin: 10px 10px 8px 140px;  
+                text-transform: uppercase;
+                font-size: 18px;
+                color: #740d74;
+                line-height: 18px;
+                font-weight: bold;
+                transition: all 0.3s ease;                              
+            }                   
             .my_div{
+                top: 8px;
                 background-color: gray;
                 width: 80%;
                 height: 100%;
@@ -48,7 +72,7 @@
             .b_ini{
                 background-color: rgb(11, 119, 133);
                 height: 35px;
-                width: 60px;
+                width: 72px;
                 border-radius: 3px;
                 color: white;
                 border: none;
@@ -66,7 +90,7 @@
             .b_fin{
                 background-color: #fd3c2b;
                 height: 35px;
-                width: 60px;
+                width: 72px;
                 border-radius: 3px;
                 color: white;
                 border: none;
@@ -123,6 +147,16 @@
             .swal-text {
                 font-family: Arial, Helvetica, sans-serif;
             }
+            .add{
+                font-family:arial, FontAwesome;
+                font-size:20px;
+                margin-right:8px; 
+                color:violet;
+            }   
+            .iconos{
+                font-family:arial, FontAwesome;
+                font-size:18px;
+            }                       
         </style>
     </head>
     <!--DATATABLE JAVASCRIPT-->
@@ -140,8 +174,13 @@
                 <li><a href="/home">REJA Software</a></li>
             </div>
 
-            <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO SPRINT</a></li>
+            <div style="position:absolute; z-index: 1; left: 71% ;top: 60px">
+                <li><a href="#" onclick="crear_pro();return false;"><b class="fas fa-plus add"></b>CREAR NUEVO SPRINT</a></li>
+            </div>
+            
+            <div class= sprint_titulo style="position:absolute; z-index: 1; left: 45%; font-family: 'Lato'; font-size: 14px;">
+                <img src="{% static 'sprint.svg' %}" width="40" height="40">
+                <h1>SPRINT<h1>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
@@ -150,6 +189,9 @@
 		</ul>
     </nav>
     <body>
+        <header>
+            <h3>PROYECTO : <b style="color:White">{{nombre_proyecto}}</b></h3>
+        </header>       
         <div class="my_div">
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
@@ -212,6 +254,11 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
+<<<<<<< HEAD
+                            mf = '<button class="b_mod" type="button"><span class="fas fa-cogs iconos"></span></button>';
+                            iniciar = '<button class="b_ini" type="button"><span class="fas fa-play-circle iconos"></span> Iniciar</button>';
+                            fin = '<button class="b_fin" type="button"><span class="far fa-stop-circle iconos"></span> Finalizar</button>'; 
+=======
                             if (row[3] != 'Finalizado'){
                                 mf = '<button class="b_mod" type="button">Modificar</button>';
                                 iniciar = '<button class="b_ini" type="button">Iniciar</button>';
@@ -222,6 +269,7 @@
                                 iniciar = '<button class="b_ini" type="button" disabled>Iniciar</button>';
                                 fin = '<button class="b_fin" type="button" disabled>Finalizar</button>';
                             }
+>>>>>>> dc7093e1619d59edbb65bf3c885fb3f0d4bbea1a
 
                             return mf + iniciar + fin;
                         }
@@ -252,48 +300,56 @@
                 var fecha_fin_sprint = $(this).parents("tr").find("td").eq(2).html();
                 var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
                 var id_sprint = $(this).parents("tr")[0].id
-                swal(
-                    "¿Desea finalizar el sprint " + "\"" + nombre_sprint + "\"?", 
-                    {
-                        dangerMode: true,
-                        buttons: true
-                    }
-                ).then(okay => { 
-                    if (okay) {
-                        if (estado_sprint == 'None'){
-                            swal(
-                                'No se puede finalizar un Sprint que no fue iniciado'
-                            );
-                        } else if(estado_sprint == 'False') {
-                            swal(
-                                'No se puede finalizar un Sprint que ya fue finalizado previamente'
-                            );
-                        } else {
-                            $.ajax({
-                                type: 'GET',
-                                url: "/fin_sprint",
-                                data: { 'id_sprint' : id_sprint },
-                                success:function(data) {
-                                    window.location.reload();
-                                },
-                                error: function(xhr, status, error) {
-                                    swal(
-                                        xhr.responseJSON['mensaje']
-                                    );
-                                }
-                            });
-                        };
-                    };
-                });
+
+                if (estado_sprint == 'No iniciado'){
+                    swal({
+
+                        text:'SPRINT NO INICIADO',
+                        icon:'error',
+                        dangerMode:true
+                    });
+                } else if(estado_sprint == 'Finalizado') {
+                    swal({
+                        text:'SPRINT PREVIAMENTE FINALIZADO',
+                        icon:'error' ,
+                        dangerMode: true
+                    });
+                } else {
+                    swal(
+                        "¿Desea finalizar el sprint " + "\"" + nombre_sprint + "\"?", 
+                        {
+                            dangerMode: true,
+                            buttons: true
+                        }
+                    ).then(okay => {
+                        $.ajax({
+                            type: 'GET',
+                            url: "/fin_sprint",
+                            data: { 'id_sprint' : id_sprint },
+                            success:function(data) {
+                                window.location.reload();
+                            },
+                            error: function(xhr, status, error) {
+                                swal({
+                                    title:'ATENCIÓN',
+                                    text: xhr.responseJSON['mensaje'],
+                                    icon:'info'                                 
+                                });
+                            }
+                        });
+                    });
+                };
+                
             });
             
             $(".b_ini").click(function(){
                 var estado_sprint = $(this).parents("tr").find("td").eq(3).html();
                 var nombre_sprint = $(this).parents("tr").find("td").eq(0).html();
                 if(estado_sprint == 'En curso'){
-                    swal(
-                        '!! "' + nombre_sprint + '"  ACTUALMENTE ACTIVO  !!'
-                    );
+                    swal({
+                        icon:'info',
+                        text:'"' + nombre_sprint + '"  ACTUALMENTE ACTIVO  '
+                    });
                 }else if (estado_sprint == 'No iniciado'){
 
                     False = false;
@@ -303,9 +359,11 @@
                     {% for i in lista_sprint %}
                         if({{i.4}} == true){ 
                             activo = 1;
-                            swal(
-                                ' NO PUEDE INICIAR HASTA FINALIZAR EL SPRINT \n \n "{{i.1}}" '  
-                           ); 
+                            swal({
+                                title:'ATENCIÓN!',
+                                icon:'info',
+                                text:'INICIAR SÓLO HASTA FINALIZAR EL SPRINT "{{i.1}}" '  
+                            }); 
                         };
                     {% endfor %}
                     if(activo == 0){
@@ -315,47 +373,42 @@
                             url: "/existe_us",
                             data: { 'id_sprint' : id_sp},
                             success:function(data) {
-                                swal(
-                                    "¿Desea iniciar el sprint " + "\"" + nombre_sprint + "\"?", 
-                                    {
-                                        dangerMode: true,
-                                        buttons: true
+                                
+                                $.ajax({
+                                    type: 'GET',
+                                    url: "/guardar_sprint_id",
+                                    data: { 'id_sprint' : id_sp},
+                                    success:function(data) {
+                                        window.location.href = "/iniciar_sprint";
+                                    },
+                                    error: function(xhr, status, error) {
+                                        window.location.reload();
                                     }
-                                ).then(okay => { 
-                                    if (okay) {
-                                        $.ajax({
-                                            type: 'GET',
-                                            url: "/guardar_sprint_id",
-                                            data: { 'id_sprint' : id_sp},
-                                            success:function(data) {
-                                                window.location.href = "/iniciar_sprint";
-                                            },
-                                            error: function(xhr, status, error) {
-                                                window.location.reload();
-                                            }
-                                        });                            
-                                    };  
-                                }); 
+                                });                            
+                                 
                             },
                             error: function(xhr, status, error) {
-                                swal(
-                                    xhr.responseJSON["mensaje"]
-                                );
+                                swal({
+                                    title:'ATENCIÓN',
+                                    icon:'info',
+                                    text: xhr.responseJSON["mensaje"]
+                                });
                             }
                         });                   
                     };
 
                 }else{
-                    swal(
-                        ' El SPRINT "' + nombre_sprint + '" YA FUE COMPLETADO'
-                    );
+                    swal({
+                        title:'ATENCIÓN',
+                        icon:'info',
+                        text:' El SPRINT "' + nombre_sprint + '" YA FUE COMPLETADO'
+                    });
   
                 };    
             });
 
         });
         
-
     </script>
 
 </html>

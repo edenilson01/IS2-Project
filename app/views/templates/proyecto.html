@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
         <!--DATATABLE-->
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
@@ -17,14 +18,22 @@
 
 
         <style>
+            header{
+                width:100%;
+                background: #80008012;
+                position: relative;
+                top: 6px;
+                overflow: hidden;
+                transition: all 0.5s ease;
+            }              
             .my_div{
+                top: 8px;
                 background-color: gray;
                 width: 80%;
                 height: 100%;
                 left: 10%;
                 position: relative;
             }
-
             .swal-overlay {
                 background-color: rgba(124, 121, 121, 0.657);
             }
@@ -112,6 +121,16 @@
             .swal-text {
                 font-family: Arial, Helvetica, sans-serif;
             }
+            .add{
+                font-family:arial, FontAwesome;
+                font-size:20px;
+                margin-right:8px; 
+                color:violet;
+            }  
+            .iconos{
+                font-family:arial, FontAwesome;
+                font-size:20px;
+            }                                    
         </style>       
     </head>
     <!--DATATABLE JAVASCRIPT-->
@@ -129,8 +148,12 @@
                 <li><a href="/home">REJA Software</a></li>
             </div>
 
-            <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="crear_pro();return false;">CREAR NUEVO PROYECTO</a></li>
+            <div style="position:absolute; z-index: 1; left: 42% ;top:3%;  font-family: 'Lato';font-size: 13px;">
+                <h1 style="color:black">MODULO PROYECTO<h1>
+            </div>            
+
+            <div style="position:absolute; z-index: 1; left: 70% ;top: 60px">
+                <li><a href="#" onclick="crear_pro();return false;"><b class="fas fa-plus add"></b>CREAR NUEVO PROYECTO</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
@@ -139,6 +162,7 @@
 		</ul>
     </nav>
     <body>
+        <header><br><br></header>
         <div class="my_div">
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
@@ -164,7 +188,7 @@
                             <td>{{ proyecto.3 }}</td>
 
                             {% if proyecto.4 == None %}
-                                <td>En curso</td>
+                                <td>Sin fecha</td>
                             {% else %}
                                 <td>{{ proyecto.4 }}</td>
                             {% endif %}
@@ -198,9 +222,9 @@
                             searchable: false,
                             wrap: true, 
                             render: function (data, type, row) {
-                                equi = '<button class="b_mi" type="button">Equipo</button>';
-                                mf = '<button class="b_mod" type="button">Modificar</button>';
-                                dele = '<button class="b_el" type="button">Eliminar</button>'; 
+                                equi = '<button class="b_mi" type="button"><span class="fas fa-users iconos"></span></button>';
+                                mf = '<button class="b_mod" type="button"><span class="fas fa-edit iconos"></span></button>';
+                                dele = '<button class="b_el" type="button"><span class="fas fa-trash iconos"></span></button>'; 
 
                                 return equi + mf + dele;
                             }
@@ -214,8 +238,10 @@
                     var valor = $(this).parents("tr").find("td").eq(0).html();
                     var id_proyecto = $(this).parents("tr")[0].id
                     swal(
-                        "¿Desea realmente eliminar el proyecto " + "\"" + valor + "\"?", 
+                        "¿Desea eliminar el proyecto " + "\"" + valor + "\"?", 
                         {
+                            icon:'warning',
+                            title:'Eliminar Proyecto',
                             dangerMode: true,
                             buttons: true
                         }

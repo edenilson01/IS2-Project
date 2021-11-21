@@ -40,6 +40,10 @@ body {
     color: white;
 }
 
+i{
+    margin: 0 0px 0px 220px;
+}
+
 .input_txt2 {
     width: 98%;
     border: 1px solid black;

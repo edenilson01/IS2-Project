@@ -23,11 +23,12 @@
         </style> 
     </head>
     <body>        
-        <section class="form-home" style="height: 500px;">
+        <section class="form-home" style="height: 530px;">
             <form action="/ini_sprint" method="GET" autocomplete="off">
                 <h5>INICIAR SPRINT</h5>
                 <h4>Datos del Sprint</h4>
-                Nombre <br>
+                <b style="color:grey"><p>Nombre Proyecto: {{proy}}</p></b>
+                Nombre Sprint:<br>
                 <input class="input_txt2" name="nombre" value='{{nombre.upper}}' placeholder={{nombre.upper}}><br>
                 <select id="duracion" class="input_txt2" onchange="habilitar(this.options[this.selectedIndex].value)">
                     <option selected disabled> Elegir duracion del sprint</option>                     

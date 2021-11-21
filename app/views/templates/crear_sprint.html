@@ -24,11 +24,11 @@
         }
     </style>
     <body>
-        <section class="form-home" style="height: 250px;">
+        <section class="form-home" style="height: 300px;">
             <h5>Crea un sprint</h5>
-            <h4>Datos del Sprint</h4>
+            <h4>Nombre Proyecto:&nbsp;{{proy}}</h4><br>
             <form id=project_form action="/reg_sprint" method="GET" autocomplete="off">
-                <input class="input_txt2" type="text" id="txt" name="spr_nombre" value="" placeholder="Ingrese el nombre del sprint" maxlength="50" required>
+                <input class="input_txt2" type="text" id="txt" name="spr_nombre" value="" placeholder="Ingrese el nombre del sprint" maxlength="30" required>
     
                 <input class="buttons" type="button" style="float: left; margin-top: 10%;" onclick="window.location='/sprint';" name="" value="CANCELAR">
                 <input class="buttons" id="bt_registrar" type="submit" disabled style="float: right; margin-top: 10%;" name="" value="REGISTRAR">

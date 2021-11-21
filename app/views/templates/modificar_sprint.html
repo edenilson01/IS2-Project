@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="{% static 'base.css' %}">
         <link rel="stylesheet" href="{% static 'proyectos.css' %}">
         <link rel="shortcut icon" href="{% static 'logo.png' %}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
         <!--DATATABLE-->
         <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
@@ -15,7 +17,31 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
         <style>
+            header{
+                width:100%;
+                background: #80008012;
+                position: relative;
+                top: 6px;
+                overflow: hidden;
+                transition: all 0.5s ease;
+            }     
+            .sprint_titulo h1 {
+                margin-top: -40%;
+                margin-left:60%;
+                
+            }  
+
+            h3 {
+                margin: 0px 0px 10px 130px;  
+                text-transform: uppercase;
+                font-size: 18px;
+                color: #740d74;
+                line-height: 18px;
+                font-weight: bold;
+                transition: all 0.3s ease;                              
+            }                   
             .my_div{
+                top: 8px;
                 background-color: gray;
                 width: 80%;
                 height: 100%;
@@ -97,6 +123,25 @@
             .swal-text {
                 font-family: Arial, Helvetica, sans-serif;
             }
+            .add{
+                font-family:arial, FontAwesome;
+                font-size:20px;
+                margin-right:8px; 
+                color:violet;
+            }    
+            .modificar{
+                font-family:arial, FontAwesome;
+                font-size:35px;
+            }  
+            .iconos{
+                font-family:arial, FontAwesome;
+                font-size:18px;
+            }  
+            .icon{
+                font-family:arial, FontAwesome;
+                content:'\f507'
+                font-size:18px;
+            }                                               
         </style>
     </head>
     <!--DATATABLE JAVASCRIPT-->
@@ -113,9 +158,14 @@
             <div style="position:relative; z-index: 1">
                 <li><a href="/home">REJA Software</a></li>
             </div>
+            
+            <div class= sprint_titulo style="position:absolute; z-index: 1; left: 45%; font-family: 'Lato'; font-size: 14px;">
+                <b class="fas fa-edit modificar"></b>
+                <h1>SPRINT<h1>
+            </div>
 
-            <div style="position:absolute; z-index: 1; left: 20%">
-                <li><a href="#" onclick="agg_us();return false;">AGREGAR US</a></li>
+            <div style="position:absolute; z-index: 1; left: 74% ;top: 70px">
+                <li><a href="#" onclick="agg_us();return false;"><b class="fas fa-plus add"></b>AGREGAR US</a></li>
             </div>
 
             <div style="position:absolute; z-index: 1; left: 90%">
@@ -124,8 +174,12 @@
 		</ul>
     </nav>
     <body>
-        
-        <div class="my_div">
+        <header>
+            <h3>PROYECTO : <b style="color:White">{{proy}}</b></h3>
+            <h3>SPRINT : <b style="color:White">{{sprint}}</b></h3>
+        </header> 
+
+        <div class="my_div">      
             <table id="tabla" class="hover cell-border stripe" style="background-color: white; text-align: center; width:100%; font-family: Arial, Helvetica, sans-serif;">
                 <thead>
                     <tr>
@@ -183,8 +237,8 @@
                         searchable: false,
                         wrap: true, 
                         render: function (data, type, row) {
-                            mf = '<button class="b_asig" type="button">Asignar</button>';
-                            dele = '<button class="b_el" type="button">Eliminar</button>'; 
+                            mf = '<button class="b_asig" type="button"><span class="fas fa-user iconos"></span></button>';
+                            dele = '<button class="b_el" type="button"><span class="fas fa-trash iconos"></span></button>'; 
 
                             return mf + dele;
                         }
@@ -216,9 +270,11 @@
                 var valor = $(this).parents("tr").find("td").eq(0).html();
                 var id_us = $(this).parents("tr")[0].id
                 
-                swal(
-                    "¿Desea realmente eliminar el US " + "\"" + valor + "\"?", 
+                swal( 
                     {
+                        title: "Eliminar US",
+                        text: "¿Desea realmente eliminar el US " + "\"" + valor + "\"?",
+                        icon :'warning',                                                       
                         dangerMode: true,
                         buttons: true
                     }
